@@ -26,8 +26,7 @@ class Logo extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.textColor,
-                fontSize: 5 * SizeConfig.textMultiplier,
-                fontFamily: 'RobotoMono',
+                fontSize: 5 * Vtx_SizeConfig.textMultiplier,
                 fontWeight: FontWeight.w100,
               ),
             ),
@@ -36,8 +35,7 @@ class Logo extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.textColor,
-                fontSize: 5 * SizeConfig.textMultiplier,
-                fontFamily: 'RobotoMono',
+                fontSize: 5 * Vtx_SizeConfig.textMultiplier,
                 fontWeight: FontWeight.w100,
               ),
             )
