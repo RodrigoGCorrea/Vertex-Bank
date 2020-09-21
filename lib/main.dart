@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       builder: (context, constraints) {
         return OrientationBuilder(
           builder: (context, orientation) {
-            SizeConfig().init(constraints, orientation);
+            Vtx_SizeConfig().init(constraints, orientation);
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
