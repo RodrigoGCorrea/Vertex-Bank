@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 
-class LoginButton extends StatelessWidget {
-  const LoginButton({
+class Vtx_Button extends StatelessWidget {
+  final String text;
+  final Color color;
+
+  const Vtx_Button({
     Key key,
+    this.text,
+    this.color = AppTheme.buttonColorGreen,
   }) : super(key: key);
 
   @override
@@ -14,7 +19,7 @@ class LoginButton extends StatelessWidget {
       child: FlatButton(
         onPressed: () {},
         child: Text(
-          "Login",
+          text,
           style: TextStyle(
             color: AppTheme.textColor,
           ),
@@ -22,7 +27,7 @@ class LoginButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(25),
         ),
-        color: Colors.green,
+        color: color,
       ),
     );
   }
