@@ -7,6 +7,8 @@ class Vtx_TextBox extends StatelessWidget {
   final String text;
   final bool obscureText;
 
+  static double radius = 15;
+
   const Vtx_TextBox({Key key, this.obscureText = false, this.text})
       : super(key: key);
 
@@ -24,13 +26,13 @@ class Vtx_TextBox extends StatelessWidget {
           borderSide: BorderSide(
             color: AppTheme.textColor,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(radius),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppTheme.textColor,
           ),
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(radius),
         ),
         labelText: text,
         labelStyle: TextStyle(
