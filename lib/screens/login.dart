@@ -16,56 +16,74 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Container(
-        child: Stack(
-          alignment: Alignment.center,
-          children: <Widget>[
-            Positioned(
-              top: Vtx_SizeConfig.screenHeight * 0.2,
-              child: Logo(),
-              // child: Padding(
-              //   padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.2),
-              // ),
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment(0.8, 0),
+            colors: [AppTheme.generalColorBlue, Colors.transparent],
+            tileMode: TileMode.clamp,
+          ),
+        ),
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment(0.06, 0),
+              colors: [AppTheme.generalColorGreen.withOpacity(0.8), Colors.transparent],
+              tileMode: TileMode.clamp,
             ),
-            Positioned(
-              top: Vtx_SizeConfig.screenHeight * 0.425,
-              width: Vtx_SizeConfig.screenWidth * 0.71,
-              height: Vtx_SizeConfig.screenWidth * 0.12,
-              child: Vtx_TextBox(
-                text: "Usuário",
+          ),
+          child: Stack(
+            alignment: Alignment.center,
+            children: <Widget>[
+              Positioned(
+                top: Vtx_SizeConfig.screenHeight * 0.2,
+                child: Logo(),
+                // child: Padding(
+                //   padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.2),
+                // ),
               ),
-            ),
-            Positioned(
-              top: Vtx_SizeConfig.screenHeight * 0.514,
-              width: Vtx_SizeConfig.screenWidth * 0.71,
-              height: Vtx_SizeConfig.screenWidth * 0.12,
-              child: Vtx_TextBox(
-                text: "Senha",
-                obscureText: true,
+              Positioned(
+                top: Vtx_SizeConfig.screenHeight * 0.425,
+                width: Vtx_SizeConfig.screenWidth * 0.71,
+                height: Vtx_SizeConfig.screenWidth * 0.12,
+                child: Vtx_TextBox(
+                  text: "Usuário",
+                ),
               ),
-            ),
-            Positioned(
-              top: Vtx_SizeConfig.screenHeight * 0.65,
-              height: Vtx_SizeConfig.screenWidth * 0.12,
-              child: Vtx_Button(text: "Login")
-            ),
-            Positioned(
-              top: Vtx_SizeConfig.screenHeight * 0.75,
-              child: Text(
-                "or",
-                style: TextStyle(color: AppTheme.textColor),
+              Positioned(
+                top: Vtx_SizeConfig.screenHeight * 0.514,
+                width: Vtx_SizeConfig.screenWidth * 0.71,
+                height: Vtx_SizeConfig.screenWidth * 0.12,
+                child: Vtx_TextBox(
+                  text: "Senha",
+                  obscureText: true,
+                ),
               ),
-            ),
-            Positioned(
-              top: Vtx_SizeConfig.screenHeight * 0.81,
-              child: InkWell(
-                onTap: () {},
+              Positioned(
+                top: Vtx_SizeConfig.screenHeight * 0.65,
+                height: Vtx_SizeConfig.screenWidth * 0.12,
+                child: Vtx_Button(text: "Login")
+              ),
+              Positioned(
+                top: Vtx_SizeConfig.screenHeight * 0.75,
                 child: Text(
-                  "Create an account",
+                  "or",
                   style: TextStyle(color: AppTheme.textColor),
                 ),
               ),
-            ),
-          ],
+              Positioned(
+                top: Vtx_SizeConfig.screenHeight * 0.81,
+                child: InkWell(
+                  onTap: () {},
+                  child: Text(
+                    "Create an account",
+                    style: TextStyle(color: AppTheme.textColor),
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
