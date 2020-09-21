@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 
 class Vtx_Button extends StatelessWidget {
@@ -14,8 +15,8 @@ class Vtx_Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 150,
-      height: 50,
+      width: 38 * Vtx_SizeConfig.widthMultiplier,
+      height: 7 * Vtx_SizeConfig.heightMultiplier,
       child: FlatButton(
         onPressed: () {},
         child: Text(
