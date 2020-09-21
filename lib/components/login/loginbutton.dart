@@ -26,7 +26,7 @@ class Vtx_Button extends StatelessWidget {
           ),
         ),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(10 * Vtx_SizeConfig.widthMultiplier),
         ),
         color: color,
       ),
