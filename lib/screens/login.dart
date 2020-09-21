@@ -14,53 +14,58 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppTheme.appBackgroundColor,
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: Vtx_SizeConfig.widthMultiplier * 7.77) ,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.2),
-                child: Logo(),
+      backgroundColor: Colors.black,
+      body: Container(
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Positioned(
+              top: Vtx_SizeConfig.screenHeight * 0.2,
+              child: Logo(),
+              // child: Padding(
+              //   padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.2),
+              // ),
+            ),
+            Positioned(
+              top: Vtx_SizeConfig.screenHeight * 0.425,
+              width: Vtx_SizeConfig.screenWidth * 0.71,
+              height: Vtx_SizeConfig.screenWidth * 0.12,
+              child: Vtx_TextBox(
+                text: "Usuário",
               ),
-              Padding(
-                padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.1),
-                child: Vtx_TextBox(
-                  text: "Usuário",
-                ),
+            ),
+            Positioned(
+              top: Vtx_SizeConfig.screenHeight * 0.514,
+              width: Vtx_SizeConfig.screenWidth * 0.71,
+              height: Vtx_SizeConfig.screenWidth * 0.12,
+              child: Vtx_TextBox(
+                text: "Senha",
+                obscureText: true,
               ),
-              Padding(
-                padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.035),
-                child: Vtx_TextBox(
-                  text: "Senha",
-                  obscureText: true,
-                ),
+            ),
+            Positioned(
+              top: Vtx_SizeConfig.screenHeight * 0.65,
+              height: Vtx_SizeConfig.screenWidth * 0.12,
+              child: Vtx_Button(text: "Login")
+            ),
+            Positioned(
+              top: Vtx_SizeConfig.screenHeight * 0.75,
+              child: Text(
+                "or",
+                style: TextStyle(color: AppTheme.textColor),
               ),
-              Padding(
-                padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.1),
-                child: Vtx_Button(text: "Login"),
-              ),
-              Padding(
-                padding: EdgeInsets.only(top: Vtx_SizeConfig.screenHeight * 0.035),
+            ),
+            Positioned(
+              top: Vtx_SizeConfig.screenHeight * 0.81,
+              child: InkWell(
+                onTap: () {},
                 child: Text(
-                  "or",
+                  "Create an account",
                   style: TextStyle(color: AppTheme.textColor),
                 ),
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: Vtx_SizeConfig.screenHeight * 0.035),
-                child: InkWell(
-                  onTap: () {},
-                  child: Text(
-                    "Create an account",
-                    style: TextStyle(color: AppTheme.textColor),
-                  ),
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
