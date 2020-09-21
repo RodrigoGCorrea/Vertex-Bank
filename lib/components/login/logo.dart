@@ -13,30 +13,35 @@ class Logo extends StatelessWidget {
     return Container(
       alignment: Alignment.center,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8, horizontal: 48),
+        padding: EdgeInsets.symmetric(
+          vertical: 1.5 * Vtx_SizeConfig.heightMultiplier,
+          horizontal: 12 * Vtx_SizeConfig.widthMultiplier
+        ),
         decoration: BoxDecoration(
             border: Border.all(
               color: AppTheme.textColor,
             ),
-            borderRadius: BorderRadius.circular(10)),
+            borderRadius: BorderRadius.circular(18)),
         child: Column(
           children: [
             Text(
-              "Vertex",
+              "VERTEX",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.textColor,
                 fontSize: 5 * Vtx_SizeConfig.textMultiplier,
-                fontWeight: FontWeight.w100,
+                fontWeight: FontWeight.w300,
+                fontFamily: "RobotoMono"
               ),
             ),
             Text(
-              "Bank",
+              "BANK",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.textColor,
                 fontSize: 5 * Vtx_SizeConfig.textMultiplier,
-                fontWeight: FontWeight.w100,
+                fontWeight: FontWeight.w300,
+                fontFamily: "RobotoMono"
               ),
             )
           ],

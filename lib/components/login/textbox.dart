@@ -14,6 +14,7 @@ class Vtx_TextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
+        fontSize: 2.4 * Vtx_SizeConfig.textMultiplier,
         color: AppTheme.textColor,
       ),
       obscureText: obscureText,
