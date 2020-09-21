@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
             return MaterialApp(
               debugShowCheckedModeBanner: false,
               theme: ThemeData(
-                fontFamily: 'RobotoMono',
+                fontFamily: 'Roboto',
                 visualDensity: VisualDensity.adaptivePlatformDensity,
               ),
               home: LoginScreen(),
