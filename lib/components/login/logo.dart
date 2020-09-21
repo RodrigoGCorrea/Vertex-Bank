@@ -22,7 +22,7 @@ class Logo extends StatelessWidget {
         child: Column(
           children: [
             Text(
-              "Jantus",
+              "Vertex",
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: AppTheme.textColor,
