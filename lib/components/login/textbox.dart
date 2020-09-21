@@ -14,12 +14,12 @@ class Vtx_TextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-        fontSize: 2.4 * Vtx_SizeConfig.textMultiplier,
+        fontSize: 14,
         color: AppTheme.textColor,
       ),
       obscureText: obscureText,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(horizontal: 15),
+        contentPadding: EdgeInsets.symmetric(horizontal: 7 * Vtx_SizeConfig.widthMultiplier),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppTheme.textColor,
