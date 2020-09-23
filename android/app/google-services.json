@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "425211402229",
+    "firebase_url": "https://vertex-bank.firebaseio.com",
+    "project_id": "vertex-bank",
+    "storage_bucket": "vertex-bank.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:425211402229:android:02f49954940de89f53b2bc",
+        "android_client_info": {
+          "package_name": "uff.br.vertexbank"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "425211402229-pkas66t9rgf96cmbdl71vt2vp93b6aji.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uff.br.vertexbank",
+            "certificate_hash": "0dde6c766731b9787ef96bdcb2aa4eba276b6523"
+          }
+        },
+        {
+          "client_id": "425211402229-j09be8c516ks73isf9drdlqg88opph7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1Fw2fqU3KT1oAGn2_YTBIR1OYqzQF14E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "425211402229-j09be8c516ks73isf9drdlqg88opph7a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
