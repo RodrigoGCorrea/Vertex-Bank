@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
+import 'package:vertexbank/assets/sizeconfig.dart';
 
 class AppTheme {
- AppTheme._();
+  AppTheme._();
   static const Color generalColorGreen = Color(0xFF72C156);
   static const Color generalColorBlue = Color(0xFF6883BA);
 
@@ -9,4 +10,6 @@ class AppTheme {
   static const Color textColor = Color(0xFFE5E5E5);
   static const Color buttonColorGreen = Color(0xFF72C156);
   static const Color buttonColorRed = Color(0xFFED174B);
+
+  static double defaultwidth = Vtx_SizeConfig.screenWidth * 0.85;
 }
