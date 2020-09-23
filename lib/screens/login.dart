@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/components/button.dart';
@@ -6,12 +8,19 @@ import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 
+void login() {
+  print("ola");
+}
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+
+  // final FirebaseAuth _auth = FirebaseAuth.instance;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: Vtx_SizeConfig.screenHeight * 0.058,
                 child: Vtx_Button(
                   text: "Login",
+                  function: login,
                 ),
               ),
               Positioned(
