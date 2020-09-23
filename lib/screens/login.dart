@@ -33,17 +33,17 @@ class _LoginScreenState extends State<LoginScreen> {
               Positioned(
                 top: Vtx_SizeConfig.screenHeight * 0.425,
                 width: Vtx_SizeConfig.screenWidth * 0.71,
-                height: Vtx_SizeConfig.screenHeight * 0.12,
+                height: Vtx_SizeConfig.screenHeight * 0.06,
                 child: Vtx_TextBox(
-                  text: "Usuário",
+                  text: "User",
                 ),
               ),
               Positioned(
                 top: Vtx_SizeConfig.screenHeight * 0.514,
                 width: Vtx_SizeConfig.screenWidth * 0.71,
-                height: Vtx_SizeConfig.screenHeight * 0.12,
+                height: Vtx_SizeConfig.screenHeight * 0.06,
                 child: Vtx_TextBox(
-                  text: "Senha",
+                  text: "Password",
                   obscureText: true,
                 ),
               ),
