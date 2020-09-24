@@ -1,42 +1,42 @@
 {
   "project_info": {
-    "project_number": "425211402229",
-    "firebase_url": "https://vertex-bank.firebaseio.com",
-    "project_id": "vertex-bank",
-    "storage_bucket": "vertex-bank.appspot.com"
+    "project_number": "272505070124",
+    "firebase_url": "https://vertex-bank-2daf7.firebaseio.com",
+    "project_id": "vertex-bank-2daf7",
+    "storage_bucket": "vertex-bank-2daf7.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:425211402229:android:02f49954940de89f53b2bc",
+        "mobilesdk_app_id": "1:272505070124:android:7e5aa4f7311edda1536789",
         "android_client_info": {
           "package_name": "uff.br.vertexbank"
         }
       },
       "oauth_client": [
         {
-          "client_id": "425211402229-pkas66t9rgf96cmbdl71vt2vp93b6aji.apps.googleusercontent.com",
+          "client_id": "272505070124-bdrd8v9u7v9beqp3c0mq2827jm9rco85.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "uff.br.vertexbank",
-            "certificate_hash": "0dde6c766731b9787ef96bdcb2aa4eba276b6523"
+            "certificate_hash": "660ffd1ed65837f0e625df946aa07849cefdebd3"
           }
         },
         {
-          "client_id": "425211402229-j09be8c516ks73isf9drdlqg88opph7a.apps.googleusercontent.com",
+          "client_id": "272505070124-ooop4oir1vdu4eddvvnvupiragber3r7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyD1Fw2fqU3KT1oAGn2_YTBIR1OYqzQF14E"
+          "current_key": "AIzaSyDd45Mwj5ug062J75NEh31SHVynpC09nwA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "425211402229-j09be8c516ks73isf9drdlqg88opph7a.apps.googleusercontent.com",
+              "client_id": "272505070124-ooop4oir1vdu4eddvvnvupiragber3r7.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
