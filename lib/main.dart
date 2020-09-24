@@ -6,6 +6,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/screens/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,14 +40,15 @@ class MyApp extends StatelessWidget {
             builder: (context, constraints) {
               return OrientationBuilder(
                 builder: (context, orientation) {
-                  Vtx_SizeConfig().init(constraints, orientation);
+                  VtxSizeConfig().init(constraints, orientation);
                   return MaterialApp(
                     debugShowCheckedModeBanner: false,
                     theme: ThemeData(
                       fontFamily: 'Roboto',
                       visualDensity: VisualDensity.adaptivePlatformDensity,
                     ),
-                    home: LoginScreen(),
+                    home: MainScreen(),
+                    //home: LoginScreen(),
                   );
                 },
               );
