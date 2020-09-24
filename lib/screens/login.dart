@@ -8,18 +8,13 @@ import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 
-void login() {
-  print("ola");
-}
-
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-
-  // final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +56,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: Vtx_SizeConfig.screenHeight * 0.058,
                 child: Vtx_Button(
                   text: "Login",
-                  function: login,
+                  function: signIn,
                 ),
               ),
               Positioned(
@@ -85,6 +80,31 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  void signIn() async {
+    try {
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: "qissocara@gmail.com",
+        password: "caraiborracha",
+      );
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided for that user.');
+      }
+    }
+
+    _auth.authStateChanges().listen(
+      (User user) {
+        if (user == null) {
+          print('User is currently signed out!');
+        } else {
+          print('User is signed in!');
+        }
+      },
     );
   }
 }

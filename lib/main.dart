@@ -8,6 +8,7 @@ import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       systemNavigationBarColor: AppTheme.appBackgroundColor,
@@ -17,61 +18,44 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatefulWidget {
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  bool _firebaseInit = false;
-  bool _firebaseError = false;
-
-  void initFlutterFire() async {
-    try {
-      await Firebase.initializeApp();
-      setState(() {
-          _firebaseInit = true;
-      });
-    } catch(e) {
-      setState(() {
-          _firebaseError = true;
-      });
-    }
-  }
-
-  @override
-  void initState() {
-    initFlutterFire();
-    super.initState();
-  }
+class MyApp extends StatelessWidget {
+  // Create the initilization Future outside of `build`:
+  final Future<FirebaseApp> _initialization = Firebase.initializeApp();
 
   @override
   Widget build(BuildContext context) {
-    if (_firebaseError) {
-      // NOTE(geraldo): create a screen for connection erro
-      print("[VTX] Firebase error!!!");
-    }
+    return FutureBuilder(
+      // Initialize FlutterFire:
+      future: _initialization,
+      builder: (context, snapshot) {
+        // Check for errors
+        if (snapshot.hasError) {
+          return MaterialApp(home: Text("[VTX] Firebase error!!!"));
+        }
 
-    if (!_firebaseInit) {
-      // NOTE(geraldo): create a screen for loading
-      print("[VTX] Loading...");
-    }
+        // Once complete, show your application
+        if (snapshot.connectionState == ConnectionState.done) {
+          return LayoutBuilder(
+            builder: (context, constraints) {
+              return OrientationBuilder(
+                builder: (context, orientation) {
+                  Vtx_SizeConfig().init(constraints, orientation);
+                  return MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    theme: ThemeData(
+                      fontFamily: 'Roboto',
+                      visualDensity: VisualDensity.adaptivePlatformDensity,
+                    ),
+                    home: LoginScreen(),
+                  );
+                },
+              );
+            },
+          );
+        }
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return OrientationBuilder(
-          builder: (context, orientation) {
-            Vtx_SizeConfig().init(constraints, orientation);
-            return MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                fontFamily: 'Roboto',
-                visualDensity: VisualDensity.adaptivePlatformDensity,
-              ),
-              home: LoginScreen(),
-            );
-          },
-        );
+        // Otherwise, show something whilst waiting for initialization to complete
+        return MaterialApp(home: Text("[VTX] Loading..."));
       },
     );
   }
