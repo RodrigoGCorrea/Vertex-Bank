@@ -11,5 +11,7 @@ class AppTheme {
   static const Color buttonColorGreen = Color(0xFF72C156);
   static const Color buttonColorRed = Color(0xFFED174B);
 
-  static double defaultwidth = VtxSizeConfig.screenWidth * 0.85;
+  static EdgeInsets defaultHorizontalPadding = EdgeInsets.symmetric(
+    horizontal: VtxSizeConfig.screenWidth * 0.1,
+  );
 }
