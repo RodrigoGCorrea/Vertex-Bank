@@ -14,9 +14,8 @@ class Logo extends StatelessWidget {
       alignment: Alignment.center,
       child: Container(
         padding: EdgeInsets.symmetric(
-          vertical: 1.5 * Vtx_SizeConfig.heightMultiplier,
-          horizontal: 12 * Vtx_SizeConfig.widthMultiplier
-        ),
+            vertical: 1.5 * VtxSizeConfig.heightMultiplier,
+            horizontal: 12 * VtxSizeConfig.widthMultiplier),
         decoration: BoxDecoration(
             border: Border.all(
               color: AppTheme.textColor,
@@ -28,21 +27,19 @@ class Logo extends StatelessWidget {
               "VERTEX",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppTheme.textColor,
-                fontSize: 5 * Vtx_SizeConfig.textMultiplier,
-                fontWeight: FontWeight.w300,
-                fontFamily: "RobotoMono"
-              ),
+                  color: AppTheme.textColor,
+                  fontSize: 5 * VtxSizeConfig.textMultiplier,
+                  fontWeight: FontWeight.w300,
+                  fontFamily: "RobotoMono"),
             ),
             Text(
               "BANK",
               textAlign: TextAlign.center,
               style: TextStyle(
-                color: AppTheme.textColor,
-                fontSize: 5 * Vtx_SizeConfig.textMultiplier,
-                fontWeight: FontWeight.w300,
-                fontFamily: "RobotoMono"
-              ),
+                  color: AppTheme.textColor,
+                  fontSize: 5 * VtxSizeConfig.textMultiplier,
+                  fontWeight: FontWeight.w300,
+                  fontFamily: "RobotoMono"),
             )
           ],
         ),

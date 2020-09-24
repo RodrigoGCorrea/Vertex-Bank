@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-class Vtx_Gradient extends StatelessWidget {
+class VtxGradient extends StatelessWidget {
   final Widget child;
   final Color color;
   final Alignment begin;
   final Alignment end;
 
-  const Vtx_Gradient(
+  const VtxGradient(
       {Key key,
       this.child,
       this.color,

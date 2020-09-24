@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 
-class Vtx_Button extends StatelessWidget {
+class VtxButton extends StatelessWidget {
   final String text;
   final Color color;
   final Function function;
 
-  const Vtx_Button({
+  const VtxButton({
     Key key,
     this.text,
     this.color = AppTheme.buttonColorGreen,
@@ -17,8 +17,8 @@ class Vtx_Button extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 38 * Vtx_SizeConfig.widthMultiplier,
-      height: 7 * Vtx_SizeConfig.heightMultiplier,
+      width: 38 * VtxSizeConfig.widthMultiplier,
+      height: 7 * VtxSizeConfig.heightMultiplier,
       child: FlatButton(
         onPressed: () => function(),
         child: Text(
@@ -29,7 +29,7 @@ class Vtx_Button extends StatelessWidget {
         ),
         shape: RoundedRectangleBorder(
           borderRadius:
-              BorderRadius.circular(10 * Vtx_SizeConfig.widthMultiplier),
+              BorderRadius.circular(10 * VtxSizeConfig.widthMultiplier),
         ),
         color: color,
       ),

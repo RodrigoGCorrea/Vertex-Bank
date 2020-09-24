@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Vtx_SizeConfig {
+class VtxSizeConfig {
   static double screenWidth;
   static double screenHeight;
   static double _blockWidth = 0;

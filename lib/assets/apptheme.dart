@@ -11,5 +11,5 @@ class AppTheme {
   static const Color buttonColorGreen = Color(0xFF72C156);
   static const Color buttonColorRed = Color(0xFFED174B);
 
-  static double defaultwidth = Vtx_SizeConfig.screenWidth * 0.85;
+  static double defaultwidth = VtxSizeConfig.screenWidth * 0.85;
 }

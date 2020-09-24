@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import '../../assets/apptheme.dart';
 import '../../assets/sizeconfig.dart';
 
-class Vtx_TextBox extends StatelessWidget {
+class VtxTextBox extends StatelessWidget {
   final String text;
   final bool obscureText;
 
   static double radius = 15;
 
-  const Vtx_TextBox({Key key, this.obscureText = false, this.text})
+  const VtxTextBox({Key key, this.obscureText = false, this.text})
       : super(key: key);
 
   @override
@@ -21,8 +21,8 @@ class Vtx_TextBox extends StatelessWidget {
       ),
       obscureText: obscureText,
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-            horizontal: 7 * Vtx_SizeConfig.widthMultiplier),
+        contentPadding:
+            EdgeInsets.symmetric(horizontal: 7 * VtxSizeConfig.widthMultiplier),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: AppTheme.textColor,
