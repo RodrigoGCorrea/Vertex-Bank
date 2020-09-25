@@ -9,36 +9,44 @@ class VtxTextBox extends StatelessWidget {
 
   static double radius = 15;
 
-  const VtxTextBox({Key key, this.obscureText = false, this.text})
-      : super(key: key);
+  const VtxTextBox({
+    Key key,
+    this.obscureText = false,
+    @required this.text,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-        fontSize: 16,
+        fontSize: getProportionateScreenWidth(14),
         color: AppTheme.textColor,
       ),
       obscureText: obscureText,
-      decoration: InputDecoration(
-        contentPadding:
-            EdgeInsets.symmetric(horizontal: 7 * VtxSizeConfig.widthMultiplier),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: AppTheme.textColor,
-          ),
-          borderRadius: BorderRadius.circular(radius),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: AppTheme.textColor,
-          ),
-          borderRadius: BorderRadius.circular(radius),
-        ),
-        labelText: text,
-        labelStyle: TextStyle(
+      decoration: buildInputDecoration(),
+    );
+  }
+
+  InputDecoration buildInputDecoration() {
+    return InputDecoration(
+      contentPadding: EdgeInsets.symmetric(
+        horizontal: getProportionateScreenWidth(18),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderSide: BorderSide(
           color: AppTheme.textColor,
         ),
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      focusedBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: AppTheme.textColor,
+        ),
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      labelText: text,
+      labelStyle: TextStyle(
+        color: AppTheme.textColor,
       ),
     );
   }

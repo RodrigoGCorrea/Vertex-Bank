@@ -10,17 +10,18 @@ class Logo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      alignment: Alignment.center,
+    return SizedBox(
+      width: getProportionateScreenWidth(235),
+      height: getProportionateScreenHeight(110),
       child: Container(
-        padding: EdgeInsets.symmetric(
-            vertical: 1.5 * VtxSizeConfig.heightMultiplier,
-            horizontal: 12 * VtxSizeConfig.widthMultiplier),
+        padding: EdgeInsets.all(getProportionateScreenWidth(9)),
         decoration: BoxDecoration(
-            border: Border.all(
-              color: AppTheme.textColor,
-            ),
-            borderRadius: BorderRadius.circular(18)),
+          border: Border.all(
+            width: getProportionateScreenWidth(1),
+            color: AppTheme.textColor,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
         child: Column(
           children: [
             Text(
@@ -28,7 +29,7 @@ class Logo extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppTheme.textColor,
-                  fontSize: 5 * VtxSizeConfig.textMultiplier,
+                  fontSize: getProportionateScreenWidth(36),
                   fontWeight: FontWeight.w300,
                   fontFamily: "RobotoMono"),
             ),
@@ -37,7 +38,7 @@ class Logo extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                   color: AppTheme.textColor,
-                  fontSize: 5 * VtxSizeConfig.textMultiplier,
+                  fontSize: getProportionateScreenWidth(36),
                   fontWeight: FontWeight.w300,
                   fontFamily: "RobotoMono"),
             )

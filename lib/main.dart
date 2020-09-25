@@ -16,6 +16,10 @@ void main() {
       statusBarColor: Colors.transparent,
     ),
   );
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]);
   runApp(MyApp());
 }
 
@@ -36,23 +40,14 @@ class MyApp extends StatelessWidget {
 
         // Once complete, show your application
         if (snapshot.connectionState == ConnectionState.done) {
-          return LayoutBuilder(
-            builder: (context, constraints) {
-              return OrientationBuilder(
-                builder: (context, orientation) {
-                  VtxSizeConfig().init(constraints, orientation);
-                  return MaterialApp(
-                    debugShowCheckedModeBanner: false,
-                    theme: ThemeData(
-                      fontFamily: 'Roboto',
-                      visualDensity: VisualDensity.adaptivePlatformDensity,
-                    ),
-                    home: MainScreen(),
-                    //home: LoginScreen(),
-                  );
-                },
-              );
-            },
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: ThemeData(
+              fontFamily: 'Roboto',
+              visualDensity: VisualDensity.adaptivePlatformDensity,
+            ),
+            home: LoginScreen(),
+            //home: LoginScreen(),
           );
         }
 

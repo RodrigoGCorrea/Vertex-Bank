@@ -17,8 +17,8 @@ class VtxButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 38 * VtxSizeConfig.widthMultiplier,
-      height: 7 * VtxSizeConfig.heightMultiplier,
+      width: getProportionateScreenWidth(118),
+      height: getProportionateScreenHeight(37),
       child: FlatButton(
         onPressed: () => function(),
         child: Text(
@@ -28,8 +28,7 @@ class VtxButton extends StatelessWidget {
           ),
         ),
         shape: RoundedRectangleBorder(
-          borderRadius:
-              BorderRadius.circular(10 * VtxSizeConfig.widthMultiplier),
+          borderRadius: BorderRadius.circular(60),
         ),
         color: color,
       ),
