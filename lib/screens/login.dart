@@ -7,6 +7,7 @@ import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
+import 'package:vertexbank/screens/main_screen.dart';
 
 /* class LoginScreen extends StatefulWidget {
   @override
@@ -117,6 +118,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final FirebaseAuth _auth = FirebaseAuth.instance;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +141,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     horizontal: getProportionateScreenWidth(52)),
                 child: VtxTextBox(
                   text: "Email",
+                  controller: _emailController,
                 ),
               ),
               SizedBox(
@@ -147,6 +151,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(52)),
                 child: VtxTextBox(
+                  controller: _passwordController,
                   obscureText: true,
                   text: "Password",
                 ),
@@ -169,7 +174,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: getProportionateScreenHeight(25),
               ),
               InkWell(
-                onTap: () => print("ola"),
+                onTap: () => _auth.signOut(),
                 child: Text(
                   "Create an account",
                   style: TextStyle(
@@ -192,8 +197,8 @@ class _LoginScreenState extends State<LoginScreen> {
   void signIn() async {
     try {
       UserCredential userCredential = await _auth.signInWithEmailAndPassword(
-        email: "qissocara@gmail.com",
-        password: "caraiborracha",
+        email: _emailController.text,
+        password: _passwordController.text,
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -209,6 +214,12 @@ class _LoginScreenState extends State<LoginScreen> {
           print('User is currently signed out!');
         } else {
           print('User is signed in!');
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainScreen(),
+            ),
+          );
         }
       },
     );
