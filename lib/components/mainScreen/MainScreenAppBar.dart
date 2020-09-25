@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 
 class MainScreenAppBar extends StatelessWidget {
@@ -16,7 +17,7 @@ class MainScreenAppBar extends StatelessWidget {
           Text(
             "Welcome back,",
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 16,
               color: AppTheme.textColor,
               fontWeight: FontWeight.w100,
             ),
@@ -28,19 +29,19 @@ class MainScreenAppBar extends StatelessWidget {
                 "Jorge Dorival",
                 style: TextStyle(
                   fontSize: 36,
+                  fontWeight: FontWeight.bold,
                   color: AppTheme.textColor,
                 ),
               ),
               IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.settings,
-                  size: 36,
+                onPressed: () => print("Fazer menu configurações"),
+                icon: SvgPicture.asset(
+                  "assets/icons/cog-solid.svg",
                   color: AppTheme.textColor,
                 ),
               )
             ],
-          )
+          ),
         ],
       ),
     );

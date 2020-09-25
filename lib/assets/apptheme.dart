@@ -14,4 +14,14 @@ class AppTheme {
   static EdgeInsets defaultHorizontalPadding = EdgeInsets.symmetric(
     horizontal: VtxSizeConfig.screenWidth * 0.1,
   );
+
+  static BoxDecoration vtxBuildBoxDecoration() {
+    return BoxDecoration(
+      border: Border.all(
+        width: getProportionateScreenWidth(1),
+        color: AppTheme.textColor,
+      ),
+      borderRadius: BorderRadius.circular(20),
+    );
+  }
 }
