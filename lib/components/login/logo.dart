@@ -15,13 +15,7 @@ class Logo extends StatelessWidget {
       height: getProportionateScreenHeight(110),
       child: Container(
         padding: EdgeInsets.all(getProportionateScreenWidth(9)),
-        decoration: BoxDecoration(
-          border: Border.all(
-            width: getProportionateScreenWidth(1),
-            color: AppTheme.textColor,
-          ),
-          borderRadius: BorderRadius.circular(20),
-        ),
+        decoration: AppTheme.vtxBuildBoxDecoration(),
         child: Column(
           children: [
             Text(
