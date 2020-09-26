@@ -45,7 +45,7 @@ class BalanceBox extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  "1335,99",
+                  "13350,99",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(36),
                     color: AppTheme.textColor,

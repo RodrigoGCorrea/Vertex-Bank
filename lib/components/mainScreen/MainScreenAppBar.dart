@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
+import 'package:vertexbank/assets/sizeconfig.dart';
 
 class MainScreenAppBar extends StatelessWidget {
   const MainScreenAppBar({
@@ -17,7 +18,7 @@ class MainScreenAppBar extends StatelessWidget {
           Text(
             "Welcome back,",
             style: TextStyle(
-              fontSize: 16,
+              fontSize: getProportionateScreenWidth(16),
               color: AppTheme.textColor,
               fontWeight: FontWeight.w100,
             ),

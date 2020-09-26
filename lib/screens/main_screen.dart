@@ -3,6 +3,7 @@ import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/components/mainScreen/MainScreenAppBar.dart';
 import 'package:vertexbank/components/mainScreen/balanceBox.dart';
+import 'package:vertexbank/components/mainScreen/transactionList.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 
 class MainScreen extends StatelessWidget {
@@ -18,6 +19,8 @@ class MainScreen extends StatelessWidget {
             ),
             SizedBox(height: getProportionateScreenHeight(45)),
             BalanceBox(),
+            SizedBox(height: getProportionateScreenHeight(18)),
+            TransactionList()
           ],
         ),
       ),
