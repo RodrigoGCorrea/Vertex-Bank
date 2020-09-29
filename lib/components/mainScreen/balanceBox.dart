@@ -12,7 +12,7 @@ class BalanceBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: getProportionateScreenWidth(285),
-      height: getProportionateScreenHeight(100),
+      height: getProportionateScreenHeight(85),
       decoration: AppTheme.vtxBuildBoxDecoration(),
       child: Padding(
         padding: EdgeInsets.symmetric(
@@ -34,6 +34,7 @@ class BalanceBox extends StatelessWidget {
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(16),
                     color: AppTheme.textColor,
+                    fontWeight: FontWeight.w100,
                   ),
                 )
               ],
@@ -42,20 +43,22 @@ class BalanceBox extends StatelessWidget {
               height: getProportionateScreenHeight(10),
             ),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "13350,99",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(36),
-                    color: AppTheme.textColor,
-                  ),
-                ),
                 Text(
                   "R\$",
                   style: TextStyle(
-                    fontSize: getProportionateScreenWidth(36),
+                    fontSize: getProportionateScreenWidth(24),
                     color: AppTheme.textColor,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                SizedBox(width: getProportionateScreenWidth(6)),
+                Text(
+                  "13350,99",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(24),
+                    color: AppTheme.textColor,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ],
