@@ -5,6 +5,7 @@ import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/mainScreen/MainScreenAppBar.dart';
 import 'package:vertexbank/components/mainScreen/balanceBox.dart';
 import 'package:vertexbank/components/mainScreen/transactionList.dart';
+import 'package:vertexbank/components/mainScreen/vtx_buttonbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 
 class MainScreen extends StatefulWidget {
@@ -23,10 +24,12 @@ class _MainScreenState extends State<MainScreen> {
               padding: EdgeInsets.only(top: VtxSizeConfig.screenHeight * 0.1),
               child: MainScreenAppBar(),
             ),
-            SizedBox(height: getProportionateScreenHeight(45)),
+            SizedBox(height: getProportionateScreenHeight(20)),
             BalanceBox(),
             SizedBox(height: getProportionateScreenHeight(18)),
             TransactionList(),
+            SizedBox(height: getProportionateScreenHeight(16)),
+            VtxButtonBar(),
           ],
         ),
       ),
