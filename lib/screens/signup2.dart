@@ -1,9 +1,9 @@
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/components/backbutton.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancelButton.dart';
@@ -20,15 +20,19 @@ class SignUp2 extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Container(
-                height: VtxSizeConfig.screenHeight * 0.11,
-                width: VtxSizeConfig.screenWidth,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: getProportionateScreenHeight(14),
+              Stack(
+                children: [
+                  SizedBox(
+                    height: VtxSizeConfig.screenHeight * 0.11,
+                    width: VtxSizeConfig.screenWidth,
                   ),
-                  child: BackButton(),
-                ),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      top: getProportionateScreenHeight(22),
+                    ),
+                    child: VtxBackButton(),
+                  ),
+                ],
               ),
               HeaderSignUp2(),
               SizedBox(height: getProportionateScreenHeight(35)),
@@ -79,43 +83,11 @@ class SignUp2 extends StatelessWidget {
               CancelButton(),
               SizedBox(
                 height: VtxSizeConfig.screenHeight * 0.1,
-              )
+              ),
+              BackButton()
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-class BackButton extends StatelessWidget {
-  const BackButton({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () => Navigator.of(context).pop(),
-      child: Row(
-        children: [
-          SvgPicture.asset(
-            "assets/icons/chevron-left-solid.svg",
-            width: getProportionateScreenWidth(10),
-            color: AppTheme.textColor,
-          ),
-          SizedBox(
-            width: getProportionateScreenWidth(4),
-          ),
-          Text(
-            "back",
-            style: TextStyle(
-              fontSize: getProportionateScreenWidth(10),
-              color: AppTheme.textColor,
-              fontWeight: FontWeight.w100,
-            ),
-          ),
-        ],
       ),
     );
   }
