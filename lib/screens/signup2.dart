@@ -14,7 +14,7 @@ class SignUp2 extends StatelessWidget {
   Widget build(BuildContext context) {
     final _nameController = TextEditingController();
     final _lastnameController = TextEditingController();
-    final _cpasswordController = TextEditingController();
+    final _dobController = TextEditingController();
     return Scaffold(
       body: Background(
         child: SingleChildScrollView(
@@ -57,7 +57,9 @@ class SignUp2 extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(52)),
-                child: BasicDateField(),
+                child: BasicDateField(
+                  controller: _dobController,
+                ),
               ),
               SizedBox(height: getProportionateScreenHeight(50)),
               VtxButton(
@@ -172,9 +174,14 @@ class Background extends StatelessWidget {
 }
 
 class BasicDateField extends StatelessWidget {
+  final TextEditingController controller;
+
+  const BasicDateField({Key key, @required this.controller}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return DateTimeField(
+      controller: controller,
       resetIcon: null,
       style: TextStyle(
         color: AppTheme.textColor,
