@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/components/button.dart';
@@ -8,6 +7,7 @@ import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/screens/main_screen.dart';
+import 'package:vertexbank/screens/signup1.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -72,7 +72,14 @@ class _LoginScreenState extends State<LoginScreen> {
                 height: getProportionateScreenHeight(25),
               ),
               InkWell(
-                onTap: () => _auth.signOut(),
+                onTap: () => {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SignUp(),
+                    ),
+                  )
+                },
                 child: Text(
                   "Create an account",
                   style: TextStyle(
