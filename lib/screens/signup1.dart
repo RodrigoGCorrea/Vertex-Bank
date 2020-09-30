@@ -36,6 +36,7 @@ class SignUp1 extends StatelessWidget {
                     horizontal: getProportionateScreenWidth(52)),
                 child: VtxTextBox(
                   text: "Password",
+                  obscureText: true,
                   controller: _passwordController,
                 ),
               ),
@@ -47,6 +48,7 @@ class SignUp1 extends StatelessWidget {
                     horizontal: getProportionateScreenWidth(52)),
                 child: VtxTextBox(
                   text: "Confirm Password",
+                  obscureText: true,
                   controller: _cpasswordController,
                 ),
               ),
