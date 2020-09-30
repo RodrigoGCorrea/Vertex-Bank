@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
-import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/mainScreen/MainScreenAppBar.dart';
 import 'package:vertexbank/components/mainScreen/balanceBox.dart';
 import 'package:vertexbank/components/mainScreen/transactionList.dart';
