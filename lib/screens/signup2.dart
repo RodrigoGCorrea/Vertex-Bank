@@ -1,32 +1,30 @@
-import "package:flutter/material.dart";
+import 'package:flutter/material.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancelButton.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
-import 'package:vertexbank/screens/login.dart';
-import 'package:vertexbank/screens/signup2.dart';
 
-class SignUp1 extends StatelessWidget {
+class SignUp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final _emailController = TextEditingController();
-    final _passwordController = TextEditingController();
+    final _nameController = TextEditingController();
+    final _lastnameController = TextEditingController();
     final _cpasswordController = TextEditingController();
     return Scaffold(
       body: Background(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              HeaderSignUp1(),
+              HeaderSignUp2(),
               SizedBox(height: getProportionateScreenHeight(35)),
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(52)),
                 child: VtxTextBox(
-                  text: "Email",
-                  controller: _emailController,
+                  text: "Name",
+                  controller: _nameController,
                 ),
               ),
               SizedBox(
@@ -36,8 +34,8 @@ class SignUp1 extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(52)),
                 child: VtxTextBox(
-                  text: "Password",
-                  controller: _passwordController,
+                  text: "Last name",
+                  controller: _lastnameController,
                 ),
               ),
               SizedBox(
@@ -52,17 +50,7 @@ class SignUp1 extends StatelessWidget {
                 ),
               ),
               SizedBox(height: getProportionateScreenHeight(50)),
-              VtxButton(
-                text: "Next",
-                function: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUp2(),
-                    ),
-                  )
-                },
-              ),
+              VtxButton(text: "Finish", function: () => {}),
               SizedBox(
                 height: getProportionateScreenHeight(13),
               ),
@@ -78,6 +66,33 @@ class SignUp1 extends StatelessWidget {
                 height: VtxSizeConfig.screenHeight * 0.1,
               )
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class HeaderSignUp2 extends StatelessWidget {
+  const HeaderSignUp2({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: getProportionateScreenWidth(42),
+        top: VtxSizeConfig.screenHeight * 0.1,
+      ),
+      child: Container(
+        alignment: Alignment.bottomLeft,
+        child: Text(
+          "One more thing,",
+          style: TextStyle(
+            fontSize: getProportionateScreenWidth(16),
+            color: AppTheme.textColor,
+            fontWeight: FontWeight.w100,
           ),
         ),
       ),
@@ -107,44 +122,6 @@ class Background extends StatelessWidget {
           end: Alignment(0.06, 0),
           color: AppTheme.generalColorGreen.withOpacity(0.8),
           child: child,
-        ),
-      ),
-    );
-  }
-}
-
-class HeaderSignUp1 extends StatelessWidget {
-  const HeaderSignUp1({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(top: VtxSizeConfig.screenHeight * 0.1),
-      child: Container(
-        alignment: Alignment.bottomLeft,
-        padding: EdgeInsets.symmetric(horizontal: 42),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Hello guest, please",
-              style: TextStyle(
-                fontSize: getProportionateScreenWidth(16),
-                color: AppTheme.textColor,
-                fontWeight: FontWeight.w100,
-              ),
-            ),
-            Text(
-              "Sign Up",
-              style: TextStyle(
-                fontSize: 36,
-                fontWeight: FontWeight.bold,
-                color: AppTheme.textColor,
-              ),
-            ),
-          ],
         ),
       ),
     );
