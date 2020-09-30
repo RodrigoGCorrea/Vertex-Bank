@@ -5,8 +5,6 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/screens/login.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
-import 'package:vertexbank/screens/main_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

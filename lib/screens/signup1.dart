@@ -5,7 +5,6 @@ import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancelButton.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
-import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/screens/signup2.dart';
 
 class SignUp1 extends StatelessWidget {

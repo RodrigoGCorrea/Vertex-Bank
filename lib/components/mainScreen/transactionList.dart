@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
-import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/models/transaction.dart';
 
 class TransactionList extends StatefulWidget {
@@ -102,6 +101,7 @@ class TransactionListBackground extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class VtxTransactionItem extends StatelessWidget {
   final Transaction transaction;
   String ftfield;
@@ -159,7 +159,7 @@ class VtxTransactionItem extends StatelessWidget {
                 ),
               ),
               Text(
-                "${sign}${transaction.amount} R\$",
+                "$sign${transaction.amount} R\$",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(11),
                   fontWeight: FontWeight.bold,
