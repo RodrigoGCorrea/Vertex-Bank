@@ -1,4 +1,7 @@
+import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:intl/intl.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/components/button.dart';
@@ -17,6 +20,16 @@ class SignUp2 extends StatelessWidget {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              Container(
+                height: VtxSizeConfig.screenHeight * 0.11,
+                width: VtxSizeConfig.screenWidth,
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    top: getProportionateScreenHeight(14),
+                  ),
+                  child: BackButton(),
+                ),
+              ),
               HeaderSignUp2(),
               SizedBox(height: getProportionateScreenHeight(35)),
               Padding(
@@ -44,13 +57,13 @@ class SignUp2 extends StatelessWidget {
               Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: getProportionateScreenWidth(52)),
-                child: VtxTextBox(
-                  text: "Confirm Password",
-                  controller: _cpasswordController,
-                ),
+                child: BasicDateField(),
               ),
               SizedBox(height: getProportionateScreenHeight(50)),
-              VtxButton(text: "Finish", function: () => {}),
+              VtxButton(
+                text: "Finish",
+                function: () => {},
+              ),
               SizedBox(
                 height: getProportionateScreenHeight(13),
               ),
@@ -73,6 +86,39 @@ class SignUp2 extends StatelessWidget {
   }
 }
 
+class BackButton extends StatelessWidget {
+  const BackButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FlatButton(
+      onPressed: () => Navigator.of(context).pop(),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            "assets/icons/chevron-left-solid.svg",
+            width: getProportionateScreenWidth(10),
+            color: AppTheme.textColor,
+          ),
+          SizedBox(
+            width: getProportionateScreenWidth(4),
+          ),
+          Text(
+            "back",
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(10),
+              color: AppTheme.textColor,
+              fontWeight: FontWeight.w100,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class HeaderSignUp2 extends StatelessWidget {
   const HeaderSignUp2({
     Key key,
@@ -81,10 +127,7 @@ class HeaderSignUp2 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(
-        left: getProportionateScreenWidth(42),
-        top: VtxSizeConfig.screenHeight * 0.1,
-      ),
+      padding: EdgeInsets.only(left: getProportionateScreenWidth(42)),
       child: Container(
         alignment: Alignment.bottomLeft,
         child: Text(
@@ -124,6 +167,48 @@ class Background extends StatelessWidget {
           child: child,
         ),
       ),
+    );
+  }
+}
+
+class BasicDateField extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return DateTimeField(
+      resetIcon: null,
+      style: TextStyle(
+        color: AppTheme.textColor,
+      ),
+      format: DateFormat("dd/MM/yyyy"),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(18),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppTheme.textColor,
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppTheme.textColor,
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        labelText: "Date of birth",
+        labelStyle: TextStyle(
+          color: AppTheme.textColor,
+        ),
+      ),
+      onShowPicker: (context, currentValue) {
+        return showDatePicker(
+          context: context,
+          firstDate: DateTime(1900),
+          initialDate: currentValue ?? DateTime.now(),
+          lastDate: DateTime(2100),
+        );
+      },
     );
   }
 }
