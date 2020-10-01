@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/screens/transferscreen.dart';
 
 class VtxButtonBar extends StatelessWidget {
   @override
@@ -15,6 +16,12 @@ class VtxButtonBar extends StatelessWidget {
           VtxIconButton(
             iconPath: "assets/icons/handshake-solid.svg",
             text: "Pay",
+            function: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => TransferScreen()),
+              );
+            },
           ),
           Spacer(),
           VtxIconButton(
@@ -54,7 +61,7 @@ class VtxIconButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: FlatButton(
-        onPressed: () => {},
+        onPressed: function,
         child: Container(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
