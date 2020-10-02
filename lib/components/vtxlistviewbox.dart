@@ -4,9 +4,13 @@ import 'package:vertexbank/assets/sizeconfig.dart';
 
 class VtxListViewBox extends StatefulWidget {
   final List<Widget> list;
+  final double width;
+  final double height;
   VtxListViewBox({
     Key key,
     @required this.list,
+    @required this.width,
+    @required this.height,
   }) : super(key: key);
 
   @override
@@ -17,15 +21,15 @@ class _VtxListViewBoxState extends State<VtxListViewBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: getProportionateScreenWidth(285),
-      height: getProportionateScreenHeight(187),
+      width: widget.width,
+      height: widget.height,
       child: Stack(
         alignment: Alignment.center,
         children: [
           VtxListViewBoxBackground(),
           Positioned(
-            width: getProportionateScreenWidth(211),
-            height: getProportionateScreenHeight(187),
+            width: widget.width - getProportionateScreenWidth(74),
+            height: widget.height,
             child: ListView.builder(
               padding: EdgeInsets.only(top: getProportionateScreenHeight(16)),
               itemCount: widget.list.length,

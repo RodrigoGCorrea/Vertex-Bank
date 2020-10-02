@@ -6,7 +6,7 @@ import 'package:vertexbank/models/transaction.dart';
 
 import '../vtxlistviewbox.dart';
 
-class TransactionList extends StatelessWidget {
+class TransactionList extends StatefulWidget {
   final List<Widget> list;
 
   const TransactionList({
@@ -15,11 +15,18 @@ class TransactionList extends StatelessWidget {
   }) : super(key: key);
 
   @override
+  _TransactionListState createState() => _TransactionListState();
+}
+
+class _TransactionListState extends State<TransactionList> {
+  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         VtxListViewBox(
-          list: list,
+          list: widget.list,
+          width: getProportionateScreenWidth(285),
+          height: getProportionateScreenHeight(187),
         ),
         Positioned(
           right: getProportionateScreenWidth(7),

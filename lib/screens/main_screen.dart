@@ -23,6 +23,14 @@ class _MainScreenState extends State<MainScreen> {
         received: true,
         date: DateTime.now(),
       ),
+    ),
+    VtxTransactionItem(
+      transaction: Transaction(
+        name: "Jaqueline Marreta",
+        amount: "849,72",
+        received: false,
+        date: DateTime.now(),
+      ),
     )
   ];
   Widget build(BuildContext context) {
@@ -30,10 +38,8 @@ class _MainScreenState extends State<MainScreen> {
       body: Background(
         child: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(top: VtxSizeConfig.screenHeight * 0.1),
-              child: MainScreenAppBar(),
-            ),
+            SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+            MainScreenAppBar(),
             SizedBox(height: getProportionateScreenHeight(20)),
             BalanceBox(),
             SizedBox(height: getProportionateScreenHeight(18)),
