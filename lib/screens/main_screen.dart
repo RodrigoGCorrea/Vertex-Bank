@@ -6,6 +6,7 @@ import 'package:vertexbank/components/mainScreen/balanceBox.dart';
 import 'package:vertexbank/components/mainScreen/transactionList.dart';
 import 'package:vertexbank/components/mainScreen/vtx_buttonbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
+import 'package:vertexbank/models/transaction.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -14,6 +15,16 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   @override
+  List<Widget> transactionList = [
+    VtxTransactionItem(
+      transaction: Transaction(
+        name: "FDP Corp.",
+        amount: "1892,30",
+        received: true,
+        date: DateTime.now(),
+      ),
+    )
+  ];
   Widget build(BuildContext context) {
     return Scaffold(
       body: Background(
@@ -26,7 +37,9 @@ class _MainScreenState extends State<MainScreen> {
             SizedBox(height: getProportionateScreenHeight(20)),
             BalanceBox(),
             SizedBox(height: getProportionateScreenHeight(18)),
-            TransactionList(),
+            TransactionList(
+              list: transactionList,
+            ),
             SizedBox(height: getProportionateScreenHeight(16)),
             VtxButtonBar(),
           ],

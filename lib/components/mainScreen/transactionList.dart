@@ -4,78 +4,27 @@ import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/models/transaction.dart';
 
-class TransactionList extends StatefulWidget {
-  TransactionList({
+import '../vtxlistviewbox.dart';
+
+class TransactionList extends StatelessWidget {
+  final List<Widget> list;
+
+  const TransactionList({
     Key key,
-  }) : super(key: key);
-
-  @override
-  _TransactionListState createState() => _TransactionListState();
-}
-
-class _TransactionListState extends State<TransactionList> {
-  List<Widget> transactionList = <Widget>[
-    VtxTransactionItem(
-      transaction: Transaction(
-        name: "FDP Corp.",
-        received: true,
-        amount: "1903,40",
-        date: DateTime.now(),
-      ),
-    ),
-  ];
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: getProportionateScreenWidth(285),
-      height: getProportionateScreenHeight(187),
-      child: Stack(
-        alignment: Alignment.center,
-        children: [
-          TransactionListBackground(),
-          Positioned(
-            width: getProportionateScreenWidth(211),
-            height: getProportionateScreenHeight(187),
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: getProportionateScreenHeight(16)),
-              itemCount: transactionList.length,
-              itemBuilder: (BuildContext context, int index) {
-                return transactionList[index];
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class TransactionListBackground extends StatelessWidget {
-  const TransactionListBackground({
-    Key key,
+    @required this.list,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: getProportionateScreenWidth(285),
-      height: getProportionateScreenHeight(187),
-      decoration: AppTheme.vtxBuildBoxDecoration(),
-      child: Row(
-        children: [
-          SizedBox(
-            height: double.infinity,
-            width: getProportionateScreenWidth(31),
-          ),
-          VerticalDivider(
-            color: AppTheme.textColor,
-            thickness: 1.5,
-          ),
-          SizedBox(
-            width: getProportionateScreenWidth(204),
-            height: double.infinity,
-          ),
-          Container(
+    return Stack(
+      children: [
+        VtxListViewBox(
+          list: list,
+        ),
+        Positioned(
+          right: getProportionateScreenWidth(7),
+          top: getProportionateScreenHeight(80),
+          child: Container(
             width: getProportionateScreenWidth(31),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -94,9 +43,9 @@ class TransactionListBackground extends StatelessWidget {
                 )
               ],
             ),
-          )
-        ],
-      ),
+          ),
+        )
+      ],
     );
   }
 }
