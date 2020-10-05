@@ -1,94 +1,136 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/components/transferscreen/transferscreenappbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
+import 'package:vertexbank/components/vtxlistviewbox.dart';
+import 'package:vertexbank/models/Contact.dart';
 
 class TransferScreen extends StatelessWidget {
+  const TransferScreen({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    final _moneyController = MoneyMaskedTextController();
+    List<Widget> contactList = [
+      ContactListItem(
+        contact: Contact("FDP Corp."),
+      ),
+    ];
     return Scaffold(
       body: Background(
         child: Column(
           children: [
             SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-            Container(
-              height: getProportionateScreenHeight(95),
-              width: VtxSizeConfig.screenWidth,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: AppTheme.defaultHorizontalPadding,
-                    child: Text(
-                      "Amount to pay",
-                      style: TextStyle(
-                        fontSize: getProportionateScreenWidth(16),
-                        color: AppTheme.textColor,
-                        fontWeight: FontWeight.w100,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: getProportionateScreenHeight(5)),
-                  Padding(
-                    padding: AppTheme.defaultHorizontalPadding,
-                    child: Container(
-                      height: getProportionateScreenHeight(72),
-                      decoration: AppTheme.vtxBuildBoxDecoration(),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(
-                            horizontal: getProportionateScreenWidth(30),
-                            vertical: getProportionateScreenHeight(23)),
-                        child: Row(
-                          children: [
-                            Text(
-                              "R\$",
-                              style: TextStyle(
-                                fontSize: getProportionateScreenWidth(24),
-                                color: AppTheme.textColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(width: getProportionateScreenWidth(6)),
-                            Flexible(
-                              child: TextField(
-                                keyboardType: TextInputType.number,
-                                inputFormatters: <TextInputFormatter>[
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(24),
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.textColor,
-                                ),
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  focusedBorder: InputBorder.none,
-                                  enabledBorder: InputBorder.none,
-                                  errorBorder: InputBorder.none,
-                                  disabledBorder: InputBorder.none,
-                                  contentPadding: EdgeInsets.only(
-                                    top: getProportionateScreenHeight(-10),
-                                  ),
-                                  hintText: "0,00",
-                                  hintStyle: TextStyle(
-                                    fontSize: getProportionateScreenWidth(24),
-                                    fontWeight: FontWeight.bold,
-                                    color: AppTheme.textColor,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+            TransferScreenAppBar(controller: _moneyController),
+            SizedBox(height: getProportionateScreenHeight(30)),
+            ContactList(contactList: contactList)
           ],
         ),
+      ),
+    );
+  }
+}
+
+class ContactList extends StatefulWidget {
+  ContactList({
+    Key key,
+    @required this.contactList,
+  }) : super(key: key);
+
+  List<Widget> contactList;
+
+  @override
+  _ContactListState createState() => _ContactListState();
+}
+
+class _ContactListState extends State<ContactList> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: AppTheme.defaultHorizontalPadding,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            "Paying to",
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(16),
+              color: AppTheme.textColor,
+              fontWeight: FontWeight.w100,
+            ),
+          ),
+          SizedBox(height: getProportionateScreenHeight(5)),
+          Stack(
+            children: [
+              VtxListViewBox(
+                list: widget.contactList,
+                width: getProportionateScreenWidth(285),
+                height: getProportionateScreenHeight(140),
+              ),
+              Positioned(
+                right: getProportionateScreenWidth(6),
+                top: getProportionateScreenHeight(55),
+                child: Container(
+                  width: getProportionateScreenWidth(31),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SvgPicture.asset(
+                        "assets/icons/chevron-right-solid.svg",
+                        width: getProportionateScreenWidth(13),
+                      ),
+                      SizedBox(height: getProportionateScreenHeight(5)),
+                      Text(
+                        "More",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(11),
+                          color: AppTheme.textColor,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
+              )
+            ],
+          )
+        ],
+      ),
+    );
+  }
+}
+
+class ContactListItem extends StatelessWidget {
+  final Contact contact;
+
+  const ContactListItem({Key key, this.contact}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.only(bottom: getProportionateScreenHeight(22)),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
+            child: SvgPicture.asset(
+              "assets/icons/circle-solid.svg",
+              width: getProportionateScreenWidth(4),
+            ),
+          ),
+          SizedBox(width: getProportionateScreenWidth(6)),
+          Text(
+            "${contact.nickname}",
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(14),
+              color: AppTheme.textColor,
+              fontWeight: FontWeight.w100,
+            ),
+          )
+        ],
       ),
     );
   }
