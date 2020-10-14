@@ -156,6 +156,7 @@ class BasicDateField extends StatelessWidget {
       controller: controller,
       resetIcon: null,
       style: TextStyle(
+        fontSize: getProportionateScreenWidth(14),
         color: AppTheme.textColor,
       ),
       format: DateFormat("dd/MM/yyyy"),
