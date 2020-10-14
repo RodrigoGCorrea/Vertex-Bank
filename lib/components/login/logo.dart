@@ -12,7 +12,7 @@ class Logo extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: getProportionateScreenWidth(235),
-      height: getProportionateScreenHeight(110),
+      height: getProportionateScreenHeight(111),
       child: Container(
         padding: EdgeInsets.all(getProportionateScreenWidth(9)),
         decoration: AppTheme.vtxBuildBoxDecoration(),
