@@ -107,18 +107,18 @@ class _LoginScreenState extends State<LoginScreen> {
       );
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        print('No user found for that email.');
+        print('[VTX] No user found for that email.');
       } else if (e.code == 'wrong-password') {
-        print('Wrong password provided for that user.');
+        print('[VTX] Wrong password provided for that user.');
       }
     }
 
     _auth.authStateChanges().listen(
       (User user) {
         if (user == null) {
-          print('User is currently signed out!');
+          print('[VTX] User is currently signed out!');
         } else {
-          print('User is signed in!');
+          print('[VTX] User is signed in!');
           Navigator.push(
             context,
             MaterialPageRoute(
