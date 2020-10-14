@@ -140,7 +140,7 @@ class HeaderSignUp1 extends StatelessWidget {
             Text(
               "Sign Up",
               style: TextStyle(
-                fontSize: 36,
+                fontSize: getProportionateScreenWidth(36),
                 fontWeight: FontWeight.bold,
                 color: AppTheme.textColor,
               ),
