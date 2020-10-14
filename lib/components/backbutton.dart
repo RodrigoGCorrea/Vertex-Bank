@@ -11,7 +11,7 @@ class VtxBackButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: getProportionateScreenWidth(70),
+      width: getProportionateScreenWidth(72),
       child: FlatButton(
         onPressed: () => Navigator.of(context).pop(),
         child: Row(
