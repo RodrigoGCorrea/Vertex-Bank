@@ -7,6 +7,7 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/assets/apptheme.dart';
+import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/screens/login.dart';
 
 void main() async {
@@ -47,13 +48,16 @@ class App extends StatelessWidget {
   Widget build(BuildContext context) {
     return RepositoryProvider.value(
       value: authApi,
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          fontFamily: 'Roboto',
-          visualDensity: VisualDensity.adaptivePlatformDensity,
+      child: BlocProvider(
+        create: (context) => AuthCubit(authApi: authApi),
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            fontFamily: 'Roboto',
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: LoginScreen(),
         ),
-        home: LoginScreen(),
       ),
     );
   }

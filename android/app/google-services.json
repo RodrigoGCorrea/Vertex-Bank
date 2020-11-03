@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "272505070124-2r7p0avj3mlccj4kkufubbnoeg1si8d1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "uff.br.vertexbank",
+            "certificate_hash": "0dde6c766731b9787ef96bdcb2aa4eba276b6523"
+          }
+        },
+        {
           "client_id": "272505070124-bdrd8v9u7v9beqp3c0mq2827jm9rco85.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

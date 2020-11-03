@@ -58,10 +58,11 @@ class AuthApi {
         email: email,
         password: password,
       );
-    } on Exception {
+    } catch (e) {
       //throw LogInWithEmailAndPasswordFailure();
       //NOTE(Geraldo): Lidar com erros, não sei se usar uma classe pra isso é a
       //               melhor maneira
+      throw (e);
     }
   }
 

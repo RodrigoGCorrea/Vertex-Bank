@@ -12,29 +12,8 @@ class ErrorState extends AuthState {
 }
 
 class UnauthenticatedState extends AuthState {
-  const UnauthenticatedState({
-    String email,
-    String password,
-  })  : this.email = email,
-        this.password = password,
-        super();
-
-  final String email;
-  final String password;
-
   @override
-  UnauthenticatedState copyWith({
-    String email,
-    String password,
-  }) {
-    return UnauthenticatedState(
-      email: this.email ?? email,
-      password: this.password ?? password,
-    );
-  }
-
-  @override
-  List<Object> get props => [email, password];
+  List<Object> get props => [];
 }
 
 class AuthenticatedState extends AuthState {
