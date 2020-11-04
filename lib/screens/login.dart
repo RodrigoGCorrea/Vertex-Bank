@@ -21,12 +21,11 @@ class LoginScreen extends StatelessWidget {
     return BlocBuilder<AuthCubit, AuthState>(
       builder: (context, state) {
         if (state is UnauthenticatedState) {
-          print(state);
           return _buildLoginForm(context);
         } else if (state is AuthenticatedState) {
           return MainScreen();
         } else {
-          return Text("[VTX] Error Login Screen");
+          return Scaffold(body: Text("[VTX] Error Login Screen"));
         }
       },
     );

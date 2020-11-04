@@ -2,8 +2,6 @@ part of 'auth_cubit.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
-
-  void copyWith() {}
 }
 
 class ErrorState extends AuthState {
