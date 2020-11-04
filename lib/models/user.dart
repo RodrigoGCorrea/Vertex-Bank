@@ -1,15 +1,44 @@
-import 'package:meta/meta.dart';
-
 class User {
   const User({
-    @required this.id,
-    @required this.name,
-    @required this.email,
+    this.id,
+    this.displayName,
+    this.email,
+    this.name,
+    this.lastName,
+    this.birth,
   });
 
   final String id;
-  final String name;
+  final String displayName;
   final String email;
+  final String name;
+  final String lastName;
+  final String birth;
 
-  static User empty = User(email: "", name: "", id: "");
+  User copyWith({
+    String id,
+    String displayName,
+    String email,
+    String name,
+    String lastName,
+    String birth,
+  }) {
+    return User(
+      id: this.id ?? id,
+      displayName: this.displayName ?? displayName,
+      email: this.email ?? email,
+      name: this.name ?? name,
+      lastName: this.lastName ?? lastName,
+      birth: this.birth ?? birth,
+    );
+  }
+
+  static User empty = User(
+    id: "",
+    email: "",
+    displayName: "",
+    name: "",
+    lastName: "",
+    birth: "",
+  );
 }
