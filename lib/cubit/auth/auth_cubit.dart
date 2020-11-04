@@ -29,4 +29,15 @@ class AuthCubit extends Cubit<AuthState> {
       print(e);
     }
   }
+
+  Future<void> signOut() async {
+    try {
+      await _authApi.logOut();
+      emit(UnauthenticatedState());
+    } on Exception {
+      emit(ErrorState());
+    } catch (e) {
+      print(e);
+    }
+  }
 }

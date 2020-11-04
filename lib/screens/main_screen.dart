@@ -39,7 +39,9 @@ class _MainScreenState extends State<MainScreen> {
         child: Column(
           children: [
             SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-            MainScreenAppBar(),
+            MainScreenAppBar(
+              context: context,
+            ),
             SizedBox(height: getProportionateScreenHeight(20)),
             BalanceBox(),
             SizedBox(height: getProportionateScreenHeight(18)),

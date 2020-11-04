@@ -1,15 +1,16 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/screens/login.dart';
 
 class MainScreenAppBar extends StatelessWidget {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
+  final BuildContext context;
   MainScreenAppBar({
     Key key,
+    this.context,
   }) : super(key: key);
 
   @override
@@ -52,13 +53,8 @@ class MainScreenAppBar extends StatelessWidget {
     );
   }
 
-  void signOut(context) {
-    _auth.signOut();
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoginScreen(),
-      ),
-    );
+  void signOut(BuildContext context) {
+    final authCubit = context.bloc<AuthCubit>();
+    authCubit.signOut();
   }
 }
