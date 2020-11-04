@@ -55,14 +55,7 @@ class SignUp1 extends StatelessWidget {
               SizedBox(height: getProportionateScreenHeight(50)),
               VtxButton(
                 text: "Next",
-                function: () => {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => SignUp2(),
-                    ),
-                  )
-                },
+                function: () => Navigator.of(context).pop(),
               ),
               SizedBox(
                 height: getProportionateScreenHeight(13),

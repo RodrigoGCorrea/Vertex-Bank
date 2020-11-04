@@ -18,16 +18,14 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VtxSizeConfig().init(context);
-    return BlocBuilder<AuthCubit, AuthState>(
-      builder: (context, state) {
-        if (state is UnauthenticatedState) {
-          return _buildLoginForm(context);
-        } else if (state is AuthenticatedState) {
-          return MainScreen();
-        } else {
-          return Scaffold(body: Text("[VTX] Error Login Screen"));
+    return BlocListener<AuthCubit, AuthState>(
+      listenWhen: (previous, current) => previous != current,
+      listener: (context, state) {
+        if (state is AuthenticatedState) {
+          Navigator.of(context).pushNamed('/');
         }
       },
+      child: _buildLoginForm(context),
     );
   }
 
@@ -119,12 +117,7 @@ class LoginScreen extends StatelessWidget {
   Widget _buildSignUpButton(BuildContext context) {
     return InkWell(
       onTap: () => {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => SignUp1(),
-          ),
-        )
+        Navigator.of(context).pushNamed('/signup1'),
       },
       child: Text(
         "Create an account",

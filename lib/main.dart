@@ -9,6 +9,8 @@ import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/screens/login.dart';
+import 'package:vertexbank/screens/main_screen.dart';
+import 'package:vertexbank/screens/signup1.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -39,9 +41,6 @@ class App extends StatelessWidget {
 
   final AuthApi authApi;
 
-  // Create the initilization Future outside of `build`:
-  //final Future<FirebaseApp> _initialization = Firebase.initializeApp();
-
   // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
   //                deu certo no main, ainda não sei.
   @override
@@ -56,7 +55,12 @@ class App extends StatelessWidget {
             fontFamily: 'Roboto',
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: LoginScreen(),
+          initialRoute: '/login',
+          routes: {
+            '/': (context) => MainScreen(),
+            '/login': (context) => LoginScreen(),
+            '/signup1': (context) => SignUp1(),
+          },
         ),
       ),
     );
