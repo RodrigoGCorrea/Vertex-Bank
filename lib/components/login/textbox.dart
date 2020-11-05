@@ -6,6 +6,7 @@ import '../../assets/sizeconfig.dart';
 class VtxTextBox extends StatelessWidget {
   final String text;
   final bool obscureText;
+  final Function onChangedFunction;
   final TextEditingController controller;
 
   static double radius = 15;
@@ -15,12 +16,14 @@ class VtxTextBox extends StatelessWidget {
     this.obscureText = false,
     @required this.text,
     this.controller,
+    this.onChangedFunction,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
+      onChanged: onChangedFunction,
       style: TextStyle(
         fontSize: getProportionateScreenWidth(14),
         color: AppTheme.textColor,
