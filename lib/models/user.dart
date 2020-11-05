@@ -24,12 +24,12 @@ class User {
     String birth,
   }) {
     return User(
-      id: this.id ?? id,
-      displayName: this.displayName ?? displayName,
-      email: this.email ?? email,
-      name: this.name ?? name,
-      lastName: this.lastName ?? lastName,
-      birth: this.birth ?? birth,
+      id: id ?? this.id,
+      displayName: displayName ?? this.displayName,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      lastName: lastName ?? this.lastName,
+      birth: birth ?? this.birth,
     );
   }
 
