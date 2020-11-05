@@ -18,15 +18,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> loginWithEmailPassword(String email, String password) async {
     if (state is AuthenticatedState) return null;
-
     try {
       await _authApi.logInWithEmailAndPassword(
           email: email, password: password);
       emit(AuthenticatedState(user: _authApi.user));
     } on Exception {
       emit(ErrorState());
-    } catch (e) {
-      print(e);
     }
   }
 
@@ -36,8 +33,6 @@ class AuthCubit extends Cubit<AuthState> {
       emit(UnauthenticatedState());
     } on Exception {
       emit(ErrorState());
-    } catch (e) {
-      print(e);
     }
   }
 }
