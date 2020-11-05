@@ -9,7 +9,7 @@ import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/screens/main_screen.dart';
-import 'package:vertexbank/screens/signup1.dart';
+import 'package:vertexbank/screens/signup/signup.dart';
 
 class LoginScreen extends StatelessWidget {
   final _emailController = TextEditingController();
@@ -117,7 +117,7 @@ class LoginScreen extends StatelessWidget {
   Widget _buildSignUpButton(BuildContext context) {
     return InkWell(
       onTap: () => {
-        Navigator.of(context).pushNamed('/signup1'),
+        Navigator.of(context).pushNamed('/signup'),
       },
       child: Text(
         "Create an account",
