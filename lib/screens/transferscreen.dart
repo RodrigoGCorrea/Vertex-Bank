@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/components/transferscreen/transferscreenappbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
+import 'package:vertexbank/cubit/cubit/contactlist_cubit.dart';
 import 'package:vertexbank/models/Contact.dart';
 
 class TransferScreen extends StatelessWidget {
@@ -13,29 +15,6 @@ class TransferScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _moneyController = MoneyMaskedTextController();
-    List<Widget> contactList = [
-      ContactListItem(
-        contact: Contact("FDP Corp."),
-      ),
-      ContactListItem(
-        contact: Contact("Marcelin Marreta"),
-      ),
-      ContactListItem(
-        contact: Contact("Jaqueline Lasquera"),
-      ),
-      ContactListItem(
-        contact: Contact("Edivaldo Jr."),
-      ),
-      ContactListItem(
-        contact: Contact("Marcelin Marreta"),
-      ),
-      ContactListItem(
-        contact: Contact("FDP Corp."),
-      ),
-      ContactListItem(
-        contact: Contact("Edivaldo Jr."),
-      ),
-    ];
     return Scaffold(
       body: Background(
         child: Column(
@@ -43,7 +22,10 @@ class TransferScreen extends StatelessWidget {
             SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
             TransferScreenAppBar(controller: _moneyController),
             SizedBox(height: getProportionateScreenHeight(30)),
-            ContactList(contactList: contactList)
+            BlocProvider(
+              create: (context) => ContactlistCubit(),
+              child: ContactList(contactList: contactListSample),
+            )
           ],
         ),
       ),
@@ -74,3 +56,27 @@ class Background extends StatelessWidget {
     );
   }
 }
+
+List<ContactListItem> contactListSample = [
+  ContactListItem(
+    contact: Contact("FDP Corp."),
+  ),
+  ContactListItem(
+    contact: Contact("Marcelin Marreta"),
+  ),
+  ContactListItem(
+    contact: Contact("Jaqueline Lasquera"),
+  ),
+  ContactListItem(
+    contact: Contact("Edivaldo Jr."),
+  ),
+  ContactListItem(
+    contact: Contact("Marcelin Marreta"),
+  ),
+  ContactListItem(
+    contact: Contact("FDP Corp."),
+  ),
+  ContactListItem(
+    contact: Contact("Edivaldo Jr."),
+  ),
+];
