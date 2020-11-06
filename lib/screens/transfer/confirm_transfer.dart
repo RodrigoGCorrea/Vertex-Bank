@@ -71,8 +71,7 @@ class ConfirmTransferAppbar extends StatelessWidget {
             child: VtxListViewBox(
               height: getProportionateScreenHeight(190),
               width: getProportionateScreenWidth(285),
-              listViewBuilder:
-                  BlocBuilder<TransferScreenCubit, TransferScreenState>(
+              listViewBuilder: BlocBuilder<TransferCubit, TransferScreenState>(
                 builder: (context, state) {
                   if (state is TransferScreenSelected)
                     return TransferItem(transaction: state.transaction);

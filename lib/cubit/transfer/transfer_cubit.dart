@@ -8,8 +8,8 @@ import 'package:vertexbank/models/transaction.dart';
 
 part 'transfer_state.dart';
 
-class TransferScreenCubit extends Cubit<TransferScreenState> {
-  TransferScreenCubit()
+class TransferCubit extends Cubit<TransferScreenState> {
+  TransferCubit()
       : super(TransferScreenInitial(
           contactList: [],
           indexContactListSelected: null,

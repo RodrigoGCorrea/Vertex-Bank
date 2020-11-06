@@ -2,10 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 
-class VtxListViewBox extends StatefulWidget {
-  final double width;
-  final double height;
-  final Widget listViewBuilder;
+class VtxListViewBox extends StatelessWidget {
   VtxListViewBox({
     Key key,
     @required this.width,
@@ -13,27 +10,26 @@ class VtxListViewBox extends StatefulWidget {
     @required this.listViewBuilder,
   }) : super(key: key);
 
-  @override
-  _VtxListViewBoxState createState() => _VtxListViewBoxState();
-}
+  final double width;
+  final double height;
+  final Widget listViewBuilder;
 
-class _VtxListViewBoxState extends State<VtxListViewBox> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: widget.width,
-      height: widget.height,
+      width: width,
+      height: height,
       child: Stack(
         alignment: Alignment.center,
         children: [
           VtxListViewBoxBackground(
-            width: widget.width,
-            height: widget.height,
+            width: width,
+            height: height,
           ),
           Positioned(
-            width: widget.width - getProportionateScreenWidth(74),
-            height: widget.height,
-            child: widget.listViewBuilder,
+            width: width - getProportionateScreenWidth(74),
+            height: height,
+            child: listViewBuilder,
           ),
         ],
       ),
@@ -42,14 +38,14 @@ class _VtxListViewBoxState extends State<VtxListViewBox> {
 }
 
 class VtxListViewBoxBackground extends StatelessWidget {
-  final double width;
-  final double height;
-
   const VtxListViewBoxBackground({
     Key key,
     this.width,
     this.height,
   }) : super(key: key);
+
+  final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {

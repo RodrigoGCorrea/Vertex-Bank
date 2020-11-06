@@ -23,12 +23,12 @@ class TransferScreen extends StatelessWidget {
               SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
               TransferScreenAppBar(
                 functionChanged: (amount) =>
-                    context.bloc<TransferScreenCubit>().amountChanged(amount),
+                    context.bloc<TransferCubit>().amountChanged(amount),
               ),
               SizedBox(height: getProportionateScreenHeight(30)),
               ContactList(contactList: contactListSample),
               SizedBox(height: getProportionateScreenHeight(40)),
-              BlocListener<TransferScreenCubit, TransferScreenState>(
+              BlocListener<TransferCubit, TransferScreenState>(
                 listener: (context, state) {
                   if (state is TransferScreenSelected) {
                     Navigator.push(
@@ -42,7 +42,7 @@ class TransferScreen extends StatelessWidget {
                 child: VtxButton(
                   text: "Next",
                   function: () =>
-                      context.bloc<TransferScreenCubit>().proceedTransfer(),
+                      context.bloc<TransferCubit>().proceedTransfer(),
                 ),
               ),
               SizedBox(

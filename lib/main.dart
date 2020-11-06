@@ -58,7 +58,7 @@ class App extends StatelessWidget {
             create: (context) => AuthCubit(authApi: authApi),
           ),
           BlocProvider(
-            create: (context) => TransferScreenCubit(),
+            create: (context) => TransferCubit(),
           )
         ],
         child: MaterialApp(
