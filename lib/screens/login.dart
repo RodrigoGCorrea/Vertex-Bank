@@ -97,7 +97,15 @@ class LoginScreen extends StatelessWidget {
       },
       child: VtxButton(
         text: "Login",
-        function: () => context.bloc<LoginCubit>().finishLogin(),
+        function: () async {
+          try {
+            await context.bloc<LoginCubit>().finishLogin();
+            context.bloc<AuthCubit>().loginWasSuccessful();
+          } catch (e) {
+            print("Me conserta!! Tela de login, erro no botão de login!");
+            print(e);
+          }
+        },
       ),
     );
   }
