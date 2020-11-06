@@ -24,9 +24,15 @@ class _TransactionListState extends State<TransactionList> {
     return Stack(
       children: [
         VtxListViewBox(
-          list: widget.list,
           width: getProportionateScreenWidth(285),
           height: getProportionateScreenHeight(187),
+          listViewBuilder: ListView.builder(
+            padding: EdgeInsets.only(top: getProportionateScreenHeight(16)),
+            itemCount: widget.list.length,
+            itemBuilder: (BuildContext context, int index) {
+              return widget.list[index];
+            },
+          ),
         ),
         Positioned(
           right: getProportionateScreenWidth(7),

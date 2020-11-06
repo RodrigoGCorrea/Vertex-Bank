@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 
 class TransferScreenAppBar extends StatelessWidget {
-  final MoneyMaskedTextController controller;
+  final Function functionChanged;
+  MoneyMaskedTextController _moneyController = MoneyMaskedTextController();
 
-  const TransferScreenAppBar({
+  TransferScreenAppBar({
     Key key,
-    @required this.controller,
+    @required this.functionChanged,
   }) : super(key: key);
 
   @override
@@ -53,7 +55,8 @@ class TransferScreenAppBar extends StatelessWidget {
                     SizedBox(width: getProportionateScreenWidth(6)),
                     Flexible(
                       child: TextField(
-                        controller: controller,
+                        onChanged: functionChanged,
+                        controller: _moneyController,
                         keyboardType: TextInputType.number,
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(24),

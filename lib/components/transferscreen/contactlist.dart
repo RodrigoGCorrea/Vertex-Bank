@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/cubit/transferscreen/transferscreen_cubit.dart';
 import 'package:vertexbank/models/Contact.dart';
 
 import '../vtxlistviewbox.dart';
 
 class ContactList extends StatefulWidget {
+  List<ContactListItem> contactList;
   ContactList({
     Key key,
-    @required this.contactList,
+    this.contactList,
   }) : super(key: key);
-
-  List<Widget> contactList;
 
   @override
   _ContactListState createState() => _ContactListState();
@@ -21,6 +22,7 @@ class ContactList extends StatefulWidget {
 class _ContactListState extends State<ContactList> {
   @override
   Widget build(BuildContext context) {
+    context.bloc<TransferScreenCubit>().setContactList(widget.contactList);
     return Container(
       padding: AppTheme.defaultHorizontalPadding,
       child: Column(
@@ -38,9 +40,30 @@ class _ContactListState extends State<ContactList> {
           Stack(
             children: [
               VtxListViewBox(
-                list: widget.contactList,
                 width: getProportionateScreenWidth(285),
                 height: getProportionateScreenHeight(140),
+                listViewBuilder:
+                    BlocBuilder<TransferScreenCubit, TransferScreenState>(
+                  builder: (context, state) {
+                    if (state is TransferScreenInitial) {
+                      return ListView.builder(
+                        padding: EdgeInsets.only(
+                          top: getProportionateScreenHeight(16),
+                        ),
+                        itemCount: state.contactList.length,
+                        itemBuilder: (BuildContext context, int i) {
+                          return GestureDetector(
+                            onTap: () => context
+                                .bloc<TransferScreenCubit>()
+                                .selectContact(i),
+                            child: state.contactList[i],
+                          );
+                        },
+                      );
+                    }
+                    return Text("Error");
+                  },
+                ),
               ),
               Positioned(
                 right: getProportionateScreenWidth(6),
@@ -74,11 +97,24 @@ class _ContactListState extends State<ContactList> {
   }
 }
 
-class ContactListItem extends StatelessWidget {
+class ContactListItem extends StatefulWidget {
   final Contact contact;
+  bool isSelected;
+  Color color;
 
-  const ContactListItem({Key key, this.contact}) : super(key: key);
+  ContactListItem({
+    Key key,
+    this.contact,
+  }) : super(key: key) {
+    if (isSelected == null) isSelected = false;
+    if (color == null) color = AppTheme.textColor;
+  }
 
+  @override
+  _ContactListItemState createState() => _ContactListItemState();
+}
+
+class _ContactListItemState extends State<ContactListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -94,13 +130,20 @@ class ContactListItem extends StatelessWidget {
             ),
           ),
           SizedBox(width: getProportionateScreenWidth(6)),
-          Text(
-            "${contact.nickname}",
-            style: TextStyle(
-              fontSize: getProportionateScreenWidth(14),
-              color: AppTheme.textColor,
-              fontWeight: FontWeight.w100,
-            ),
+          BlocBuilder<TransferScreenCubit, TransferScreenState>(
+            builder: (context, state) {
+              widget.isSelected
+                  ? widget.color = AppTheme.buttonColorGreen
+                  : widget.color = AppTheme.textColor;
+              return Text(
+                "${widget.contact.nickname}",
+                style: TextStyle(
+                  fontSize: getProportionateScreenWidth(14),
+                  color: widget.color,
+                  fontWeight: FontWeight.w100,
+                ),
+              );
+            },
           )
         ],
       ),

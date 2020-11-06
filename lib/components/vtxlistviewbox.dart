@@ -3,14 +3,14 @@ import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 
 class VtxListViewBox extends StatefulWidget {
-  final List<Widget> list;
   final double width;
   final double height;
+  final Widget listViewBuilder;
   VtxListViewBox({
     Key key,
-    @required this.list,
     @required this.width,
     @required this.height,
+    @required this.listViewBuilder,
   }) : super(key: key);
 
   @override
@@ -26,17 +26,14 @@ class _VtxListViewBoxState extends State<VtxListViewBox> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          VtxListViewBoxBackground(),
+          VtxListViewBoxBackground(
+            width: widget.width,
+            height: widget.height,
+          ),
           Positioned(
             width: widget.width - getProportionateScreenWidth(74),
             height: widget.height,
-            child: ListView.builder(
-              padding: EdgeInsets.only(top: getProportionateScreenHeight(16)),
-              itemCount: widget.list.length,
-              itemBuilder: (BuildContext context, int index) {
-                return widget.list[index];
-              },
-            ),
+            child: widget.listViewBuilder,
           ),
         ],
       ),
@@ -45,15 +42,20 @@ class _VtxListViewBoxState extends State<VtxListViewBox> {
 }
 
 class VtxListViewBoxBackground extends StatelessWidget {
+  final double width;
+  final double height;
+
   const VtxListViewBoxBackground({
     Key key,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: getProportionateScreenWidth(285),
-      height: getProportionateScreenHeight(187),
+      width: getProportionateScreenWidth(width),
+      height: getProportionateScreenHeight(height),
       decoration: AppTheme.vtxBuildBoxDecoration(),
       child: Row(
         children: [
