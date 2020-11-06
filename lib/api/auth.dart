@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:meta/meta.dart';
 
 import 'package:vertexbank/models/user.dart';
+import 'package:vertexbank/models/failure.dart';
 
 class AuthApi {
   AuthApi({
@@ -49,8 +50,11 @@ class AuthApi {
         'lastName': user.lastName,
         'birth': user.birth,
       });
-    } catch (e) {
-      throw (e);
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      if (e.code == 'email-already-in-use')
+        throw Failure("Email already in use!");
+      else
+        throw Failure("Server error!");
     }
   }
 
@@ -67,11 +71,11 @@ class AuthApi {
         email: email,
         password: password,
       );
-    } catch (e) {
-      //throw LogInWithEmailAndPasswordFailure();
-      //NOTE(Geraldo): Lidar com erros, não sei se usar uma classe pra isso é a
-      //               melhor maneira
-      throw (e);
+    } on firebase_auth.FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found' || e.code == 'wrong-password')
+        throw Failure("User not found!");
+      else
+        throw Failure("Server error!");
     }
   }
 
@@ -81,13 +85,9 @@ class AuthApi {
   /// Throws a [LogOutFailure] if an exception occurs.
   Future<void> logOut() async {
     try {
-      await Future.wait([
-        _firebaseAuth.signOut(),
-      ]);
+      await _firebaseAuth.signOut();
     } on Exception {
-      //throw LogOutFailure();
-      //NOTE(Geraldo): Lidar com erros, não sei se usar uma classe pra isso é a
-      //               melhor maneira
+      throw Failure("Error on logout!");
     }
   }
 }
