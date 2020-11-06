@@ -8,6 +8,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/login/login_cubit.dart';
 import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/cubit/signup/signup_cubit.dart';
 import 'package:vertexbank/screens/login.dart';
@@ -43,6 +44,7 @@ class App extends StatelessWidget {
     @required authApi,
   })  : assert(authApi != null),
         signupCubit = SignupCubit(authApi: authApi),
+        loginCubit = LoginCubit(authApi: authApi),
         authCubit = AuthCubit(authApi: authApi),
         transferCubit = TransferCubit(),
         super(key: key);
@@ -50,6 +52,7 @@ class App extends StatelessWidget {
   final AuthCubit authCubit;
   final SignupCubit signupCubit;
   final TransferCubit transferCubit;
+  final LoginCubit loginCubit;
 
   // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
   //                deu certo no main, ainda não sei.
@@ -66,7 +69,10 @@ class App extends StatelessWidget {
         initialRoute: '/login',
         routes: {
           '/': (context) => MainScreen(),
-          '/login': (context) => LoginScreen(),
+          '/login': (context) => BlocProvider.value(
+                value: loginCubit,
+                child: LoginScreen(),
+              ),
           '/signup': (context) => BlocProvider.value(
                 value: signupCubit,
                 child: SignUpScreen(),

@@ -8,28 +8,15 @@ import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/login/login_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     //NOTE(Geraldo): Se uma tela for carregada antes do Login o size config vai dar merda,
     //               esse é único lugar que a chama o init dele.
     VtxSizeConfig().init(context);
-    return BlocListener<AuthCubit, AuthState>(
-      listenWhen: (previous, current) => previous != current,
-      listener: (context, state) {
-        if (state is AuthenticatedState) {
-          Navigator.of(context).pushNamed('/');
-        }
-      },
-      child: _buildLoginForm(context),
-    );
-  }
 
-  Widget _buildLoginForm(BuildContext context) {
     return Scaffold(
       body: _Background(
         child: SingleChildScrollView(
@@ -39,11 +26,11 @@ class LoginScreen extends StatelessWidget {
               SizedBox(
                 height: getProportionateScreenHeight(45),
               ),
-              _buildEmailInput(),
+              _buildEmailInput(context),
               SizedBox(
                 height: getProportionateScreenHeight(20),
               ),
-              _buildPasswordInput(),
+              _buildPasswordInput(context),
               SizedBox(
                 height: getProportionateScreenHeight(45),
               ),
@@ -76,41 +63,42 @@ class LoginScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildEmailInput() {
+  Widget _buildEmailInput(BuildContext context) {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
       child: VtxTextBox(
         text: "Email",
-        controller: _emailController,
+        onChangedFunction: (email) =>
+            context.bloc<LoginCubit>().emailChanged(email),
       ),
     );
   }
 
-  Widget _buildPasswordInput() {
+  Widget _buildPasswordInput(BuildContext context) {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
       child: VtxTextBox(
-        controller: _passwordController,
         obscureText: true,
         text: "Password",
+        onChangedFunction: (password) =>
+            context.bloc<LoginCubit>().emailChanged(password),
       ),
     );
   }
 
-  void _login(BuildContext context) {
-    final authCubit = context.bloc<AuthCubit>();
-    authCubit.loginWithEmailPassword(
-      _emailController.text,
-      _passwordController.text,
-    );
-  }
-
   Widget _buildLoginButton(BuildContext context) {
-    return VtxButton(
-      text: "Login",
-      function: () => _login(context),
+    return BlocListener<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthenticatedState) {
+          Navigator.of(context).pushNamed('/');
+        }
+      },
+      child: VtxButton(
+        text: "Login",
+        function: () => context.bloc<LoginCubit>().finishLogin(),
+      ),
     );
   }
 
