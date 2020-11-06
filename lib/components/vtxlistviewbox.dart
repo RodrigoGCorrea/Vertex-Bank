@@ -26,7 +26,10 @@ class _VtxListViewBoxState extends State<VtxListViewBox> {
       child: Stack(
         alignment: Alignment.center,
         children: [
-          VtxListViewBoxBackground(),
+          VtxListViewBoxBackground(
+            width: widget.width,
+            height: widget.height,
+          ),
           Positioned(
             width: widget.width - getProportionateScreenWidth(74),
             height: widget.height,
@@ -39,15 +42,20 @@ class _VtxListViewBoxState extends State<VtxListViewBox> {
 }
 
 class VtxListViewBoxBackground extends StatelessWidget {
+  final double width;
+  final double height;
+
   const VtxListViewBoxBackground({
     Key key,
+    this.width,
+    this.height,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: getProportionateScreenWidth(285),
-      height: getProportionateScreenHeight(187),
+      width: getProportionateScreenWidth(width),
+      height: getProportionateScreenHeight(height),
       decoration: AppTheme.vtxBuildBoxDecoration(),
       child: Row(
         children: [
