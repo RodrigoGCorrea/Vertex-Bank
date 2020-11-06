@@ -14,6 +14,8 @@ import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/screens/main_screen.dart';
 import 'package:vertexbank/screens/signup/signup.dart';
 import 'package:vertexbank/screens/signup/signup_finish.dart';
+import 'package:vertexbank/screens/transfer/transfer_screen.dart';
+import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,49 +40,50 @@ void main() async {
 class App extends StatelessWidget {
   App({
     Key key,
-    @required this.authApi,
+    @required authApi,
   })  : assert(authApi != null),
         signupCubit = SignupCubit(authApi: authApi),
+        authCubit = AuthCubit(authApi: authApi),
+        transferCubit = TransferCubit(),
         super(key: key);
 
-  final AuthApi authApi;
+  final AuthCubit authCubit;
   final SignupCubit signupCubit;
+  final TransferCubit transferCubit;
 
   // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
   //                deu certo no main, ainda não sei.
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: authApi,
-      child: MultiBlocProvider(
-        providers: [
-          BlocProvider(
-            create: (context) => AuthCubit(authApi: authApi),
-          ),
-          BlocProvider(
-            create: (context) => TransferCubit(),
-          )
-        ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            fontFamily: 'Roboto',
-            visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
-          initialRoute: '/login',
-          routes: {
-            '/': (context) => MainScreen(),
-            '/login': (context) => LoginScreen(),
-            '/signup': (context) => BlocProvider.value(
-                  value: signupCubit,
-                  child: SignUpScreen(),
-                ),
-            '/signup/finish': (context) => BlocProvider.value(
-                  value: signupCubit,
-                  child: SignUpFinishScreen(),
-                ),
-          },
+    return BlocProvider.value(
+      value: authCubit,
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          fontFamily: 'Roboto',
+          visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        initialRoute: '/login',
+        routes: {
+          '/': (context) => MainScreen(),
+          '/login': (context) => LoginScreen(),
+          '/signup': (context) => BlocProvider.value(
+                value: signupCubit,
+                child: SignUpScreen(),
+              ),
+          '/signup/finish': (context) => BlocProvider.value(
+                value: signupCubit,
+                child: SignUpFinishScreen(),
+              ),
+          '/transfer': (context) => BlocProvider.value(
+                value: transferCubit,
+                child: TransferScreen(),
+              ),
+          '/transfer/confirmation': (context) => BlocProvider.value(
+                value: transferCubit,
+                child: TransferScreenConfirm(),
+              )
+        },
       ),
     );
   }

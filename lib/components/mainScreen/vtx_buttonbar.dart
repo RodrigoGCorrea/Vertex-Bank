@@ -14,15 +14,9 @@ class VtxButtonBar extends StatelessWidget {
       child: Row(
         children: [
           VtxIconButton(
-            iconPath: "assets/icons/handshake-solid.svg",
-            text: "Pay",
-            function: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => TransferScreen()),
-              );
-            },
-          ),
+              iconPath: "assets/icons/handshake-solid.svg",
+              text: "Pay",
+              function: () => Navigator.of(context).pushNamed('/transfer')),
           Spacer(),
           VtxIconButton(
             iconPath: "assets/icons/money-bill-solid.svg",

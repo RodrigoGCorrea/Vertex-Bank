@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/mainScreen/main_screen_appbar.dart';

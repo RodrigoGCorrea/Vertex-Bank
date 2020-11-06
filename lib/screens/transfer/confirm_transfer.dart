@@ -10,8 +10,8 @@ import 'package:vertexbank/components/vtx_listviewbox.dart';
 import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/models/transaction.dart';
 
-class ConfirmTransferScreen extends StatelessWidget {
-  const ConfirmTransferScreen({
+class TransferScreenConfirm extends StatelessWidget {
+  const TransferScreenConfirm({
     Key key,
   }) : super(key: key);
 

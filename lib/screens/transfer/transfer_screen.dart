@@ -31,12 +31,7 @@ class TransferScreen extends StatelessWidget {
               BlocListener<TransferCubit, TransferScreenState>(
                 listener: (context, state) {
                   if (state is TransferScreenSelected) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ConfirmTransferScreen(),
-                      ),
-                    );
+                    Navigator.of(context).pushNamed('/transfer/confirmation');
                   }
                 },
                 child: VtxButton(
