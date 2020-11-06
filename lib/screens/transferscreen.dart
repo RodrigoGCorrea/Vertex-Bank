@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/components/transferscreen/transferscreenappbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
-import 'package:vertexbank/cubit/cubit/contactlist_cubit.dart';
+import 'package:vertexbank/cubit/transferscreen/transferscreen_cubit.dart';
 import 'package:vertexbank/models/Contact.dart';
 import 'package:vertexbank/screens/confirmtransfer.dart';
 
@@ -16,37 +15,51 @@ class TransferScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final _moneyController = MoneyMaskedTextController();
     return Scaffold(
       body: Background(
-        child: Column(
-          children: [
-            SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-            TransferScreenAppBar(controller: _moneyController),
-            SizedBox(height: getProportionateScreenHeight(30)),
-            BlocProvider(
-              create: (context) => ContactlistCubit(),
-              child: ContactList(contactList: contactListSample),
-            ),
-            SizedBox(height: getProportionateScreenHeight(40)),
-            VtxButton(
-              text: "Next",
-              function: () => changeScreen(context),
-            ),
-            SizedBox(
-              height: getProportionateScreenHeight(13),
-            ),
-            Text(
-              "or",
-              style: TextStyle(color: AppTheme.textColor),
-            ),
-            SizedBox(
-              height: getProportionateScreenHeight(25),
-            ),
-            NewContact(
-              function: () => {},
-            ),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+              TransferScreenAppBar(
+                functionChanged: (amount) =>
+                    context.bloc<TransferScreenCubit>().amountChanged(amount),
+              ),
+              SizedBox(height: getProportionateScreenHeight(30)),
+              ContactList(contactList: contactListSample),
+              SizedBox(height: getProportionateScreenHeight(40)),
+              BlocListener<TransferScreenCubit, TransferScreenState>(
+                listener: (context, state) {
+                  if (state is TransferScreenSelected) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ConfirmTransferScreen(),
+                      ),
+                    );
+                  }
+                },
+                child: VtxButton(
+                  text: "Next",
+                  function: () =>
+                      context.bloc<TransferScreenCubit>().proceedTransfer(),
+                ),
+              ),
+              SizedBox(
+                height: getProportionateScreenHeight(13),
+              ),
+              Text(
+                "or",
+                style: TextStyle(color: AppTheme.textColor),
+              ),
+              SizedBox(
+                height: getProportionateScreenHeight(25),
+              ),
+              NewContact(
+                function: () => {},
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -75,15 +88,6 @@ class NewContact extends StatelessWidget {
       ),
     );
   }
-}
-
-changeScreen(BuildContext context) {
-  Navigator.push(
-    context,
-    MaterialPageRoute(
-      builder: (context) => ConfirmTransferScreen(),
-    ),
-  );
 }
 
 class Background extends StatelessWidget {
