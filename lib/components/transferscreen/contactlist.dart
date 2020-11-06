@@ -3,8 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/assets/sizeconfig.dart';
-import 'package:vertexbank/cubit/cubit/contactlist_cubit.dart';
-import 'package:vertexbank/cubit/transferscreen/contactListBloc.dart';
+import 'package:vertexbank/cubit/transferscreen/transferscreen_cubit.dart';
 import 'package:vertexbank/models/Contact.dart';
 
 import '../vtxlistviewbox.dart';
@@ -23,7 +22,7 @@ class ContactList extends StatefulWidget {
 class _ContactListState extends State<ContactList> {
   @override
   Widget build(BuildContext context) {
-    context.bloc<ContactlistCubit>().setContactList(widget.contactList);
+    context.bloc<TransferScreenCubit>().setContactList(widget.contactList);
     return Container(
       padding: AppTheme.defaultHorizontalPadding,
       child: Column(
@@ -44,9 +43,9 @@ class _ContactListState extends State<ContactList> {
                 width: getProportionateScreenWidth(285),
                 height: getProportionateScreenHeight(140),
                 listViewBuilder:
-                    BlocBuilder<ContactlistCubit, ContactlistState>(
+                    BlocBuilder<TransferScreenCubit, TransferScreenState>(
                   builder: (context, state) {
-                    if (state is ContactlistInitial) {
+                    if (state is TransferScreenInitial) {
                       return ListView.builder(
                         padding: EdgeInsets.only(
                           top: getProportionateScreenHeight(16),
@@ -55,7 +54,7 @@ class _ContactListState extends State<ContactList> {
                         itemBuilder: (BuildContext context, int i) {
                           return GestureDetector(
                             onTap: () => context
-                                .bloc<ContactlistCubit>()
+                                .bloc<TransferScreenCubit>()
                                 .selectContact(i),
                             child: state.contactList[i],
                           );
@@ -131,7 +130,7 @@ class _ContactListItemState extends State<ContactListItem> {
             ),
           ),
           SizedBox(width: getProportionateScreenWidth(6)),
-          BlocBuilder<ContactlistCubit, ContactlistState>(
+          BlocBuilder<TransferScreenCubit, TransferScreenState>(
             builder: (context, state) {
               widget.isSelected
                   ? widget.color = AppTheme.buttonColorGreen
