@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:meta/meta.dart';
 
@@ -9,6 +10,7 @@ class AuthApi {
   }) : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
+  final FirebaseFirestore _db = FirebaseFirestore.instance;
 
   /// Stream of [User] which will emit the current user when
   /// the authentication state changes.
@@ -17,9 +19,10 @@ class AuthApi {
   Stream<User> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final User modelUser = User(
-          id: firebaseUser.uid,
-          email: firebaseUser.email,
-          name: firebaseUser.displayName);
+        id: firebaseUser.uid,
+        email: firebaseUser.email,
+        name: firebaseUser.displayName,
+      );
 
       return firebaseUser == null ? User.empty : modelUser;
     });
@@ -29,19 +32,25 @@ class AuthApi {
   ///
   /// Throws a [SignUpFailure] if an exception occurs.
   Future<void> signUp({
-    @required String email,
+    @required User user,
     @required String password,
   }) async {
-    assert(email != null && password != null);
+    assert(user.email != null && password != null);
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
-        email: email,
+        email: user.email,
         password: password,
       );
-    } on Exception {
-      //throw SignUpFailure();
-      //NOTE(Geraldo): Lidar com erros, não sei se usar uma classe pra isso é a
-      //               melhor maneira
+
+      await _db.collection('users').doc(_firebaseAuth.currentUser.uid).set({
+        'displayName': _firebaseAuth.currentUser.displayName,
+        'email': user.email,
+        'name': user.name,
+        'lastName': user.lastName,
+        'birth': user.birth,
+      });
+    } catch (e) {
+      throw (e);
     }
   }
 

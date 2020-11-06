@@ -9,7 +9,11 @@ import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/assets/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/transferscreen/transferscreen_cubit.dart';
+import 'package:vertexbank/cubit/signup/signup_cubit.dart';
 import 'package:vertexbank/screens/login.dart';
+import 'package:vertexbank/screens/main_screen.dart';
+import 'package:vertexbank/screens/signup/signup.dart';
+import 'package:vertexbank/screens/signup/signup_finish.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,16 +36,15 @@ void main() async {
 }
 
 class App extends StatelessWidget {
-  const App({
+  App({
     Key key,
     @required this.authApi,
   })  : assert(authApi != null),
+        signupCubit = SignupCubit(authApi: authApi),
         super(key: key);
 
   final AuthApi authApi;
-
-  // Create the initilization Future outside of `build`:
-  //final Future<FirebaseApp> _initialization = Firebase.initializeApp();
+  final SignupCubit signupCubit;
 
   // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
   //                deu certo no main, ainda não sei.
@@ -64,7 +67,19 @@ class App extends StatelessWidget {
             fontFamily: 'Roboto',
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: LoginScreen(),
+          initialRoute: '/login',
+          routes: {
+            '/': (context) => MainScreen(),
+            '/login': (context) => LoginScreen(),
+            '/signup': (context) => BlocProvider.value(
+                  value: signupCubit,
+                  child: SignUpScreen(),
+                ),
+            '/signup/finish': (context) => BlocProvider.value(
+                  value: signupCubit,
+                  child: SignUpFinishScreen(),
+                ),
+          },
         ),
       ),
     );
