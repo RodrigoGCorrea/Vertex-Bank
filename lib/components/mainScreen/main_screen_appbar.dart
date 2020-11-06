@@ -33,7 +33,7 @@ class MainScreenAppBar extends StatelessWidget {
               Text(
                 "Jorge Dorival",
                 style: TextStyle(
-                  fontSize: 36,
+                  fontSize: getProportionateScreenWidth(36),
                   fontWeight: FontWeight.bold,
                   color: AppTheme.textColor,
                 ),
