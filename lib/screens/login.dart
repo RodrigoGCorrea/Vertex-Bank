@@ -8,8 +8,6 @@ import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/screens/main_screen.dart';
-import 'package:vertexbank/screens/signup/signup.dart';
 
 class LoginScreen extends StatelessWidget {
   final _emailController = TextEditingController();
