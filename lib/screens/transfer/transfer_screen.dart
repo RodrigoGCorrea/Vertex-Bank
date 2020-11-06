@@ -8,7 +8,6 @@ import 'package:vertexbank/components/transferscreen/transfer_screen_appbar.dart
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/models/contact.dart';
-import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
 
 class TransferScreen extends StatelessWidget {
   const TransferScreen({Key key}) : super(key: key);
