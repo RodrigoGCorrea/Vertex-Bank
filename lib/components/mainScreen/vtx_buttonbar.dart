@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vertexbank/assets/apptheme.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
-import 'package:vertexbank/screens/transferscreen.dart';
+import 'package:vertexbank/config/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/screens/transfer/transfer_screen.dart';
 
 class VtxButtonBar extends StatelessWidget {
   @override

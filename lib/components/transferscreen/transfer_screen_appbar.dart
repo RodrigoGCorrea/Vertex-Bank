@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
-import 'package:vertexbank/assets/apptheme.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/config/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
 
 class TransferScreenAppBar extends StatelessWidget {
   final Function functionChanged;

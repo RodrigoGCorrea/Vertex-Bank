@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../../assets/apptheme.dart';
-import '../../assets/sizeconfig.dart';
+import 'package:vertexbank/config/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
 
 class VtxTextBox extends StatelessWidget {
   final String text;

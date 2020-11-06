@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:vertexbank/assets/apptheme.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/config/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/models/transaction.dart';
 
-import '../vtxlistviewbox.dart';
+import 'package:vertexbank/components/vtx_listviewbox.dart';
 
 class TransactionList extends StatefulWidget {
   final List<Widget> list;

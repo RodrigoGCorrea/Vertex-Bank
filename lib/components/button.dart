@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
-import 'package:vertexbank/assets/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/config/apptheme.dart';
 
 class VtxButton extends StatelessWidget {
   final String text;

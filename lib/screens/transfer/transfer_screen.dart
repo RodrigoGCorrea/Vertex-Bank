@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:vertexbank/assets/apptheme.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/config/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/transferscreen/contactlist.dart';
-import 'package:vertexbank/components/transferscreen/transferscreenappbar.dart';
+import 'package:vertexbank/components/transferscreen/transfer_screen_appbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
-import 'package:vertexbank/cubit/transferscreen/transferscreen_cubit.dart';
-import 'package:vertexbank/models/Contact.dart';
-import 'package:vertexbank/screens/confirmtransfer.dart';
+import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
+import 'package:vertexbank/models/contact.dart';
+import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
 
 class TransferScreen extends StatelessWidget {
   const TransferScreen({Key key}) : super(key: key);

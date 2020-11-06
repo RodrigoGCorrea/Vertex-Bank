@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/config/size_config.dart';
 
 class AppTheme {
   AppTheme._();

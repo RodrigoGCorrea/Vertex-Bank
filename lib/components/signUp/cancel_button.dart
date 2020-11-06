@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vertexbank/assets/apptheme.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
-import 'package:vertexbank/screens/login.dart';
+import 'package:vertexbank/config/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
 
 class CancelButton extends StatelessWidget {
   const CancelButton({

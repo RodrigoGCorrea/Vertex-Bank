@@ -2,12 +2,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:vertexbank/assets/apptheme.dart';
-import 'package:vertexbank/assets/sizeconfig.dart';
+import 'package:vertexbank/config/apptheme.dart';
+import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
-import 'package:vertexbank/components/vtxlistviewbox.dart';
-import 'package:vertexbank/cubit/transferscreen/transferscreen_cubit.dart';
+import 'package:vertexbank/components/vtx_listviewbox.dart';
+import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/models/transaction.dart';
 
 class ConfirmTransferScreen extends StatelessWidget {
@@ -76,6 +76,8 @@ class ConfirmTransferAppbar extends StatelessWidget {
                 builder: (context, state) {
                   if (state is TransferScreenSelected)
                     return TransferItem(transaction: state.transaction);
+                  else
+                    return Scaffold(body: Text("Error on passing contact"));
                 },
               ),
             ),

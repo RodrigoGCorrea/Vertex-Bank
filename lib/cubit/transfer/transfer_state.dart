@@ -1,4 +1,4 @@
-part of 'transferscreen_cubit.dart';
+part of 'transfer_cubit.dart';
 
 abstract class TransferScreenState extends Equatable {
   const TransferScreenState();
@@ -12,10 +12,10 @@ class TransferScreenInitial extends TransferScreenState {
   final int indexContactListSelected;
   final String amount;
 
-  TransferScreenInitial({
-    this.amount,
-    this.contactList,
-    this.indexContactListSelected,
+  const TransferScreenInitial({
+    @required this.amount,
+    @required this.contactList,
+    @required this.indexContactListSelected,
   }) : super();
 
   TransferScreenInitial copyWith({

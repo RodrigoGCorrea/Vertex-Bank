@@ -6,9 +6,9 @@ import 'package:meta/meta.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:vertexbank/api/auth.dart';
-import 'package:vertexbank/assets/apptheme.dart';
+import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/transferscreen/transferscreen_cubit.dart';
+import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/cubit/signup/signup_cubit.dart';
 import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/screens/main_screen.dart';

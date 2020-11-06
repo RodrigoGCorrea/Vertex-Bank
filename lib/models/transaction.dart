@@ -5,7 +5,7 @@ class Transaction {
   final String amount;
   final DateTime date;
 
-  Transaction({
+  const Transaction({
     this.id,
     this.name,
     this.amount,
