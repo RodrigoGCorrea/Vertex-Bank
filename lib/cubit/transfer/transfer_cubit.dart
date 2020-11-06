@@ -2,7 +2,6 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
-import 'package:vertexbank/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/models/contact.dart';
 import 'package:vertexbank/models/transaction.dart';
 
@@ -12,45 +11,34 @@ class TransferCubit extends Cubit<TransferScreenState> {
   TransferCubit()
       : super(TransferScreenInitial(
           contactList: [],
-          indexContactListSelected: null,
+          indexContactListSelected: -1,
           amount: '0',
         ));
 
   void selectContact(int index) {
     final lstate = state as TransferScreenInitial;
 
-    List<ContactListItem> listState = lstate.contactList;
-    int lastIndex = lstate.indexContactListSelected;
-    listState[index].isSelected = !listState[index].isSelected;
-
-    if (lastIndex != null) {
-      listState[lastIndex].isSelected = false;
-    }
-
-    if (lastIndex == index)
-      lastIndex = null;
-    else
-      lastIndex = index;
+    final int lastIndex = lstate.indexContactListSelected;
+    final currentIndex = lastIndex == index ? -1 : index;
 
     emit(lstate.copyWith(
-      contactList: listState,
-      indexContactListSelected: lastIndex,
+      indexContactListSelected: currentIndex,
     ));
   }
 
   void proceedTransfer() {
     final lstate = state as TransferScreenInitial;
 
+    //NOTE(Geraldo): Lidar com erro pra exibir pro usuario na UI dps
     if (lstate.indexContactListSelected == null) return null;
-    List<ContactListItem> listState = lstate.contactList;
-    int lastIndex = lstate.indexContactListSelected;
-    String amountState = lstate.amount;
 
-    Contact contact = listState[lastIndex].contact;
+    final int index = lstate.indexContactListSelected;
+    final Contact contact = lstate.contactList[index];
+
     Transaction transaction = Transaction(
       id: contact.userID,
       name: contact.nickname,
-      amount: amountState,
+      amount: lstate.amount,
       received: false,
       date: DateTime.now(),
     );
@@ -58,7 +46,7 @@ class TransferCubit extends Cubit<TransferScreenState> {
   }
 
   //NOTE(Geraldo): Essa função provavelmente vai sair ao integrara essa tela com firebase
-  void setContactList(List<ContactListItem> list) {
+  void setContactList(List<Contact> list) {
     final lstate = state as TransferScreenInitial;
 
     emit(lstate.copyWith(

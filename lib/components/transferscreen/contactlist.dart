@@ -8,21 +8,17 @@ import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/models/contact.dart';
 import 'package:vertexbank/components/vtx_listviewbox.dart';
 
-class ContactList extends StatefulWidget {
-  List<ContactListItem> contactList;
-  ContactList({
+class ContactList extends StatelessWidget {
+  const ContactList({
     Key key,
     this.contactList,
   }) : super(key: key);
 
-  @override
-  _ContactListState createState() => _ContactListState();
-}
+  final List<Contact> contactList;
 
-class _ContactListState extends State<ContactList> {
   @override
   Widget build(BuildContext context) {
-    context.bloc<TransferScreenCubit>().setContactList(widget.contactList);
+    context.bloc<TransferCubit>().setContactList(contactList);
     return Container(
       padding: AppTheme.defaultHorizontalPadding,
       child: Column(
@@ -43,7 +39,7 @@ class _ContactListState extends State<ContactList> {
                 width: getProportionateScreenWidth(285),
                 height: getProportionateScreenHeight(140),
                 listViewBuilder:
-                    BlocBuilder<TransferScreenCubit, TransferScreenState>(
+                    BlocBuilder<TransferCubit, TransferScreenState>(
                   builder: (context, state) {
                     if (state is TransferScreenInitial) {
                       return ListView.builder(
@@ -51,16 +47,22 @@ class _ContactListState extends State<ContactList> {
                           top: getProportionateScreenHeight(16),
                         ),
                         itemCount: state.contactList.length,
-                        itemBuilder: (BuildContext context, int i) {
+                        itemBuilder: (context, index) {
                           return GestureDetector(
-                            onTap: () => context
-                                .bloc<TransferScreenCubit>()
-                                .selectContact(i),
-                            child: state.contactList[i],
-                          );
+                              onTap: () => context
+                                  .bloc<TransferCubit>()
+                                  .selectContact(index),
+                              child: ContactListItem(
+                                contact: state.contactList[index],
+                                isSelected:
+                                    state.indexContactListSelected == index
+                                        ? true
+                                        : false,
+                              ));
                         },
                       );
                     }
+                    //NOTE(Geraldo): Lidar com erro vindo do Cubit
                     return Text("Error");
                   },
                 ),
@@ -97,24 +99,19 @@ class _ContactListState extends State<ContactList> {
   }
 }
 
-class ContactListItem extends StatefulWidget {
-  final Contact contact;
-  bool isSelected;
-  Color color;
-
+class ContactListItem extends StatelessWidget {
   ContactListItem({
+    @required this.contact,
+    @required this.isSelected,
     Key key,
-    this.contact,
-  }) : super(key: key) {
-    if (isSelected == null) isSelected = false;
-    if (color == null) color = AppTheme.textColor;
-  }
+  })  : this.color =
+            isSelected ? AppTheme.buttonColorGreen : AppTheme.textColor,
+        super(key: key);
 
-  @override
-  _ContactListItemState createState() => _ContactListItemState();
-}
+  final Contact contact;
+  final bool isSelected;
+  final Color color;
 
-class _ContactListItemState extends State<ContactListItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -130,21 +127,14 @@ class _ContactListItemState extends State<ContactListItem> {
             ),
           ),
           SizedBox(width: getProportionateScreenWidth(6)),
-          BlocBuilder<TransferScreenCubit, TransferScreenState>(
-            builder: (context, state) {
-              widget.isSelected
-                  ? widget.color = AppTheme.buttonColorGreen
-                  : widget.color = AppTheme.textColor;
-              return Text(
-                "${widget.contact.nickname}",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(14),
-                  color: widget.color,
-                  fontWeight: FontWeight.w100,
-                ),
-              );
-            },
-          )
+          Text(
+            "${contact.nickname}",
+            style: TextStyle(
+              fontSize: getProportionateScreenWidth(14),
+              color: color,
+              fontWeight: FontWeight.w100,
+            ),
+          ),
         ],
       ),
     );

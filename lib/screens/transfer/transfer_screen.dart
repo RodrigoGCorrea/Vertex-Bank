@@ -114,26 +114,12 @@ class Background extends StatelessWidget {
   }
 }
 
-List<ContactListItem> contactListSample = [
-  ContactListItem(
-    contact: Contact("FDP Corp."),
-  ),
-  ContactListItem(
-    contact: Contact("Marcelin Marreta"),
-  ),
-  ContactListItem(
-    contact: Contact("Jaqueline Lasquera"),
-  ),
-  ContactListItem(
-    contact: Contact("Edivaldo Jr."),
-  ),
-  ContactListItem(
-    contact: Contact("Marcelin Marreta"),
-  ),
-  ContactListItem(
-    contact: Contact("FDP Corp."),
-  ),
-  ContactListItem(
-    contact: Contact("Edivaldo Jr."),
-  ),
+List<Contact> contactListSample = [
+  Contact("FDP Corp."),
+  Contact("Marcelin Marreta"),
+  Contact("Jaqueline Lasquera"),
+  Contact("Edivaldo Jr."),
+  Contact("Marcelin Marreta"),
+  Contact("FDP Corp."),
+  Contact("Edivaldo Jr."),
 ];

@@ -8,7 +8,7 @@ abstract class TransferScreenState extends Equatable {
 }
 
 class TransferScreenInitial extends TransferScreenState {
-  final List<ContactListItem> contactList;
+  final List<Contact> contactList;
   final int indexContactListSelected;
   final String amount;
 
@@ -19,7 +19,7 @@ class TransferScreenInitial extends TransferScreenState {
   }) : super();
 
   TransferScreenInitial copyWith({
-    List<ContactListItem> contactList,
+    List<Contact> contactList,
     int indexContactListSelected,
     String amount,
   }) {
