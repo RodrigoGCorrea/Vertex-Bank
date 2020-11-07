@@ -64,27 +64,68 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildEmailInput(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: VtxTextBox(
-        text: "Email",
-        onChangedFunction: (email) =>
-            context.bloc<LoginCubit>().emailChanged(email),
-      ),
+    return BlocBuilder<LoginCubit, LoginState>(
+      buildWhen: (previous, current) {
+        final lprevious = previous as LoginInital;
+        final lcurrent = current as LoginInital;
+
+        return lprevious.email.value != lcurrent.email.value ||
+            lprevious.wasSent != lcurrent.wasSent;
+      },
+      builder: (context, state) {
+        if (state is LoginInital) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(52)),
+            child: VtxTextBox(
+              text: "Email",
+              onChangedFunction: (email) =>
+                  context.bloc<LoginCubit>().emailChanged(email),
+              errorText: !state.email.isValid && state.wasSent
+                  ? state.email.errorText
+                  : null,
+            ),
+          );
+        } else
+          //NOTE(Geraldo): Não sei o que botar caso o state não seja Inital,
+          //               eu acho que não tem problema pq o state nunca muda
+          //               pra outro tipo de valor.
+          return null;
+      },
     );
   }
 
   Widget _buildPasswordInput(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: VtxTextBox(
-        obscureText: true,
-        text: "Password",
-        onChangedFunction: (password) =>
-            context.bloc<LoginCubit>().emailChanged(password),
-      ),
+    return BlocBuilder<LoginCubit, LoginState>(
+      buildWhen: (previous, current) {
+        final lprevious = previous as LoginInital;
+        final lcurrent = current as LoginInital;
+
+        return (lprevious.password.value != lcurrent.password.value) ||
+            lprevious.wasSent != lcurrent.wasSent;
+      },
+      builder: (context, state) {
+        if (state is LoginInital) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(52)),
+            child: VtxTextBox(
+              obscureText: true,
+              text: "Password",
+              onChangedFunction: (password) =>
+                  context.bloc<LoginCubit>().passwordChanged(password),
+              errorText: !state.password.isValid && state.wasSent
+                  ? state.password.errorText
+                  : null,
+            ),
+          );
+        } else {
+          //NOTE(Geraldo): Não sei o que botar caso o state não seja Inital,
+          //               eu acho que não tem problema pq o state nunca muda
+          //               pra outro tipo de valor.
+          return null;
+        }
+      },
     );
   }
 
@@ -100,7 +141,7 @@ class LoginScreen extends StatelessWidget {
         function: () async {
           try {
             await context.bloc<LoginCubit>().finishLogin();
-            context.bloc<AuthCubit>().loginWasSuccessful();
+            //context.bloc<AuthCubit>().loginWasSuccessful();
           } catch (e) {
             print("Me conserta!! Tela de login, erro no botão de login!");
             print(e);
