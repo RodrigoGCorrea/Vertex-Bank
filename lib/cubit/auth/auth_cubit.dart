@@ -17,6 +17,18 @@ class AuthCubit extends Cubit<AuthState> {
 
   final AuthApi _authApi;
 
+  Future<void> signUp(User user, String password) async {
+    try {
+      await _authApi.signUp(
+        user: user,
+        password: password,
+      );
+      emit(AuthenticatedState(user: _authApi.user));
+    } on Failure catch (e) {
+      emit(ErrorState(e));
+    }
+  }
+
   Future<void> logIn(String email, String password) async {
     try {
       await _authApi.logInWithEmailAndPassword(
