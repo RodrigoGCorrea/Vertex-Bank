@@ -9,13 +9,13 @@ class LoginInital extends LoginState {
     @required this.wasSent,
   });
 
-  final String email;
-  final String password;
+  final Email email;
+  final Password password;
   final bool wasSent;
 
   LoginInital copyWith({
-    String email,
-    String password,
+    Email email,
+    Password password,
     bool wasSent,
   }) {
     return LoginInital(
