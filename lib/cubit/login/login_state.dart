@@ -1,9 +1,11 @@
 part of 'login_cubit.dart';
 
-abstract class LoginState extends Equatable {}
+abstract class LoginState extends Equatable {
+  const LoginState();
+}
 
 class LoginInital extends LoginState {
-  LoginInital({
+  const LoginInital({
     @required this.email,
     @required this.password,
     @required this.wasSent,

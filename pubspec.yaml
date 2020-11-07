@@ -32,8 +32,8 @@ dependencies:
   intl: ^0.16.1
   flutter_masked_text: ^0.8.0
 
-  bloc: ^6.0.1
-  flutter_bloc: ^6.0.1
+  bloc: ^6.1.0
+  flutter_bloc: ^6.1.0
   equatable: ^1.2.3
 
   # The following adds the Cupertino Icons font to your application.
