@@ -8,14 +8,17 @@ abstract class AuthState extends Equatable {
 }
 
 class ErrorState extends AuthState {
+  const ErrorState(
+    this.error,
+  );
+
+  final Failure error;
+
   @override
-  List<Object> get props => [];
+  List<Object> get props => [error];
 }
 
-class UnauthenticatedState extends AuthState {
-  @override
-  List<Object> get props => [];
-}
+class UnauthenticatedState extends AuthState {}
 
 class AuthenticatedState extends AuthState {
   const AuthenticatedState({
