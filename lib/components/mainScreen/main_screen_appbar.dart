@@ -39,7 +39,7 @@ class MainScreenAppBar extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () => signOut(context),
+                onPressed: () => context.read<AuthCubit>().signOut(),
                 icon: SvgPicture.asset(
                   "assets/icons/cog-solid.svg",
                   color: AppTheme.textColor,
@@ -50,10 +50,5 @@ class MainScreenAppBar extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void signOut(BuildContext context) {
-    final authCubit = context.bloc<AuthCubit>();
-    authCubit.signOut();
   }
 }
