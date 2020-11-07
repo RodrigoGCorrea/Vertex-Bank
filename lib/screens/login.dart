@@ -9,6 +9,7 @@ import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/login/login_cubit.dart';
+import 'package:vertexbank/models/failure.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -134,19 +135,17 @@ class LoginScreen extends StatelessWidget {
       listener: (context, state) {
         if (state is AuthenticatedState) {
           Navigator.of(context).pushNamed('/');
+        } else if (state is ErrorState) {
+          Scaffold.of(context).showSnackBar(
+            SnackBar(
+              content: Text(state.error.message),
+            ),
+          );
         }
       },
       child: VtxButton(
         text: "Login",
-        function: () async {
-          try {
-            await context.bloc<LoginCubit>().finishLogin();
-            //context.bloc<AuthCubit>().loginWasSuccessful();
-          } catch (e) {
-            print("Me conserta!! Tela de login, erro no botão de login!");
-            print(e);
-          }
-        },
+        function: () => context.bloc<LoginCubit>().finishLogin(),
       ),
     );
   }
