@@ -6,7 +6,8 @@ import 'package:vertexbank/config/size_config.dart';
 
 class TransferScreenAppBar extends StatelessWidget {
   final Function functionChanged;
-  MoneyMaskedTextController _moneyController = MoneyMaskedTextController();
+  final MoneyMaskedTextController _moneyController =
+      MoneyMaskedTextController();
 
   TransferScreenAppBar({
     Key key,

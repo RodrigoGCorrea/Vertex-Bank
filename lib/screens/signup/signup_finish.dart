@@ -182,7 +182,10 @@ class _Background extends StatelessWidget {
 class _BasicDateField extends StatelessWidget {
   final TextEditingController controller;
 
-  const _BasicDateField({Key key, @required this.controller}) : super(key: key);
+  const _BasicDateField({
+    Key key,
+    @required this.controller,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
