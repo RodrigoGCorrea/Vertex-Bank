@@ -18,7 +18,7 @@ class ContactList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.bloc<TransferCubit>().setContactList(contactList);
+    context.read<TransferCubit>().setContactList(contactList);
     return Container(
       padding: AppTheme.defaultHorizontalPadding,
       child: Column(
@@ -50,7 +50,7 @@ class ContactList extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                               onTap: () => context
-                                  .bloc<TransferCubit>()
+                                  .read<TransferCubit>()
                                   .selectContact(index),
                               child: ContactListItem(
                                 contact: state.contactList[index],

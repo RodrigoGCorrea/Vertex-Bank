@@ -22,7 +22,7 @@ class TransferScreen extends StatelessWidget {
               SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
               TransferScreenAppBar(
                 functionChanged: (amount) =>
-                    context.bloc<TransferCubit>().amountChanged(amount),
+                    context.read<TransferCubit>().amountChanged(amount),
               ),
               SizedBox(height: getProportionateScreenHeight(30)),
               ContactList(contactList: contactListSample),
@@ -36,7 +36,7 @@ class TransferScreen extends StatelessWidget {
                 child: VtxButton(
                   text: "Next",
                   function: () =>
-                      context.bloc<TransferCubit>().proceedTransfer(),
+                      context.read<TransferCubit>().proceedTransfer(),
                 ),
               ),
               SizedBox(

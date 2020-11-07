@@ -9,7 +9,6 @@ import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/login/login_cubit.dart';
-import 'package:vertexbank/models/failure.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -81,7 +80,7 @@ class LoginScreen extends StatelessWidget {
             child: VtxTextBox(
               text: "Email",
               onChangedFunction: (email) =>
-                  context.bloc<LoginCubit>().emailChanged(email),
+                  context.read<LoginCubit>().emailChanged(email),
               errorText: !state.email.isValid && state.wasSent
                   ? state.email.errorText
                   : null,
@@ -114,7 +113,7 @@ class LoginScreen extends StatelessWidget {
               obscureText: true,
               text: "Password",
               onChangedFunction: (password) =>
-                  context.bloc<LoginCubit>().passwordChanged(password),
+                  context.read<LoginCubit>().passwordChanged(password),
               errorText: !state.password.isValid && state.wasSent
                   ? state.password.errorText
                   : null,
@@ -145,7 +144,7 @@ class LoginScreen extends StatelessWidget {
       },
       child: VtxButton(
         text: "Login",
-        function: () => context.bloc<LoginCubit>().finishLogin(),
+        function: () => context.read<LoginCubit>().finishLogin(),
       ),
     );
   }
