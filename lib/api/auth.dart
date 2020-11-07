@@ -44,7 +44,6 @@ class AuthApi {
       );
 
       await _db.collection('users').doc(_firebaseAuth.currentUser.uid).set({
-        'displayName': _firebaseAuth.currentUser.displayName,
         'email': user.email,
         'name': user.name,
         'lastName': user.lastName,
