@@ -8,6 +8,7 @@ class VtxTextBox extends StatelessWidget {
   final bool obscureText;
   final Function onChangedFunction;
   final TextEditingController controller;
+  final String errorText;
 
   static double radius = 15;
 
@@ -17,6 +18,7 @@ class VtxTextBox extends StatelessWidget {
     @required this.text,
     this.controller,
     this.onChangedFunction,
+    this.errorText,
   }) : super(key: key);
 
   @override
@@ -29,11 +31,11 @@ class VtxTextBox extends StatelessWidget {
         color: AppTheme.textColor,
       ),
       obscureText: obscureText,
-      decoration: buildInputDecoration(),
+      decoration: _buildInputDecoration(),
     );
   }
 
-  InputDecoration buildInputDecoration() {
+  InputDecoration _buildInputDecoration() {
     return InputDecoration(
       contentPadding: EdgeInsets.symmetric(
         horizontal: getProportionateScreenWidth(18),
@@ -54,6 +56,7 @@ class VtxTextBox extends StatelessWidget {
       labelStyle: TextStyle(
         color: AppTheme.textColor,
       ),
+      errorText: errorText,
     );
   }
 }
