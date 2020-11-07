@@ -33,26 +33,33 @@ void main() async {
 
   await Firebase.initializeApp();
 
+  final authApi = AuthApi();
+  final AuthCubit authCubit = AuthCubit(authApi: authApi);
+  final LoginCubit loginCubit = LoginCubit(authCubit: authCubit);
+  final SignupCubit signupCubit = SignupCubit(authApi: authApi);
+  final TransferCubit transferCubit = TransferCubit();
+
   runApp(App(
-    authApi: AuthApi(),
+    authCubit,
+    loginCubit,
+    signupCubit,
+    transferCubit,
   ));
 }
 
 class App extends StatelessWidget {
-  App({
+  const App(
+    this.authCubit,
+    this.loginCubit,
+    this.signupCubit,
+    this.transferCubit, {
     Key key,
-    @required authApi,
-  })  : assert(authApi != null),
-        signupCubit = SignupCubit(authApi: authApi),
-        loginCubit = LoginCubit(authApi: authApi),
-        authCubit = AuthCubit(authApi: authApi),
-        transferCubit = TransferCubit(),
-        super(key: key);
+  }) : super(key: key);
 
   final AuthCubit authCubit;
+  final LoginCubit loginCubit;
   final SignupCubit signupCubit;
   final TransferCubit transferCubit;
-  final LoginCubit loginCubit;
 
   // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
   //                deu certo no main, ainda não sei.
