@@ -111,7 +111,7 @@ class LoginScreen extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthenticatedState) {
-          Navigator.of(context).pushNamed('/');
+          Navigator.of(context).pushNamed('/main');
         } else if (state is ErrorState) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
