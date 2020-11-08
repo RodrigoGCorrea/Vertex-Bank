@@ -13,15 +13,12 @@ class AuthApi {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  /// Stream of [User] which will emit the current user when
-  /// the authentication state changes.
-  ///
-  /// Emits [User.empty] if the user is not authenticated.
   Stream<User> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final User modelUser = User(
         id: firebaseUser.uid,
         email: firebaseUser.email,
+        money: 0,
         name: "",
         birth: "",
         lastName: "",
@@ -31,9 +28,6 @@ class AuthApi {
     });
   }
 
-  /// Creates a new user with the provided [email] and [password].
-  ///
-  /// Throws a [SignUpFailure] if an exception occurs.
   Future<void> signUp({
     @required User user,
     @required String password,
@@ -49,19 +43,19 @@ class AuthApi {
         'email': user.email,
         'name': user.name,
         'lastName': user.lastName,
+        'money': user.money,
         'birth': user.birth,
       });
     } on firebase_auth.FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use')
         throw Failure("Email already in use!");
+      else if (e.code == 'invalid-email')
+        throw Failure("Invalid email!");
       else
         throw Failure("Server error!");
     }
   }
 
-  /// Signs in with the provided [email] and [password].
-  ///
-  /// Throws a [LogInWithEmailAndPasswordFailure] if an exception occurs.
   Future<void> logInWithEmailAndPassword({
     @required String email,
     @required String password,
@@ -80,10 +74,6 @@ class AuthApi {
     }
   }
 
-  /// Signs out the current user which will emit
-  /// [User.empty] from the [user] Stream.
-  ///
-  /// Throws a [LogOutFailure] if an exception occurs.
   Future<void> logOut() async {
     try {
       await _firebaseAuth.signOut();

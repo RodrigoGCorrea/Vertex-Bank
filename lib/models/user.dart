@@ -1,4 +1,4 @@
-import 'package:flutter/cupertino.dart';
+import 'package:meta/meta.dart';
 
 class User {
   const User({
@@ -7,6 +7,7 @@ class User {
     @required this.name,
     @required this.lastName,
     @required this.birth,
+    @required this.money,
   });
 
   final String id;
@@ -14,6 +15,7 @@ class User {
   final String name;
   final String lastName;
   final String birth;
+  final int money;
 
   User copyWith({
     String id,
@@ -21,6 +23,7 @@ class User {
     String name,
     String lastName,
     String birth,
+    int money,
   }) {
     return User(
       id: id ?? this.id,
@@ -28,6 +31,7 @@ class User {
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
       birth: birth ?? this.birth,
+      money: money ?? this.money,
     );
   }
 
@@ -37,5 +41,6 @@ class User {
     name: "",
     lastName: "",
     birth: "",
+    money: 0,
   );
 }
