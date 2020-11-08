@@ -1,47 +1,70 @@
 part of 'signup_cubit.dart';
 
-enum SignupStage { first, last }
+enum SingupSentFrom { intial, next, nextFinish, finish }
 
 abstract class SignupState extends Equatable {
   const SignupState();
-
-  @override
-  List<Object> get props => [];
 }
 
 class SignupInitial extends SignupState {
-  SignupInitial({
-    this.user,
-    this.password,
-    this.confirmPassword,
-    this.stage,
+  const SignupInitial({
+    @required this.email,
+    @required this.name,
+    @required this.lastName,
+    @required this.birth,
+    @required this.password,
+    @required this.confirmPassword,
+    @required this.wasSent,
   }) : super();
 
-  final User user;
-  final String password;
-  final String confirmPassword;
-  final SignupState stage;
+  final Email email;
+  final Name name;
+  final Name lastName;
+  final DateTime birth;
+  final Password password;
+  final Password confirmPassword;
+  final SingupSentFrom wasSent;
+
+  static final SignupInitial empty = SignupInitial(
+    email: Email(""),
+    name: Name(""),
+    lastName: Name(""),
+    birth: null,
+    password: Password(""),
+    confirmPassword: Password(""),
+    wasSent: SingupSentFrom.intial,
+  );
 
   SignupInitial copyWith({
-    User user,
-    String password,
-    String confirmPassword,
-    SignupStage stage,
+    Email email,
+    Name name,
+    Name lastName,
+    DateTime birth,
+    Password password,
+    Password confirmPassword,
+    SingupSentFrom wasSent,
   }) {
     return SignupInitial(
-      user: user ?? this.user,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      lastName: lastName ?? this.lastName,
+      birth: birth ?? this.birth,
       password: password ?? this.password,
-      confirmPassword: confirmPassword ?? this.password,
-      stage: stage ?? this.stage,
+      confirmPassword: confirmPassword ?? this.confirmPassword,
+      wasSent: wasSent ?? this.wasSent,
     );
   }
 
   @override
-  List<Object> get props => [
-        user,
-        password,
-        confirmPassword,
-      ];
+  List<Object> get props {
+    return [
+      email,
+      name,
+      lastName,
+      birth,
+      password,
+      confirmPassword,
+      wasSent,
+    ];
+  }
 }
-
-class SignupFinish extends SignupState {}

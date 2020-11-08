@@ -10,6 +10,7 @@ import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancel_button.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
+import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/signup/signup_cubit.dart';
 
 class SignUpFinishScreen extends StatelessWidget {
@@ -56,29 +57,56 @@ class SignUpFinishScreen extends StatelessWidget {
   }
 
   Widget _buildNameInput(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: VtxTextBox(
-        text: "Name",
-        onChangedFunction: (name) =>
-            context.bloc<SignupCubit>().nameChanged(name),
-      ),
+    return BlocBuilder<SignupCubit, SignupState>(
+      builder: (context, state) {
+        if (state is SignupInitial) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(52)),
+            child: VtxTextBox(
+              text: "Name",
+              onChangedFunction: (name) =>
+                  context.read<SignupCubit>().nameChanged(name),
+              errorText: !state.name.isValid &&
+                      state.wasSent != SingupSentFrom.nextFinish
+                  ? state.name.errorText
+                  : null,
+            ),
+          );
+        }
+        // NOTE(Geraldo): não sei o que retornar aqui, mas a principio não é pra
+        //                chegar nesse caso
+        return null;
+      },
     );
   }
 
   Widget _buildLastNameInput(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: VtxTextBox(
-        text: "Last name",
-        onChangedFunction: (lastName) =>
-            context.bloc<SignupCubit>().lastNameChanged(lastName),
-      ),
+    return BlocBuilder<SignupCubit, SignupState>(
+      builder: (context, state) {
+        if (state is SignupInitial) {
+          return Padding(
+            padding: EdgeInsets.symmetric(
+                horizontal: getProportionateScreenWidth(52)),
+            child: VtxTextBox(
+              text: "Last name",
+              onChangedFunction: (lastName) =>
+                  context.read<SignupCubit>().lastNameChanged(lastName),
+              errorText: !state.lastName.isValid &&
+                      state.wasSent != SingupSentFrom.nextFinish
+                  ? state.lastName.errorText
+                  : null,
+            ),
+          );
+        }
+        // NOTE(Geraldo): não sei o que retornar aqui, mas a principio não é pra
+        //                chegar nesse caso
+        return null;
+      },
     );
   }
 
+  //NOTE(Geraldo): Não sei usar o campo de data ali, vou ver isso dps
   Widget _buildBirthInput(BuildContext context) {
     return Padding(
       padding:
@@ -86,7 +114,7 @@ class SignUpFinishScreen extends StatelessWidget {
       child: VtxTextBox(
         text: "Birthday",
         onChangedFunction: (birth) =>
-            context.bloc<SignupCubit>().birthChanged(birth),
+            context.read<SignupCubit>().birthChanged(birth),
       ),
     );
   }
@@ -121,9 +149,22 @@ class SignUpFinishScreen extends StatelessWidget {
 }
 
 Widget _buildFinishButton(BuildContext context) {
-  return VtxButton(
-    text: "Finish",
-    function: () => context.bloc<SignupCubit>().finishSignUp(),
+  return BlocListener<AuthCubit, AuthState>(
+    listener: (context, state) {
+      if (state is AuthenticatedState) {
+        Navigator.of(context).pushNamed('/');
+      } else if (state is ErrorState) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            content: Text(state.error.message),
+          ),
+        );
+      }
+    },
+    child: VtxButton(
+      text: "Finish",
+      function: () => context.read<SignupCubit>().finishSignUp(),
+    ),
   );
 }
 
