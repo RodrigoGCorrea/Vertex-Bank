@@ -25,7 +25,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
       emit(AuthenticatedState(user: _authApi.user));
     } on Failure catch (e) {
-      emit(ErrorState(e));
+      emit(ErrorState(error: e));
     }
   }
 
@@ -37,7 +37,7 @@ class AuthCubit extends Cubit<AuthState> {
       );
       emit(AuthenticatedState(user: _authApi.user));
     } on Failure catch (e) {
-      emit(ErrorState(e));
+      emit(ErrorState(error: e));
     }
   }
 
@@ -46,7 +46,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _authApi.logOut();
       emit(UnauthenticatedState());
     } on Failure catch (e) {
-      emit(ErrorState(e));
+      emit(ErrorState(error: e));
     }
   }
 }
