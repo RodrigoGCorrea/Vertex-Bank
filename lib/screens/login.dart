@@ -66,31 +66,22 @@ class LoginScreen extends StatelessWidget {
   Widget _buildEmailInput(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) {
-        final lprevious = previous as LoginInital;
-        final lcurrent = current as LoginInital;
-
-        return lprevious.email.value != lcurrent.email.value ||
-            lprevious.wasSent != lcurrent.wasSent;
+        return previous.email.value != current.email.value &&
+            previous.stage != current.stage;
       },
       builder: (context, state) {
-        if (state is LoginInital) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(52)),
-            child: VtxTextBox(
-              text: "Email",
-              onChangedFunction: (email) =>
-                  context.read<LoginCubit>().emailChanged(email),
-              errorText: !state.email.isValid && state.wasSent
-                  ? state.email.errorText
-                  : null,
-            ),
-          );
-        } else
-          //NOTE(Geraldo): Não sei o que botar caso o state não seja Inital,
-          //               eu acho que não tem problema pq o state nunca muda
-          //               pra outro tipo de valor.
-          return null;
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: VtxTextBox(
+            text: "Email",
+            onChangedFunction: (email) =>
+                context.read<LoginCubit>().emailChanged(email),
+            errorText: !state.email.isValid && state.stage == LoginStage.sent
+                ? state.email.errorText
+                : null,
+          ),
+        );
       },
     );
   }
@@ -98,33 +89,23 @@ class LoginScreen extends StatelessWidget {
   Widget _buildPasswordInput(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
       buildWhen: (previous, current) {
-        final lprevious = previous as LoginInital;
-        final lcurrent = current as LoginInital;
-
-        return (lprevious.password.value != lcurrent.password.value) ||
-            lprevious.wasSent != lcurrent.wasSent;
+        return previous.password.value != current.password.value &&
+            previous.stage != current.stage;
       },
       builder: (context, state) {
-        if (state is LoginInital) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(52)),
-            child: VtxTextBox(
-              obscureText: true,
-              text: "Password",
-              onChangedFunction: (password) =>
-                  context.read<LoginCubit>().passwordChanged(password),
-              errorText: !state.password.isValid && state.wasSent
-                  ? state.password.errorText
-                  : null,
-            ),
-          );
-        } else {
-          //NOTE(Geraldo): Não sei o que botar caso o state não seja Inital,
-          //               eu acho que não tem problema pq o state nunca muda
-          //               pra outro tipo de valor.
-          return null;
-        }
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: VtxTextBox(
+            obscureText: true,
+            text: "Password",
+            onChangedFunction: (password) =>
+                context.read<LoginCubit>().passwordChanged(password),
+            errorText: !state.password.isValid && state.stage == LoginStage.sent
+                ? state.password.errorText
+                : null,
+          ),
+        );
       },
     );
   }

@@ -11,47 +11,39 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit({
     @required this.authCubit,
-  }) : super(LoginInital(
-          email: Email(""),
-          password: Password(""),
-          wasSent: false,
-        ));
+  }) : super(LoginState.empty);
 
   final AuthCubit authCubit;
 
   void finishLogin() {
-    final lstate = state as LoginInital;
-
-    if (lstate.email.isValid && lstate.password.isValid) {
-      authCubit.logIn(lstate.email.value, lstate.password.value);
-      emit(lstate.copyWith(wasSent: true));
+    if (state.email.isValid && state.password.isValid) {
+      authCubit.logIn(state.email.value, state.password.value);
+      emit(state.copyWith(stage: LoginStage.sent));
     } else {
       // This is to refresh the password and email input
-      emit(lstate.copyWith(wasSent: true));
-      emailChanged(lstate.email.value);
-      passwordChanged(lstate.password.value);
+      emit(state.copyWith(stage: LoginStage.sent));
+      emailChanged(state.email.value);
+      passwordChanged(state.password.value);
     }
   }
 
   void emailChanged(String email) {
-    final lstate = state as LoginInital;
     final isValid = Email.validate(email);
     final newEmail = Email(email, isValid: isValid);
 
     emit(
-      lstate.copyWith(
+      state.copyWith(
         email: newEmail,
       ),
     );
   }
 
   void passwordChanged(String password) {
-    final lstate = state as LoginInital;
     final isValid = Password.validate(password);
     final newPassword = Password(password, isValid: isValid);
 
     emit(
-      lstate.copyWith(
+      state.copyWith(
         password: newPassword,
       ),
     );

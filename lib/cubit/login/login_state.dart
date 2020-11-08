@@ -1,29 +1,33 @@
 part of 'login_cubit.dart';
 
-abstract class LoginState extends Equatable {
-  const LoginState();
-}
+enum LoginStage { waiting, sent }
 
-class LoginInital extends LoginState {
-  const LoginInital({
+class LoginState extends Equatable {
+  const LoginState({
     @required this.email,
     @required this.password,
-    @required this.wasSent,
+    @required this.stage,
   });
 
   final Email email;
   final Password password;
-  final bool wasSent;
+  final LoginStage stage;
 
-  LoginInital copyWith({
+  static final empty = LoginState(
+    email: Email(""),
+    password: Password(""),
+    stage: LoginStage.waiting,
+  );
+
+  LoginState copyWith({
     Email email,
     Password password,
-    bool wasSent,
+    LoginStage stage,
   }) {
-    return LoginInital(
+    return LoginState(
       email: email ?? this.email,
       password: password ?? this.password,
-      wasSent: wasSent ?? this.wasSent,
+      stage: stage ?? this.stage,
     );
   }
 
@@ -31,6 +35,6 @@ class LoginInital extends LoginState {
   List<Object> get props => [
         email,
         password,
-        wasSent,
+        stage,
       ];
 }
