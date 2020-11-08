@@ -2,15 +2,12 @@ part of 'auth_cubit.dart';
 
 abstract class AuthState extends Equatable {
   const AuthState();
-
-  @override
-  List<Object> get props => [];
 }
 
 class ErrorState extends AuthState {
-  const ErrorState(
-    this.error,
-  );
+  const ErrorState({
+    @required this.error,
+  });
 
   final Failure error;
 
@@ -18,13 +15,15 @@ class ErrorState extends AuthState {
   List<Object> get props => [error];
 }
 
-class UnauthenticatedState extends AuthState {}
+class UnauthenticatedState extends AuthState {
+  @override
+  List<Object> get props => [];
+}
 
 class AuthenticatedState extends AuthState {
   const AuthenticatedState({
-    Stream<User> user,
-  })  : this.user = user,
-        super();
+    @required this.user,
+  });
 
   final Stream<User> user;
 
