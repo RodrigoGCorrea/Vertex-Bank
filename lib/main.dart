@@ -72,13 +72,13 @@ class App extends StatelessWidget {
           fontFamily: 'Roboto',
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
-        initialRoute: '/login',
+        initialRoute: '/',
         routes: {
-          '/': (context) => MainScreen(),
-          '/login': (context) => BlocProvider.value(
+          '/': (context) => BlocProvider.value(
                 value: loginCubit,
                 child: LoginScreen(),
               ),
+          '/main': (context) => MainScreen(),
           '/signup': (context) => BlocProvider.value(
                 value: signupCubit,
                 child: SignUpScreen(),
