@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:meta/meta.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 
@@ -36,7 +35,7 @@ void main() async {
   final authApi = AuthApi();
   final AuthCubit authCubit = AuthCubit(authApi: authApi);
   final LoginCubit loginCubit = LoginCubit(authCubit: authCubit);
-  final SignupCubit signupCubit = SignupCubit(authApi: authApi);
+  final SignupCubit signupCubit = SignupCubit(authCubit: authCubit);
   final TransferCubit transferCubit = TransferCubit();
 
   runApp(App(

@@ -1,15 +1,15 @@
+import 'package:flutter/cupertino.dart';
+
 class User {
   const User({
-    this.id,
-    this.displayName,
-    this.email,
-    this.name,
-    this.lastName,
-    this.birth,
+    @required this.id,
+    @required this.email,
+    @required this.name,
+    @required this.lastName,
+    @required this.birth,
   });
 
   final String id;
-  final String displayName;
   final String email;
   final String name;
   final String lastName;
@@ -17,7 +17,6 @@ class User {
 
   User copyWith({
     String id,
-    String displayName,
     String email,
     String name,
     String lastName,
@@ -25,7 +24,6 @@ class User {
   }) {
     return User(
       id: id ?? this.id,
-      displayName: displayName ?? this.displayName,
       email: email ?? this.email,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
@@ -36,7 +34,6 @@ class User {
   static User empty = User(
     id: "",
     email: "",
-    displayName: "",
     name: "",
     lastName: "",
     birth: "",

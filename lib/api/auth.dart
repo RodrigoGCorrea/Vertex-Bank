@@ -22,7 +22,9 @@ class AuthApi {
       final User modelUser = User(
         id: firebaseUser.uid,
         email: firebaseUser.email,
-        name: firebaseUser.displayName,
+        name: "",
+        birth: "",
+        lastName: "",
       );
 
       return firebaseUser == null ? User.empty : modelUser;
