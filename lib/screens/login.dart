@@ -65,10 +65,8 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildEmailInput(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) {
-        return previous.email.value != current.email.value &&
-            previous.stage != current.stage;
-      },
+      buildWhen: (previous, current) =>
+          previous.email != current.email || previous.stage != current.stage,
       builder: (context, state) {
         return Padding(
           padding:
@@ -88,10 +86,9 @@ class LoginScreen extends StatelessWidget {
 
   Widget _buildPasswordInput(BuildContext context) {
     return BlocBuilder<LoginCubit, LoginState>(
-      buildWhen: (previous, current) {
-        return previous.password.value != current.password.value &&
-            previous.stage != current.stage;
-      },
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.stage != current.stage,
       builder: (context, state) {
         return Padding(
           padding:
@@ -148,7 +145,26 @@ class LoginScreen extends StatelessWidget {
 }
 
 class _Background extends StatelessWidget {
+  final Widget child;
+
   const _Background({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: VtxSizeConfig.screenWidth,
+      height: VtxSizeConfig.screenHeight,
+      color: AppTheme.appBackgroundColor,
+      child: child,
+    );
+  }
+}
+
+class _BackgroundOld extends StatelessWidget {
+  const _BackgroundOld({
     Key key,
     @required this.child,
   }) : super(key: key);
