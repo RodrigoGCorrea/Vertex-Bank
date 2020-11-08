@@ -47,112 +47,92 @@ class SignUpScreen extends StatelessWidget {
 
   Widget _buildEmailInput(BuildContext context) {
     return BlocBuilder<SignupCubit, SignupState>(
+      buildWhen: (previous, current) =>
+          previous.email != current.email || previous.stage != current.stage,
       builder: (context, state) {
-        if (state is SignupInitial) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(52)),
-            child: VtxTextBox(
-              text: "Email",
-              onChangedFunction: (email) =>
-                  context.read<SignupCubit>().emailChanged(email),
-              errorText:
-                  !state.email.isValid && state.wasSent != SingupSentFrom.intial
-                      ? state.email.errorText
-                      : null,
-            ),
-          );
-        }
-        // NOTE(Geraldo): não sei o que retornar aqui, mas a principio não é pra
-        // chegar nesse caso
-        return null;
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: VtxTextBox(
+            text: "Email",
+            onChangedFunction: (email) =>
+                context.read<SignupCubit>().emailChanged(email),
+            errorText:
+                !state.email.isValid && state.stage == SignupStage.nextFail
+                    ? state.email.errorText
+                    : null,
+          ),
+        );
       },
     );
   }
 
   Widget _buildPasswordInput(BuildContext context) {
     return BlocBuilder<SignupCubit, SignupState>(
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.stage != current.stage,
       builder: (context, state) {
-        if (state is SignupInitial) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(52)),
-            child: VtxTextBox(
-              text: "Password",
-              obscureText: true,
-              onChangedFunction: (pass) =>
-                  context.read<SignupCubit>().passwordChanged(pass),
-              errorText: !state.password.isValid &&
-                      state.wasSent != SingupSentFrom.intial
-                  ? state.password.errorText
-                  : null,
-            ),
-          );
-        }
-        // NOTE(Geraldo): não sei o que retornar aqui, mas a principio não é pra
-        // chegar nesse caso
-        return null;
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: VtxTextBox(
+            text: "Password",
+            obscureText: true,
+            onChangedFunction: (pass) =>
+                context.read<SignupCubit>().passwordChanged(pass),
+            errorText:
+                !state.password.isValid && state.stage == SignupStage.nextFail
+                    ? state.password.errorText
+                    : null,
+          ),
+        );
       },
     );
   }
 
   Widget _buildPassConfirmationInput(BuildContext context) {
     return BlocConsumer<SignupCubit, SignupState>(
-      listenWhen: (previous, current) {
-        final lprevious = previous as SignupInitial;
-        final lcurrent = current as SignupInitial;
-
-        return lprevious.password.value != lcurrent.password.value;
+      listenWhen: (previous, current) => previous.password != current.password,
+      listener: (context, state) => {
+        context
+            .read<SignupCubit>()
+            .passwordConfirmChanged(state.confirmPassword.value)
       },
-      listener: (context, state) {
-        if (state is SignupInitial) {
-          if (state.confirmPassword.value != state.password.value)
-            context
-                .read<SignupCubit>()
-                .passwordConfirmChanged(state.confirmPassword.value);
-        }
-      },
+      buildWhen: (previous, current) =>
+          previous.password != current.password ||
+          previous.confirmPassword != current.confirmPassword ||
+          previous.stage != current.stage,
       builder: (context, state) {
-        if (state is SignupInitial) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(52)),
-            child: VtxTextBox(
-              text: "Confirm Password",
-              obscureText: true,
-              onChangedFunction: (pass) =>
-                  context.read<SignupCubit>().passwordConfirmChanged(pass),
-              errorText: !state.confirmPassword.isValid &&
-                      state.wasSent != SingupSentFrom.intial
-                  ? state.confirmPassword.errorText
-                  : null,
-            ),
-          );
-        }
-        // NOTE(Geraldo): não sei o que retornar aqui, mas a principio não é pra
-        // chegar nesse caso
-        return null;
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: VtxTextBox(
+            text: "Confirm Password",
+            obscureText: true,
+            onChangedFunction: (pass) =>
+                context.read<SignupCubit>().passwordConfirmChanged(pass),
+            errorText: !state.confirmPassword.isValid &&
+                    state.stage == SignupStage.nextFail
+                ? state.confirmPassword.errorText
+                : null,
+          ),
+        );
       },
     );
   }
 
   Widget _buildNextButton(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
-      builder: (context, state) {
-        return VtxButton(
-          text: "Next",
-          function: () {
-            if (state is SignupInitial) {
-              if (state.wasSent == SingupSentFrom.intial ||
-                  state.wasSent == SingupSentFrom.next) {
-                context.read<SignupCubit>().nextStage();
-              } else {
-                Navigator.of(context).pushNamed('/signup/finish');
-              }
-            }
-          },
-        );
+    return BlocListener<SignupCubit, SignupState>(
+      listenWhen: (previous, current) => previous.stage != current.stage,
+      listener: (context, state) {
+        if (state.stage == SignupStage.nextOk)
+          Navigator.of(context).pushNamed('/signup/finish');
       },
+      child: VtxButton(
+        text: "Next",
+        function: () => context.read<SignupCubit>().goToNextScreen(),
+      ),
     );
   }
 }
@@ -161,6 +141,25 @@ class _Background extends StatelessWidget {
   final Widget child;
 
   const _Background({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: VtxSizeConfig.screenWidth,
+      height: VtxSizeConfig.screenHeight,
+      color: AppTheme.appBackgroundColor,
+      child: child,
+    );
+  }
+}
+
+class _BackgroundOld extends StatelessWidget {
+  final Widget child;
+
+  const _BackgroundOld({
     Key key,
     @required this.child,
   }) : super(key: key);

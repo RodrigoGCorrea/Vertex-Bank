@@ -58,50 +58,45 @@ class SignUpFinishScreen extends StatelessWidget {
 
   Widget _buildNameInput(BuildContext context) {
     return BlocBuilder<SignupCubit, SignupState>(
+      buildWhen: (previous, current) =>
+          previous.name != current.name || previous.stage != current.stage,
       builder: (context, state) {
-        if (state is SignupInitial) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(52)),
-            child: VtxTextBox(
-              text: "Name",
-              onChangedFunction: (name) =>
-                  context.read<SignupCubit>().nameChanged(name),
-              errorText: !state.name.isValid &&
-                      state.wasSent != SingupSentFrom.nextFinish
-                  ? state.name.errorText
-                  : null,
-            ),
-          );
-        }
-        // NOTE(Geraldo): não sei o que retornar aqui, mas a principio não é pra
-        //                chegar nesse caso
-        return null;
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: VtxTextBox(
+            text: "Name",
+            onChangedFunction: (name) =>
+                context.read<SignupCubit>().nameChanged(name),
+            errorText:
+                !state.name.isValid && state.stage == SignupStage.finishFail
+                    ? state.name.errorText
+                    : null,
+          ),
+        );
       },
     );
   }
 
   Widget _buildLastNameInput(BuildContext context) {
     return BlocBuilder<SignupCubit, SignupState>(
+      buildWhen: (previous, current) =>
+          previous.lastName != current.lastName ||
+          previous.stage != current.stage,
       builder: (context, state) {
-        if (state is SignupInitial) {
-          return Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: getProportionateScreenWidth(52)),
-            child: VtxTextBox(
-              text: "Last name",
-              onChangedFunction: (lastName) =>
-                  context.read<SignupCubit>().lastNameChanged(lastName),
-              errorText: !state.lastName.isValid &&
-                      state.wasSent != SingupSentFrom.nextFinish
-                  ? state.lastName.errorText
-                  : null,
-            ),
-          );
-        }
-        // NOTE(Geraldo): não sei o que retornar aqui, mas a principio não é pra
-        //                chegar nesse caso
-        return null;
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: VtxTextBox(
+            text: "Last name",
+            onChangedFunction: (lastName) =>
+                context.read<SignupCubit>().lastNameChanged(lastName),
+            errorText:
+                !state.lastName.isValid && state.stage == SignupStage.finishFail
+                    ? state.lastName.errorText
+                    : null,
+          ),
+        );
       },
     );
   }
@@ -152,7 +147,7 @@ Widget _buildFinishButton(BuildContext context) {
   return BlocListener<AuthCubit, AuthState>(
     listener: (context, state) {
       if (state is AuthenticatedState) {
-        Navigator.of(context).pushNamed('/');
+        Navigator.of(context).pushNamed('/main');
       } else if (state is ErrorState) {
         Scaffold.of(context).showSnackBar(
           SnackBar(
@@ -196,6 +191,25 @@ class _Background extends StatelessWidget {
   final Widget child;
 
   const _Background({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: VtxSizeConfig.screenWidth,
+      height: VtxSizeConfig.screenHeight,
+      color: AppTheme.appBackgroundColor,
+      child: child,
+    );
+  }
+}
+
+class _BackgroundOld extends StatelessWidget {
+  final Widget child;
+
+  const _BackgroundOld({
     Key key,
     @required this.child,
   }) : super(key: key);

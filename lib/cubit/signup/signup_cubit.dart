@@ -15,90 +15,85 @@ class SignupCubit extends Cubit<SignupState> {
   SignupCubit({
     @required this.authCubit,
   }) : super(
-          SignupInitial.empty,
+          SignupState.empty,
         );
 
   final AuthCubit authCubit;
 
   void finishSignUp() {
-    final lstate = state as SignupInitial;
-
-    if (lstate.email.isValid &&
-        lstate.password.isValid &&
-        lstate.confirmPassword.isValid &&
-        lstate.name.isValid &&
-        lstate.lastName.isValid &&
-        lstate.birth != null) {
+    if (state.email.isValid &&
+        state.password.isValid &&
+        state.confirmPassword.isValid &&
+        state.name.isValid &&
+        state.lastName.isValid &&
+        state.birth != null) {
       final User user = User(
-        email: lstate.email.value,
-        name: lstate.name.value,
-        lastName: lstate.lastName.value,
-        birth: lstate.birth.toString(),
+        email: state.email.value,
+        name: state.name.value,
+        lastName: state.lastName.value,
+        birth: state.birth.toString(),
+        money: 0,
         id: "",
       );
 
       authCubit.signUp(
         user,
-        lstate.confirmPassword.value,
+        state.confirmPassword.value,
       );
-      emit(lstate.copyWith(wasSent: SingupSentFrom.finish));
+      emit(state.copyWith(stage: SignupStage.finishOk));
     } else {
       // This is to refresh the inputs
-      emit(lstate.copyWith(wasSent: SingupSentFrom.finish));
-      emailChanged(lstate.email.value);
-      passwordChanged(lstate.password.value);
-      passwordConfirmChanged(lstate.confirmPassword.value);
-      nameChanged(lstate.name.value);
-      lastNameChanged(lstate.lastName.value);
+      emit(state.copyWith(stage: SignupStage.finishFail));
+      emailChanged(state.email.value);
+      passwordChanged(state.password.value);
+      passwordConfirmChanged(state.confirmPassword.value);
+      nameChanged(state.name.value);
+      lastNameChanged(state.lastName.value);
 
       //NOTE(Geraldo): lidar com o campo de idade depois
     }
   }
 
-  void nextStage() {
-    final lstate = state as SignupInitial;
-    if (lstate.email.isValid &&
-        lstate.password.isValid &&
-        lstate.confirmPassword.isValid) {
-      emit(lstate.copyWith(wasSent: SingupSentFrom.nextFinish));
+  void goToNextScreen() {
+    if (state.email.isValid &&
+        state.password.isValid &&
+        state.confirmPassword.isValid) {
+      emit(state.copyWith(stage: SignupStage.nextOk));
     } else {
-      emit(lstate.copyWith(wasSent: SingupSentFrom.next));
+      emit(state.copyWith(stage: SignupStage.nextFail));
+      // This is to refresh the inputs
+      emailChanged(state.email.value);
+      passwordChanged(state.password.value);
+      passwordConfirmChanged(state.confirmPassword.value);
     }
-    // This is to refresh the inputs
-    emailChanged(lstate.email.value);
-    passwordChanged(lstate.password.value);
-    passwordConfirmChanged(lstate.confirmPassword.value);
   }
 
   void emailChanged(String email) {
-    final lstate = state as SignupInitial;
     final isValid = Email.validate(email);
     final newEmail = Email(email, isValid: isValid);
     emit(
-      lstate.copyWith(
+      state.copyWith(
         email: newEmail,
       ),
     );
   }
 
   void passwordChanged(String password) {
-    final lstate = state as SignupInitial;
     final isValid = Password.validate(password);
     final newPassword = Password(password, isValid: isValid);
     emit(
-      lstate.copyWith(
+      state.copyWith(
         password: newPassword,
       ),
     );
   }
 
   void passwordConfirmChanged(String confPassword) {
-    final lstate = state as SignupInitial;
     bool isValid;
     String errorText;
     Password newConfPassword;
 
-    if (lstate.password.value != confPassword) {
+    if (state.password.value != confPassword) {
       isValid = false;
       errorText = Password.mustMatch;
     } else if (!Password.validate(confPassword)) {
@@ -115,41 +110,37 @@ class SignupCubit extends Cubit<SignupState> {
       errorText: errorText,
     );
     emit(
-      lstate.copyWith(
+      state.copyWith(
         confirmPassword: newConfPassword,
       ),
     );
   }
 
   void nameChanged(String name) {
-    final lstate = state as SignupInitial;
     final isValid = Name.validate(name);
     final newName = Name(name, isValid: isValid);
     emit(
-      lstate.copyWith(
+      state.copyWith(
         name: newName,
       ),
     );
   }
 
   void lastNameChanged(String lastName) {
-    final lstate = state as SignupInitial;
     final isValid = Name.validate(lastName);
     final newLastName = Name(lastName, isValid: isValid);
     emit(
-      lstate.copyWith(
+      state.copyWith(
         lastName: newLastName,
       ),
     );
   }
 
   void birthChanged(String birth) {
-    final lstate = state as SignupInitial;
-
     //NOTE(Geraldo): Não sei se o parse retorna algum tipo de erro...
     final parsedBirth = DateFormat("dd/MM/yyyy").parse(birth);
     emit(
-      lstate.copyWith(
+      state.copyWith(
         birth: parsedBirth,
       ),
     );

@@ -1,20 +1,16 @@
 part of 'signup_cubit.dart';
 
-enum SingupSentFrom { intial, next, nextFinish, finish }
+enum SignupStage { intial, nextFail, nextOk, finishFail, finishOk }
 
-abstract class SignupState extends Equatable {
-  const SignupState();
-}
-
-class SignupInitial extends SignupState {
-  const SignupInitial({
+class SignupState extends Equatable {
+  const SignupState({
     @required this.email,
     @required this.name,
     @required this.lastName,
     @required this.birth,
     @required this.password,
     @required this.confirmPassword,
-    @required this.wasSent,
+    @required this.stage,
   }) : super();
 
   final Email email;
@@ -23,35 +19,35 @@ class SignupInitial extends SignupState {
   final DateTime birth;
   final Password password;
   final Password confirmPassword;
-  final SingupSentFrom wasSent;
+  final SignupStage stage;
 
-  static final SignupInitial empty = SignupInitial(
+  static final SignupState empty = SignupState(
     email: Email(""),
     name: Name(""),
     lastName: Name(""),
     birth: null,
     password: Password(""),
     confirmPassword: Password(""),
-    wasSent: SingupSentFrom.intial,
+    stage: SignupStage.intial,
   );
 
-  SignupInitial copyWith({
+  SignupState copyWith({
     Email email,
     Name name,
     Name lastName,
     DateTime birth,
     Password password,
     Password confirmPassword,
-    SingupSentFrom wasSent,
+    SignupStage stage,
   }) {
-    return SignupInitial(
+    return SignupState(
       email: email ?? this.email,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
       birth: birth ?? this.birth,
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
-      wasSent: wasSent ?? this.wasSent,
+      stage: stage ?? this.stage,
     );
   }
 
@@ -64,7 +60,7 @@ class SignupInitial extends SignupState {
       birth,
       password,
       confirmPassword,
-      wasSent,
+      stage,
     ];
   }
 }
