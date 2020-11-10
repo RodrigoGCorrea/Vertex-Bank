@@ -5,8 +5,11 @@ import 'package:vertexbank/config/size_config.dart';
 
 class BalanceBox extends StatelessWidget {
   const BalanceBox({
+    @required this.money,
     Key key,
   }) : super(key: key);
+
+  final String money;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class BalanceBox extends StatelessWidget {
             Row(
               children: [
                 Text(
-                  "R\$",
+                  money,
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(24),
                     color: AppTheme.textColor,
