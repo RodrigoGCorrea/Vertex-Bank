@@ -36,21 +36,23 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Background(
-        child: Column(
-          children: [
-            SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-            MainScreenAppBar(
-              context: context,
-            ),
-            SizedBox(height: getProportionateScreenHeight(20)),
-            BalanceBox(),
-            SizedBox(height: getProportionateScreenHeight(18)),
-            TransactionList(
-              list: transactionList,
-            ),
-            SizedBox(height: getProportionateScreenHeight(16)),
-            VtxButtonBar(),
-          ],
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+              MainScreenAppBar(
+                context: context,
+              ),
+              SizedBox(height: getProportionateScreenHeight(20)),
+              BalanceBox(),
+              SizedBox(height: getProportionateScreenHeight(18)),
+              TransactionList(
+                list: transactionList,
+              ),
+              SizedBox(height: getProportionateScreenHeight(16)),
+              VtxButtonBar(),
+            ],
+          ),
         ),
       ),
     );
