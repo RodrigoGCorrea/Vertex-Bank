@@ -68,10 +68,9 @@ class SignUpFinishScreen extends StatelessWidget {
             text: "Name",
             onChangedFunction: (name) =>
                 context.read<SignupCubit>().nameChanged(name),
-            errorText:
-                !state.name.isValid && state.stage == SignupStage.finishFail
-                    ? state.name.errorText
-                    : null,
+            errorText: !state.name.isValid && state.stage != SignupStage.next
+                ? state.name.errorText
+                : null,
           ),
         );
       },
@@ -92,7 +91,7 @@ class SignUpFinishScreen extends StatelessWidget {
             onChangedFunction: (lastName) =>
                 context.read<SignupCubit>().lastNameChanged(lastName),
             errorText:
-                !state.lastName.isValid && state.stage == SignupStage.finishFail
+                !state.lastName.isValid && state.stage != SignupStage.next
                     ? state.lastName.errorText
                     : null,
           ),
@@ -159,9 +158,21 @@ Widget _buildFinishButton(BuildContext context) {
         );
       }
     },
-    child: VtxButton(
-      text: "Finish",
-      function: () => context.read<SignupCubit>().finishSignUp(),
+    child: BlocBuilder<SignupCubit, SignupState>(
+      builder: (context, state) {
+        final isFormValid =
+            state.name.isValid & state.lastName.isValid & (state.birth != null);
+        if (isFormValid)
+          return VtxButton(
+            text: "Finish",
+            function: () => context.read<SignupCubit>().finishSignUp(),
+          );
+        else
+          return VtxButton(
+            text: "Finish",
+            function: () => context.read<SignupCubit>().goToFinishScreen(),
+          );
+      },
     ),
   );
 }

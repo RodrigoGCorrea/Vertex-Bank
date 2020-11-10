@@ -63,10 +63,9 @@ class SignUpScreen extends StatelessWidget {
             text: "Email",
             onChangedFunction: (email) =>
                 context.read<SignupCubit>().emailChanged(email),
-            errorText:
-                !state.email.isValid && state.stage == SignupStage.nextFail
-                    ? state.email.errorText
-                    : null,
+            errorText: !state.email.isValid && state.stage != SignupStage.intial
+                ? state.email.errorText
+                : null,
           ),
         );
       },
@@ -88,7 +87,7 @@ class SignUpScreen extends StatelessWidget {
             onChangedFunction: (pass) =>
                 context.read<SignupCubit>().passwordChanged(pass),
             errorText:
-                !state.password.isValid && state.stage == SignupStage.nextFail
+                !state.password.isValid && state.stage != SignupStage.intial
                     ? state.password.errorText
                     : null,
           ),
@@ -119,7 +118,7 @@ class SignUpScreen extends StatelessWidget {
             onChangedFunction: (pass) =>
                 context.read<SignupCubit>().passwordConfirmChanged(pass),
             errorText: !state.confirmPassword.isValid &&
-                    state.stage == SignupStage.nextFail
+                    state.stage != SignupStage.intial
                 ? state.confirmPassword.errorText
                 : null,
           ),
@@ -129,16 +128,25 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildNextButton(BuildContext context) {
-    return BlocListener<SignupCubit, SignupState>(
-      listenWhen: (previous, current) => previous.stage != current.stage,
-      listener: (context, state) {
-        if (state.stage == SignupStage.nextOk)
-          Navigator.of(context).pushNamed('/signup/finish');
+    return BlocBuilder<SignupCubit, SignupState>(
+      builder: (context, state) {
+        bool isFormValid = state.email.isValid &
+            state.password.isValid &
+            state.confirmPassword.isValid;
+        if (isFormValid)
+          return VtxButton(
+            text: "Next",
+            function: () {
+              context.read<SignupCubit>().goToNextScreen();
+              Navigator.pushNamed(context, '/signup/finish');
+            },
+          );
+        else
+          return VtxButton(
+            text: "Next",
+            function: () => context.read<SignupCubit>().goToNextScreen(),
+          );
       },
-      child: VtxButton(
-        text: "Next",
-        function: () => context.read<SignupCubit>().goToNextScreen(),
-      ),
     );
   }
 }

@@ -21,37 +21,20 @@ class SignupCubit extends Cubit<SignupState> {
   final AuthCubit authCubit;
 
   void finishSignUp() {
-    if (state.email.isValid &&
-        state.password.isValid &&
-        state.confirmPassword.isValid &&
-        state.name.isValid &&
-        state.lastName.isValid &&
-        state.birth != null) {
-      final User user = User(
-        email: state.email.value,
-        name: state.name.value,
-        lastName: state.lastName.value,
-        birth: state.birth.toString(),
-        money: 0,
-        id: "",
-      );
+    final User user = User(
+      email: state.email.value,
+      name: state.name.value,
+      lastName: state.lastName.value,
+      birth: state.birth.toString(),
+      money: 0,
+      id: "",
+    );
 
-      authCubit.signUp(
-        user,
-        state.confirmPassword.value,
-      );
-      emit(state.copyWith(stage: SignupStage.finishOk));
-    } else {
-      // This is to refresh the inputs
-      emit(state.copyWith(stage: SignupStage.finishFail));
-      emailChanged(state.email.value);
-      passwordChanged(state.password.value);
-      passwordConfirmChanged(state.confirmPassword.value);
-      nameChanged(state.name.value);
-      lastNameChanged(state.lastName.value);
-
-      //NOTE(Geraldo): lidar com o campo de idade depois
-    }
+    authCubit.signUp(
+      user,
+      state.confirmPassword.value,
+    );
+    emit(SignupState.empty);
   }
 
   void cleanUp() {
@@ -59,17 +42,19 @@ class SignupCubit extends Cubit<SignupState> {
   }
 
   void goToNextScreen() {
-    if (state.email.isValid &&
-        state.password.isValid &&
-        state.confirmPassword.isValid) {
-      emit(state.copyWith(stage: SignupStage.nextOk));
-    } else {
-      emit(state.copyWith(stage: SignupStage.nextFail));
-      // This is to refresh the inputs
-      emailChanged(state.email.value);
-      passwordChanged(state.password.value);
-      passwordConfirmChanged(state.confirmPassword.value);
-    }
+    emit(state.copyWith(stage: SignupStage.next));
+    // This is to refresh the inputs
+    emailChanged(state.email.value);
+    passwordChanged(state.password.value);
+    passwordConfirmChanged(state.confirmPassword.value);
+  }
+
+  void goToFinishScreen() {
+    emit(state.copyWith(stage: SignupStage.finish));
+    // This is to refresh the inputs
+    nameChanged(state.name.value);
+    lastNameChanged(state.lastName.value);
+    birthChanged(state.birth.toString());
   }
 
   void emailChanged(String email) {

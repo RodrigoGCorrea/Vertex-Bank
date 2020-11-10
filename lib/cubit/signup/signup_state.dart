@@ -1,6 +1,6 @@
 part of 'signup_cubit.dart';
 
-enum SignupStage { intial, nextFail, nextOk, finishFail, finishOk }
+enum SignupStage { intial, next, finish }
 
 class SignupState extends Equatable {
   const SignupState({
