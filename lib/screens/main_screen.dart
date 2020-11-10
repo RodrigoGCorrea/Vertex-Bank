@@ -56,6 +56,7 @@ class MainScreen extends StatelessWidget {
                       configFunction: () => context.read<AuthCubit>().signOut(),
                     );
                   else
+                    //This should never reach!!
                     return MainScreenAppBar(
                       userName: "",
                       configFunction: () => context.read<AuthCubit>().signOut(),
@@ -63,7 +64,17 @@ class MainScreen extends StatelessWidget {
                 },
               ),
               SizedBox(height: getProportionateScreenHeight(20)),
-              BalanceBox(),
+              BlocBuilder<AuthCubit, AuthState>(
+                builder: (context, state) {
+                  if (state is AuthenticatedState)
+                    return BalanceBox(
+                      money: state.user.money.toString(),
+                    );
+                  else
+                    //This should never reach!!
+                    return BalanceBox(money: "");
+                },
+              ),
               SizedBox(height: getProportionateScreenHeight(18)),
               TransactionList(
                 list: transactionList,
