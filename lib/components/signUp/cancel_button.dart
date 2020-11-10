@@ -14,7 +14,7 @@ class CancelButton extends StatelessWidget {
     return InkWell(
       onTap: () {
         context.read<SignupCubit>().cleanUp();
-        Navigator.of(context).pushNamed("/");
+        Navigator.popUntil(context, ModalRoute.withName("/login"));
       },
       child: Text(
         "Cancel",

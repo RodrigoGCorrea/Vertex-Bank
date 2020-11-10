@@ -27,6 +27,10 @@ class LoginCubit extends Cubit<LoginState> {
     }
   }
 
+  void cleanUp() {
+    emit(LoginState.empty);
+  }
+
   void emailChanged(String email) {
     final isValid = Email.validate(email);
     final newEmail = Email(email, isValid: isValid);

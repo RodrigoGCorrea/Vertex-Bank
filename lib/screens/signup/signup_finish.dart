@@ -147,7 +147,10 @@ Widget _buildFinishButton(BuildContext context) {
   return BlocListener<AuthCubit, AuthState>(
     listener: (context, state) {
       if (state is AuthenticatedState) {
-        Navigator.of(context).pushNamed('/main');
+        // For some misterious reason flutter does not provide
+        // pushAndRemoveUntil with named routes...
+        Navigator.popUntil(context, ModalRoute.withName('/login'));
+        Navigator.pushReplacementNamed(context, '/main');
       } else if (state is ErrorState) {
         Scaffold.of(context).showSnackBar(
           SnackBar(

@@ -111,7 +111,8 @@ class LoginScreen extends StatelessWidget {
     return BlocListener<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthenticatedState) {
-          Navigator.of(context).pushNamed('/main');
+          context.read<LoginCubit>().cleanUp();
+          Navigator.pushReplacementNamed(context, "/main");
         } else if (state is ErrorState) {
           Scaffold.of(context).showSnackBar(
             SnackBar(
@@ -130,7 +131,7 @@ class LoginScreen extends StatelessWidget {
   Widget _buildSignUpButton(BuildContext context) {
     return InkWell(
       onTap: () => {
-        Navigator.of(context).pushNamed('/signup'),
+        Navigator.pushNamed(context, '/signup'),
       },
       child: Text(
         "Create an account",
