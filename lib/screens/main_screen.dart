@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -7,6 +8,7 @@ import 'package:vertexbank/components/mainScreen/balance_box.dart';
 import 'package:vertexbank/components/mainScreen/transaction_list.dart';
 import 'package:vertexbank/components/mainScreen/vtx_buttonbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
+import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/models/transaction.dart';
 
 class MainScreen extends StatelessWidget {
@@ -34,14 +36,31 @@ class MainScreen extends StatelessWidget {
   ];
 
   Widget build(BuildContext context) {
+    VtxSizeConfig().init(context);
     return Scaffold(
-      body: Background(
+      body: _Background(
         child: SingleChildScrollView(
           child: Column(
             children: [
               SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-              MainScreenAppBar(
-                context: context,
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is UnauthenticatedState)
+                    Navigator.pushReplacementNamed(context, "/login");
+                },
+                buildWhen: (previous, current) => current is AuthenticatedState,
+                builder: (context, state) {
+                  if (state is AuthenticatedState)
+                    return MainScreenAppBar(
+                      userName: state.user.name,
+                      configFunction: () => context.read<AuthCubit>().signOut(),
+                    );
+                  else
+                    return MainScreenAppBar(
+                      userName: "",
+                      configFunction: () => context.read<AuthCubit>().signOut(),
+                    );
+                },
               ),
               SizedBox(height: getProportionateScreenHeight(20)),
               BalanceBox(),
