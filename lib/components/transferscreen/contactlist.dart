@@ -18,7 +18,7 @@ class ContactList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.read<TransferCubit>().setContactList(contactList);
+    context.watch<TransferCubit>().setContactList(contactList);
     return Container(
       padding: AppTheme.defaultHorizontalPadding,
       child: Column(
@@ -41,29 +41,25 @@ class ContactList extends StatelessWidget {
                 listViewBuilder:
                     BlocBuilder<TransferCubit, TransferScreenState>(
                   builder: (context, state) {
-                    if (state is TransferScreenInitial) {
-                      return ListView.builder(
-                        padding: EdgeInsets.only(
-                          top: getProportionateScreenHeight(16),
-                        ),
-                        itemCount: state.contactList.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                              onTap: () => context
-                                  .read<TransferCubit>()
-                                  .selectContact(index),
-                              child: ContactListItem(
-                                contact: state.contactList[index],
-                                isSelected:
-                                    state.indexContactListSelected == index
-                                        ? true
-                                        : false,
-                              ));
-                        },
-                      );
-                    }
-                    //NOTE(Geraldo): Lidar com erro vindo do Cubit
-                    return Text("Error");
+                    return ListView.builder(
+                      padding: EdgeInsets.only(
+                        top: getProportionateScreenHeight(16),
+                      ),
+                      itemCount: state.contactList.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                            onTap: () => context
+                                .read<TransferCubit>()
+                                .selectContact(index),
+                            child: ContactListItem(
+                              contact: state.contactList[index],
+                              isSelected:
+                                  state.indexContactListSelected == index
+                                      ? true
+                                      : false,
+                            ));
+                      },
+                    );
                   },
                 ),
               ),
