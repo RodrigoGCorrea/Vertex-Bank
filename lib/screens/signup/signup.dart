@@ -12,8 +12,14 @@ import 'package:vertexbank/cubit/signup/signup_cubit.dart';
 class SignUpScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildSignUpForm(context),
+    return WillPopScope(
+      onWillPop: () {
+        context.read<SignupCubit>().cleanUp();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        body: _buildSignUpForm(context),
+      ),
     );
   }
 

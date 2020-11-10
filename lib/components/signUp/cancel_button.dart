@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CancelButton extends StatelessWidget {
   const CancelButton({
@@ -10,7 +12,10 @@ class CancelButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.of(context).pop(),
+      onTap: () {
+        context.read<SignupCubit>().cleanUp();
+        Navigator.of(context).pushNamed("/");
+      },
       child: Text(
         "Cancel",
         style: TextStyle(

@@ -54,6 +54,10 @@ class SignupCubit extends Cubit<SignupState> {
     }
   }
 
+  void cleanUp() {
+    emit(SignupState.empty);
+  }
+
   void goToNextScreen() {
     if (state.email.isValid &&
         state.password.isValid &&
