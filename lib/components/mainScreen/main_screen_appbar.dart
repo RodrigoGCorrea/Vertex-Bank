@@ -1,16 +1,19 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 
 class MainScreenAppBar extends StatelessWidget {
-  final BuildContext context;
-  MainScreenAppBar({
+  //TODO(Geraldo): botar userName e configFunction como required
+
+  const MainScreenAppBar({
+    this.userName,
+    this.configFunction,
     Key key,
-    this.context,
   }) : super(key: key);
+
+  final String userName;
+  final Function configFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class MainScreenAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "Jorge Dorival",
+                userName,
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(36),
                   fontWeight: FontWeight.bold,
@@ -39,7 +42,7 @@ class MainScreenAppBar extends StatelessWidget {
                 ),
               ),
               IconButton(
-                onPressed: () => context.read<AuthCubit>().signOut(),
+                onPressed: configFunction,
                 icon: SvgPicture.asset(
                   "assets/icons/cog-solid.svg",
                   color: AppTheme.textColor,
