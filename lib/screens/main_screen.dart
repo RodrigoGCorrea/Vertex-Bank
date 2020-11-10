@@ -59,8 +59,27 @@ class MainScreen extends StatelessWidget {
   }
 }
 
-class Background extends StatelessWidget {
-  const Background({
+class _Background extends StatelessWidget {
+  const _Background({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: VtxSizeConfig.screenWidth,
+      height: VtxSizeConfig.screenHeight,
+      color: AppTheme.appBackgroundColor,
+      child: child,
+    );
+  }
+}
+
+class _BackgroundOld extends StatelessWidget {
+  const _BackgroundOld({
     Key key,
     @required this.child,
   }) : super(key: key);
