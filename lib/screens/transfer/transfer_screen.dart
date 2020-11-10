@@ -14,45 +14,52 @@ class TransferScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Background(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-              TransferScreenAppBar(
-                functionChanged: (amount) =>
-                    context.read<TransferCubit>().amountChanged(amount),
-              ),
-              SizedBox(height: getProportionateScreenHeight(30)),
-              ContactList(contactList: contactListSample),
-              SizedBox(height: getProportionateScreenHeight(40)),
-              BlocListener<TransferCubit, TransferScreenState>(
-                listener: (context, state) {
-                  if (state is TransferScreenSelected) {
-                    Navigator.of(context).pushNamed('/transfer/confirmation');
-                  }
-                },
-                child: VtxButton(
-                  text: "Next",
-                  function: () =>
-                      context.read<TransferCubit>().proceedTransfer(),
+    return WillPopScope(
+      onWillPop: () {
+        context.read<TransferCubit>().cleanUpInitial();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        body: Background(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                TransferScreenAppBar(
+                  functionChanged: (amount) =>
+                      context.read<TransferCubit>().amountChanged(amount),
                 ),
-              ),
-              SizedBox(
-                height: getProportionateScreenHeight(13),
-              ),
-              Text(
-                "or",
-                style: TextStyle(color: AppTheme.textColor),
-              ),
-              SizedBox(
-                height: getProportionateScreenHeight(25),
-              ),
-              NewContact(
-                function: () => {},
-              ),
-            ],
+                SizedBox(height: getProportionateScreenHeight(30)),
+                ContactList(contactList: contactListSample),
+                SizedBox(height: getProportionateScreenHeight(40)),
+                BlocListener<TransferCubit, TransferScreenState>(
+                  listenWhen: (previous, current) =>
+                      previous.stage != current.stage,
+                  listener: (context, state) {
+                    if (state.stage == TransferScreenStage.selected)
+                      Navigator.of(context).pushNamed('/transfer/confirmation');
+                  },
+                  child: VtxButton(
+                    text: "Next",
+                    function: () =>
+                        context.read<TransferCubit>().proceedTransfer(),
+                  ),
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(13),
+                ),
+                Text(
+                  "or",
+                  style: TextStyle(color: AppTheme.textColor),
+                ),
+                SizedBox(
+                  height: getProportionateScreenHeight(25),
+                ),
+                NewContact(
+                  function: () => {},
+                ),
+              ],
+            ),
           ),
         ),
       ),

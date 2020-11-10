@@ -17,24 +17,37 @@ class TransferScreenConfirm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Background(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-            ConfirmTransferAppbar(),
-            SizedBox(height: getProportionateScreenHeight(94)),
-            VtxButton(
-              color: AppTheme.buttonColorGreen,
-              text: "Confirm",
-            ),
-            SizedBox(height: getProportionateScreenHeight(94)),
-            VtxButton(
-              color: AppTheme.buttonColorRed,
-              text: "Cancel",
-            ),
-          ],
+    return WillPopScope(
+      onWillPop: () {
+        context.read<TransferCubit>().cleanUpSelected();
+        return Future.value(true);
+      },
+      child: Scaffold(
+        body: Background(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+              ConfirmTransferAppbar(),
+              SizedBox(height: getProportionateScreenHeight(94)),
+              VtxButton(
+                color: AppTheme.buttonColorGreen,
+                text: "Confirm",
+              ),
+              SizedBox(height: getProportionateScreenHeight(94)),
+              VtxButton(
+                color: AppTheme.buttonColorRed,
+                text: "Cancel",
+                function: () {
+                  context.read<TransferCubit>().cleanUpInitial();
+                  Navigator.popUntil(
+                    context,
+                    ModalRoute.withName('/main'),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -73,10 +86,7 @@ class ConfirmTransferAppbar extends StatelessWidget {
               width: getProportionateScreenWidth(285),
               listViewBuilder: BlocBuilder<TransferCubit, TransferScreenState>(
                 builder: (context, state) {
-                  if (state is TransferScreenSelected)
-                    return TransferItem(transaction: state.transaction);
-                  else
-                    return Scaffold(body: Text("Error on passing contact"));
+                  return TransferItem(transaction: state.transaction);
                 },
               ),
             ),
