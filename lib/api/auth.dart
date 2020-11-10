@@ -13,19 +13,23 @@ class AuthApi {
   final firebase_auth.FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
 
-  Stream<User> get user {
-    return _firebaseAuth.authStateChanges().map((firebaseUser) {
-      final User modelUser = User(
-        id: firebaseUser.uid,
-        email: firebaseUser.email,
-        money: 0,
-        name: "",
-        birth: "",
-        lastName: "",
+  Future<User> get user async {
+    final firebaseUser = _firebaseAuth.currentUser;
+    if (firebaseUser == null) return null;
+    try {
+      final user = await _db.collection('users').doc(firebaseUser.uid).get();
+      return User(
+        id: user.id,
+        birth: await user.get('birth'),
+        email: await user.get('email'),
+        lastName: await user.get('lastName'),
+        money: await user.get('money'),
+        name: await user.get('name'),
       );
-
-      return firebaseUser == null ? User.empty : modelUser;
-    });
+    } on Error {
+      //This should never reach!!
+      throw Failure("Failed to get logged user");
+    }
   }
 
   Future<void> signUp({
