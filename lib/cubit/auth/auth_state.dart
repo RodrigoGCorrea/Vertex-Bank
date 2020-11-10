@@ -25,7 +25,7 @@ class AuthenticatedState extends AuthState {
     @required this.user,
   });
 
-  final Stream<User> user;
+  final User user;
 
   @override
   List<Object> get props => [user];
