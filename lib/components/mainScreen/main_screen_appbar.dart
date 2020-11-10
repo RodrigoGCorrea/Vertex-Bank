@@ -4,11 +4,9 @@ import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 
 class MainScreenAppBar extends StatelessWidget {
-  //TODO(Geraldo): botar userName e configFunction como required
-
   const MainScreenAppBar({
-    this.userName,
-    this.configFunction,
+    @required this.userName,
+    @required this.configFunction,
     Key key,
   }) : super(key: key);
 
