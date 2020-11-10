@@ -14,6 +14,7 @@ import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/screens/main_screen.dart';
 import 'package:vertexbank/screens/signup/signup.dart';
 import 'package:vertexbank/screens/signup/signup_finish.dart';
+import 'package:vertexbank/screens/splash.dart';
 import 'package:vertexbank/screens/transfer/transfer_screen.dart';
 import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
 
@@ -44,6 +45,11 @@ void main() async {
     signupCubit,
     transferCubit,
   ));
+
+  authCubit.close();
+  loginCubit.close();
+  signupCubit.close();
+  transferCubit.close();
 }
 
 class App extends StatelessWidget {
@@ -65,7 +71,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: authCubit,
+      value: authCubit..getSignedInUser(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -74,7 +80,8 @@ class App extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => BlocProvider.value(
+          '/': (context) => SplashScreen(),
+          '/login': (context) => BlocProvider.value(
                 value: loginCubit,
                 child: LoginScreen(),
               ),
