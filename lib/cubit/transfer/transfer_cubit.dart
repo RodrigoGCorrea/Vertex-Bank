@@ -8,56 +8,57 @@ import 'package:vertexbank/models/transaction.dart';
 part 'transfer_state.dart';
 
 class TransferCubit extends Cubit<TransferScreenState> {
-  TransferCubit()
-      : super(TransferScreenInitial(
-          contactList: [],
-          indexContactListSelected: -1,
-          amount: '0',
-        ));
+  TransferCubit() : super(TransferScreenState.empty);
 
   void selectContact(int index) {
-    final lstate = state as TransferScreenInitial;
-
-    final int lastIndex = lstate.indexContactListSelected;
+    final int lastIndex = state.indexContactListSelected;
     final currentIndex = lastIndex == index ? -1 : index;
 
-    emit(lstate.copyWith(
+    emit(state.copyWith(
       indexContactListSelected: currentIndex,
     ));
   }
 
+  void cleanUpInitial() {
+    emit(TransferScreenState.empty);
+  }
+
+  void cleanUpSelected() {
+    emit(state.copyWith(
+      transaction: Transaction.empty,
+      stage: TransferScreenStage.initial,
+    ));
+  }
+
   void proceedTransfer() {
-    final lstate = state as TransferScreenInitial;
-
     //NOTE(Geraldo): Lidar com erro pra exibir pro usuario na UI dps
-    if (lstate.indexContactListSelected == null) return null;
+    if (state.indexContactListSelected == null) return null;
 
-    final int index = lstate.indexContactListSelected;
-    final Contact contact = lstate.contactList[index];
+    final int index = state.indexContactListSelected;
+    final Contact contact = state.contactList[index];
 
     Transaction transaction = Transaction(
       id: contact.userID,
       name: contact.nickname,
-      amount: lstate.amount,
+      amount: state.amount,
       received: false,
       date: DateTime.now(),
     );
-    emit(TransferScreenSelected(transaction: transaction));
+    emit(state.copyWith(
+      transaction: transaction,
+      stage: TransferScreenStage.selected,
+    ));
   }
 
   //NOTE(Geraldo): Essa função provavelmente vai sair ao integrara essa tela com firebase
   void setContactList(List<Contact> list) {
-    final lstate = state as TransferScreenInitial;
-
-    emit(lstate.copyWith(
+    emit(state.copyWith(
       contactList: list,
     ));
   }
 
   void amountChanged(String amount) {
-    final lstate = state as TransferScreenInitial;
-
-    emit(lstate.copyWith(
+    emit(state.copyWith(
       amount: amount,
     ));
   }

@@ -1,55 +1,52 @@
 part of 'transfer_cubit.dart';
 
-abstract class TransferScreenState extends Equatable {
-  const TransferScreenState();
+enum TransferScreenStage { initial, selected }
 
-  @override
-  List<Object> get props => [];
-}
-
-class TransferScreenInitial extends TransferScreenState {
+class TransferScreenState extends Equatable {
   final List<Contact> contactList;
   final int indexContactListSelected;
   final String amount;
+  final Transaction transaction;
+  final TransferScreenStage stage;
 
-  const TransferScreenInitial({
+  const TransferScreenState({
+    @required this.stage,
+    @required this.transaction,
     @required this.amount,
     @required this.contactList,
     @required this.indexContactListSelected,
   }) : super();
 
-  TransferScreenInitial copyWith({
+  static final empty = TransferScreenState(
+    stage: TransferScreenStage.initial,
+    contactList: [],
+    indexContactListSelected: -1,
+    amount: '0',
+    transaction: Transaction.empty,
+  );
+
+  TransferScreenState copyWith({
     List<Contact> contactList,
     int indexContactListSelected,
     String amount,
+    Transaction transaction,
+    TransferScreenStage stage,
   }) {
-    return TransferScreenInitial(
+    return TransferScreenState(
       contactList: contactList ?? this.contactList,
       indexContactListSelected:
           indexContactListSelected ?? this.indexContactListSelected,
       amount: amount ?? this.amount,
-    );
-  }
-
-  @override
-  List<Object> get props => [contactList, indexContactListSelected, amount];
-}
-
-class TransferScreenSelected extends TransferScreenState {
-  final Transaction transaction;
-
-  TransferScreenSelected({
-    this.transaction,
-  });
-
-  TransferScreenSelected copyWith({
-    Transaction transaction,
-  }) {
-    return TransferScreenSelected(
       transaction: transaction ?? this.transaction,
+      stage: stage ?? this.stage,
     );
   }
 
   @override
-  List<Object> get props => [transaction];
+  List<Object> get props => [
+        contactList,
+        indexContactListSelected,
+        amount,
+        transaction,
+      ];
 }
