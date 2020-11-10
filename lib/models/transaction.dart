@@ -12,4 +12,12 @@ class Transaction {
     this.date,
     this.received,
   });
+
+  static final empty = Transaction(
+    id: "",
+    name: "",
+    received: null,
+    amount: "",
+    date: DateTime(1989, DateTime.november, 9),
+  );
 }
