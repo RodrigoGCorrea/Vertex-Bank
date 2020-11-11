@@ -6,12 +6,8 @@ import 'package:vertexbank/models/user.dart';
 import 'package:vertexbank/models/failure.dart';
 
 class AuthApi {
-  AuthApi({
-    firebase_auth.FirebaseAuth firebaseAuth,
-  }) : _firebaseAuth = firebaseAuth ?? firebase_auth.FirebaseAuth.instance;
-
-  final firebase_auth.FirebaseAuth _firebaseAuth;
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  final _firebaseAuth = firebase_auth.FirebaseAuth.instance;
+  final _db = FirebaseFirestore.instance;
 
   Future<User> get user async {
     final firebaseUser = _firebaseAuth.currentUser;
