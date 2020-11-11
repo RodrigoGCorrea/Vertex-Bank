@@ -35,7 +35,7 @@ class User {
     );
   }
 
-  static User empty = User(
+  static final User empty = User(
     id: "",
     email: "",
     name: "",
@@ -43,4 +43,13 @@ class User {
     birth: "",
     money: 0,
   );
+
+  static final dbFields = {
+    "id": "id",
+    "email": "email",
+    "name": "name",
+    "lastName": "lastName",
+    "birth": "birth",
+    "money": "money",
+  };
 }
