@@ -6,12 +6,14 @@ class TransferScreenState extends Equatable {
   final List<Contact> contactList;
   final SelectedContact indexContactListSelected;
   final MoneyAmount amount;
-  final Transaction transaction;
+  final Transaction transactionSender;
+  final Transaction transactionReceiver;
   final TransferScreenStage stage;
 
   const TransferScreenState({
     @required this.stage,
-    @required this.transaction,
+    @required this.transactionSender,
+    @required this.transactionReceiver,
     @required this.amount,
     @required this.contactList,
     @required this.indexContactListSelected,
@@ -22,14 +24,16 @@ class TransferScreenState extends Equatable {
     contactList: [],
     indexContactListSelected: SelectedContact(-1),
     amount: MoneyAmount(0),
-    transaction: Transaction.empty,
+    transactionSender: Transaction.empty,
+    transactionReceiver: Transaction.empty,
   );
 
   TransferScreenState copyWith({
     List<Contact> contactList,
     SelectedContact indexContactListSelected,
     MoneyAmount amount,
-    Transaction transaction,
+    Transaction transactionSender,
+    Transaction transactionReceiver,
     TransferScreenStage stage,
   }) {
     return TransferScreenState(
@@ -37,7 +41,8 @@ class TransferScreenState extends Equatable {
       indexContactListSelected:
           indexContactListSelected ?? this.indexContactListSelected,
       amount: amount ?? this.amount,
-      transaction: transaction ?? this.transaction,
+      transactionSender: transactionSender ?? this.transactionSender,
+      transactionReceiver: transactionReceiver ?? this.transactionReceiver,
       stage: stage ?? this.stage,
     );
   }
@@ -47,7 +52,8 @@ class TransferScreenState extends Equatable {
         contactList,
         indexContactListSelected,
         amount,
-        transaction,
+        transactionSender,
+        transactionReceiver,
         stage,
       ];
 }
