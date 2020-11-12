@@ -48,5 +48,6 @@ class TransferScreenState extends Equatable {
         indexContactListSelected,
         amount,
         transaction,
+        stage,
       ];
 }

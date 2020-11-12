@@ -9,6 +9,7 @@ import 'package:vertexbank/components/mainScreen/transaction_list.dart';
 import 'package:vertexbank/components/mainScreen/vtx_buttonbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/models/inputs/money_amount.dart';
 import 'package:vertexbank/models/transaction.dart';
 
 class MainScreen extends StatelessWidget {
@@ -20,7 +21,7 @@ class MainScreen extends StatelessWidget {
     VtxTransactionItem(
       transaction: Transaction(
         targetUser: "FDP Corp.",
-        amount: "1892,30",
+        amount: MoneyAmount(189230),
         received: true,
         date: DateTime.now(),
       ),
@@ -28,7 +29,7 @@ class MainScreen extends StatelessWidget {
     VtxTransactionItem(
       transaction: Transaction(
         targetUser: "Jaqueline Marreta",
-        amount: "849,72",
+        amount: MoneyAmount(189230),
         received: false,
         date: DateTime.now(),
       ),
