@@ -1,24 +1,26 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:vertexbank/models/contact.dart';
 import 'package:vertexbank/models/failure.dart';
+import 'package:vertexbank/models/transaction.dart';
 import 'package:vertexbank/models/user.dart';
 import 'package:vertexbank/api/common/user.dart';
 
 class TransferApi {
-  final _db = FirebaseFirestore.instance;
+  final _db = firestore.FirebaseFirestore.instance;
 
   final contactCollection = 'contacts';
   final userCollection = 'users';
+  final transactionCollection = 'transactions';
   final moneyField = User.dbFields["money"];
   final nickNameField = 'nickName';
   final emailField = User.dbFields["email"];
 
   Future<void> makeTransfer(
-      String idSender, String idReceiver, int money) async {
+      String idSender, String idReceiver, Transaction transaction) async {
     try {
       final sender = await _db.collection(userCollection).doc(idSender).get();
       final senderMoney = await sender.get(moneyField);
-      if (senderMoney < money) {
+      if (senderMoney < transaction.amount) {
         throw Failure("You don't have enough money...");
       }
 
@@ -29,12 +31,19 @@ class TransferApi {
       await _db
           .collection(userCollection)
           .doc(idSender)
-          .update({"$moneyField": senderMoney - money});
+          .update({"$moneyField": senderMoney - transaction.amount});
+
+      await _db.collection(transactionCollection).add({
+        "${Transaction.dbFields["targetUser"]}": transaction.targetUser,
+        "${Transaction.dbFields["received"]}": transaction.received,
+        "${Transaction.dbFields["amount"]}": transaction.amount,
+        "${Transaction.dbFields["date"]}": transaction.date,
+      });
 
       await _db
           .collection(userCollection)
           .doc(idReceiver)
-          .update({"$moneyField": receiverMoney + money});
+          .update({"$moneyField": receiverMoney + transaction.amount});
     } on Error {
       //This should never reach!!
       throw Failure("Couldn't make payment...");
