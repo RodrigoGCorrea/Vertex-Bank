@@ -29,6 +29,14 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  User getSignedInUserWithoutEmit() {
+    final lstate = state as AuthenticatedState;
+    if (state is AuthenticatedState)
+      return lstate.user;
+    else
+      return null;
+  }
+
   void signUp(User user, String password) async {
     try {
       await _authApi.signUp(

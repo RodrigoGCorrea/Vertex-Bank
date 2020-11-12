@@ -52,7 +52,9 @@ class TransferApi {
 
   Future<List<Contact>> getContacts(String id) async {
     try {
-      List<Contact> contacts;
+      List<Contact> contacts = [];
+
+      //Queries always returns null if the collection or doc doesn't exists
       await _db
           .collection(userCollection)
           .doc(id)
@@ -64,8 +66,9 @@ class TransferApi {
               }));
 
       return contacts;
-    } on Error {
-      throw Failure("You don't have any contacts added...");
+    } on Error catch (e) {
+      //This should never reach!!
+      throw Failure("Couldn't get the contact list. $e");
     }
   }
 
@@ -83,7 +86,7 @@ class TransferApi {
       });
     } on Error {
       //This should never reach!
-      throw Failure("Couldn't add the contact");
+      throw Failure("Couldn't add the contact.");
     }
   }
 

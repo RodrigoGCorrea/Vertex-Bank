@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:vertexbank/api/auth.dart';
+import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/login/login_cubit.dart';
@@ -34,10 +35,11 @@ void main() async {
   await Firebase.initializeApp();
 
   final authApi = AuthApi();
+  final transferApi = TransferApi();
   final AuthCubit authCubit = AuthCubit(authApi: authApi);
   final LoginCubit loginCubit = LoginCubit(authCubit: authCubit);
   final SignupCubit signupCubit = SignupCubit(authCubit: authCubit);
-  final TransferCubit transferCubit = TransferCubit();
+  final TransferCubit transferCubit = TransferCubit(transferApi: transferApi);
 
   runApp(App(
     authCubit,
@@ -95,7 +97,8 @@ class App extends StatelessWidget {
                 child: SignUpFinishScreen(),
               ),
           '/transfer': (context) => BlocProvider.value(
-                value: transferCubit,
+                value: transferCubit
+                  ..setContactList(authCubit.getSignedInUserWithoutEmit().id),
                 child: TransferScreen(),
               ),
           '/transfer/confirmation': (context) => BlocProvider.value(

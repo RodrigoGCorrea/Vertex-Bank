@@ -50,11 +50,17 @@ class TransferCubit extends Cubit<TransferScreenState> {
     ));
   }
 
-  //NOTE(Geraldo): Essa função provavelmente vai sair ao integrara essa tela com firebase
-  void setContactList(List<Contact> list) {
+  void setContactList(String id) async {
+    try {
+      final list = await transferApi.getContacts(id);
     emit(state.copyWith(
       contactList: list,
     ));
+    } on Failure {
+      emit(state.copyWith(
+        contactList: [],
+      ));
+    }
   }
 
   void amountChanged(String amount) {
