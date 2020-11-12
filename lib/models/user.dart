@@ -15,7 +15,7 @@ class User {
   final String name;
   final String lastName;
   final String birth;
-  final int money;
+  final double money;
 
   User copyWith({
     String id,
@@ -23,7 +23,7 @@ class User {
     String name,
     String lastName,
     String birth,
-    int money,
+    double money,
   }) {
     return User(
       id: id ?? this.id,
