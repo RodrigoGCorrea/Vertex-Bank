@@ -108,7 +108,7 @@ class VtxTransactionItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${transaction.name}",
+                "${transaction.targetUser}",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(11),
                   fontWeight: FontWeight.w300,

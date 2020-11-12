@@ -19,7 +19,7 @@ class MainScreen extends StatelessWidget {
   final List<Widget> transactionList = [
     VtxTransactionItem(
       transaction: Transaction(
-        name: "FDP Corp.",
+        targetUser: "FDP Corp.",
         amount: "1892,30",
         received: true,
         date: DateTime.now(),
@@ -27,7 +27,7 @@ class MainScreen extends StatelessWidget {
     ),
     VtxTransactionItem(
       transaction: Transaction(
-        name: "Jaqueline Marreta",
+        targetUser: "Jaqueline Marreta",
         amount: "849,72",
         received: false,
         date: DateTime.now(),

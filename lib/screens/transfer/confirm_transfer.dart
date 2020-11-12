@@ -157,7 +157,7 @@ class TransferItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${transaction.name}",
+                  "${transaction.targetUser}",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,

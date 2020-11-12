@@ -1,13 +1,13 @@
 class Transaction {
   final String id;
-  final String name;
+  final String targetUser;
   final bool received;
   final String amount;
   final DateTime date;
 
   const Transaction({
     this.id,
-    this.name,
+    this.targetUser,
     this.amount,
     this.date,
     this.received,
@@ -15,9 +15,17 @@ class Transaction {
 
   static final empty = Transaction(
     id: "",
-    name: "",
+    targetUser: "",
     received: null,
     amount: "",
     date: DateTime(1989, DateTime.november, 9),
   );
+
+  static final dbFields = {
+    "id": "id",
+    "targetUser": "targetUser",
+    "received": "received",
+    "amount": "amount",
+    "date": "date",
+  };
 }

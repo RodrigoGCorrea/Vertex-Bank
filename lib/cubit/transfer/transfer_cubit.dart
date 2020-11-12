@@ -39,7 +39,7 @@ class TransferCubit extends Cubit<TransferScreenState> {
 
     Transaction transaction = Transaction(
       id: contact.userID,
-      name: contact.nickname,
+      targetUser: contact.nickname,
       amount: state.amount,
       received: false,
       date: DateTime.now(),
