@@ -97,10 +97,29 @@ class ConfirmTransferAppbar extends StatelessWidget {
   }
 }
 
-class Background extends StatelessWidget {
+class _Background extends StatelessWidget {
   final Widget child;
 
-  const Background({
+  const _Background({
+    Key key,
+    @required this.child,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: VtxSizeConfig.screenWidth,
+      height: VtxSizeConfig.screenHeight,
+      color: AppTheme.appBackgroundColor,
+      child: child,
+    );
+  }
+}
+
+class _BackgroundOld extends StatelessWidget {
+  final Widget child;
+
+  const _BackgroundOld({
     Key key,
     @required this.child,
   }) : super(key: key);
