@@ -18,7 +18,6 @@ class ContactList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    context.watch<TransferCubit>().setContactList(contactList);
     return Container(
       padding: AppTheme.defaultHorizontalPadding,
       child: Column(
@@ -35,31 +34,44 @@ class ContactList extends StatelessWidget {
           SizedBox(height: getProportionateScreenHeight(5)),
           Stack(
             children: [
+              //TODO(Geraldo): Adicionar algum campo de erro no VtxListViewBox
               VtxListViewBox(
                 width: getProportionateScreenWidth(285),
                 height: getProportionateScreenHeight(140),
                 listViewBuilder:
                     BlocBuilder<TransferCubit, TransferScreenState>(
                   builder: (context, state) {
-                    return ListView.builder(
-                      padding: EdgeInsets.only(
-                        top: getProportionateScreenHeight(16),
-                      ),
-                      itemCount: state.contactList.length,
-                      itemBuilder: (context, index) {
-                        return GestureDetector(
+                    if (state.contactList.length == 0) {
+                      return Text(
+                        "You don't any contacts added...",
+                        style: TextStyle(
+                          fontSize: getProportionateScreenWidth(14),
+                          color: AppTheme.textColor,
+                          fontWeight: FontWeight.w100,
+                        ),
+                      );
+                    } else {
+                      return ListView.builder(
+                        padding: EdgeInsets.only(
+                          top: getProportionateScreenHeight(16),
+                        ),
+                        itemCount: state.contactList.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
                             onTap: () => context
                                 .read<TransferCubit>()
                                 .selectContact(index),
                             child: ContactListItem(
                               contact: state.contactList[index],
                               isSelected:
-                                  state.indexContactListSelected == index
+                                  state.indexContactListSelected.value == index
                                       ? true
                                       : false,
-                            ));
-                      },
-                    );
+                            ),
+                          );
+                        },
+                      );
+                    }
                   },
                 ),
               ),

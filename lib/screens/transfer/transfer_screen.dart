@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/components/transferscreen/transfer_screen_appbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
+import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/models/contact.dart';
 
 class TransferScreen extends StatelessWidget {
-  const TransferScreen({Key key}) : super(key: key);
+  TransferScreen({Key key}) : super(key: key);
+
+  final MoneyMaskedTextController _moneyController =
+      MoneyMaskedTextController(precision: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -20,30 +25,51 @@ class TransferScreen extends StatelessWidget {
         return Future.value(true);
       },
       child: Scaffold(
-        body: Background(
+        body: _Background(
           child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                TransferScreenAppBar(
-                  functionChanged: (amount) =>
-                      context.read<TransferCubit>().amountChanged(amount),
+                BlocBuilder<TransferCubit, TransferScreenState>(
+                  buildWhen: (previous, current) =>
+                      previous.amount != current.amount,
+                  builder: (context, state) {
+                    return TransferScreenAppBar(
+                      moneyController: _moneyController,
+                      functionChanged: (_) => context
+                          .read<TransferCubit>()
+                          .amountChanged(_moneyController.numberValue),
+                      errorText: !state.amount.isValid &&
+                              state.stage != TransferScreenStage.initial
+                          ? state.amount.errorText
+                          : null,
+                    );
+                  },
                 ),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 ContactList(contactList: contactListSample),
                 SizedBox(height: getProportionateScreenHeight(40)),
-                BlocListener<TransferCubit, TransferScreenState>(
-                  listenWhen: (previous, current) =>
-                      previous.stage != current.stage,
-                  listener: (context, state) {
-                    if (state.stage == TransferScreenStage.selected)
-                      Navigator.of(context).pushNamed('/transfer/confirmation');
+                BlocBuilder<TransferCubit, TransferScreenState>(
+                  builder: (context, state) {
+                    final isFormValid = state.amount.isValid &
+                        state.indexContactListSelected.isValid;
+                    if (isFormValid) {
+                      return VtxButton(
+                        text: "Next",
+                        function: () {
+                          context.read<TransferCubit>().proceedTransfer();
+                          Navigator.pushNamed(
+                              context, '/transfer/confirmation');
+                        },
+                      );
+                    } else {
+                      return VtxButton(
+                        text: "Next",
+                        function: () =>
+                            context.read<TransferCubit>().proceedTransfer(),
+                      );
+                    }
                   },
-                  child: VtxButton(
-                    text: "Next",
-                    function: () =>
-                        context.read<TransferCubit>().proceedTransfer(),
-                  ),
                 ),
                 SizedBox(
                   height: getProportionateScreenHeight(13),
@@ -56,7 +82,15 @@ class TransferScreen extends StatelessWidget {
                   height: getProportionateScreenHeight(25),
                 ),
                 NewContact(
-                  function: () => {},
+                  //TODO(Geraldo): botar a tela de novo contato aqui!!
+                  //               Deixei essa função só pra lembrar como
+                  //               atualiza os contatos manualmente
+                  function: () => context.read<TransferCubit>().setContactList(
+                        context
+                            .read<AuthCubit>()
+                            .getSignedInUserWithoutEmit()
+                            .id,
+                      ),
                 ),
               ],
             ),

@@ -61,6 +61,7 @@ class TransactionList extends StatelessWidget {
 // ignore: must_be_immutable
 class VtxTransactionItem extends StatelessWidget {
   final Transaction transaction;
+  final amount;
   String ftfield;
   String sign;
   Color transactionColor;
@@ -68,7 +69,8 @@ class VtxTransactionItem extends StatelessWidget {
   VtxTransactionItem({
     Key key,
     @required this.transaction,
-  }) : super(key: key) {
+  })  : amount = transaction.amount.value.toString(),
+        super(key: key) {
     transaction.received ? ftfield = "From" : ftfield = "To";
     transaction.received ? sign = "+" : sign = "-";
     transaction.received
@@ -116,7 +118,7 @@ class VtxTransactionItem extends StatelessWidget {
                 ),
               ),
               Text(
-                "$sign${transaction.amount} R\$",
+                "$sign$amount R\$",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(11),
                   fontWeight: FontWeight.bold,
