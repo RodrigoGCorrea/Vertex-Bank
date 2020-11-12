@@ -57,7 +57,12 @@ class TransferScreen extends StatelessWidget {
                       return VtxButton(
                         text: "Next",
                         function: () {
-                          context.read<TransferCubit>().proceedTransfer();
+                          context.read<TransferCubit>().proceedTransfer(
+                                context
+                                    .read<AuthCubit>()
+                                    .getSignedInUserWithoutEmit()
+                                    .id,
+                              );
                           Navigator.pushNamed(
                               context, '/transfer/confirmation');
                         },
@@ -66,7 +71,12 @@ class TransferScreen extends StatelessWidget {
                       return VtxButton(
                         text: "Next",
                         function: () =>
-                            context.read<TransferCubit>().proceedTransfer(),
+                            context.read<TransferCubit>().proceedTransfer(
+                                  context
+                                      .read<AuthCubit>()
+                                      .getSignedInUserWithoutEmit()
+                                      .id,
+                                ),
                       );
                     }
                   },
