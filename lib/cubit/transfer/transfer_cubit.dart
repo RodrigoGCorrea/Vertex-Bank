@@ -74,11 +74,20 @@ class TransferCubit extends Cubit<TransferScreenState> {
     }
   }
 
-  void amountChanged(double amount) {
-    final isValid = MoneyAmount.validate(amount);
+  void amountChanged(double amount, double userMoney) {
+    bool isValid;
+    String error = MoneyAmount.valueIsZero;
+
+    if (!MoneyAmount.validate(amount))
+      isValid = false;
+    else if (userMoney < amount) {
+      isValid = false;
+      error = MoneyAmount.notEnoughMoney;
+    } else
+      isValid = true;
 
     emit(state.copyWith(
-      amount: MoneyAmount(amount, isValid: isValid),
+      amount: MoneyAmount(amount, isValid: isValid, errorText: error),
     ));
   }
 }
