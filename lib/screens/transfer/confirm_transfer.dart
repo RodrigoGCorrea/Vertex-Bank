@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -145,12 +146,18 @@ class _BackgroundOld extends StatelessWidget {
 }
 
 class TransferItem extends StatelessWidget {
-  final Transaction transaction;
-
-  const TransferItem({
+  TransferItem({
     Key key,
     @required this.transaction,
-  }) : super(key: key);
+  })  : _moneyController = MoneyMaskedTextController(precision: 2),
+        super(key: key) {
+    _moneyController.updateValue(transaction.amount.value);
+    amount = _moneyController.text;
+  }
+
+  final Transaction transaction;
+  final MoneyMaskedTextController _moneyController;
+  String amount;
 
   @override
   Widget build(BuildContext context) {
@@ -215,7 +222,7 @@ class TransferItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "${transaction.amount}",
+                  "R\$ $amount",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,
