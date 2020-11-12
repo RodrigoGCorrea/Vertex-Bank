@@ -8,6 +8,7 @@ import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/components/vtx_listviewbox.dart';
+import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/models/transaction.dart';
 
@@ -35,6 +36,16 @@ class TransferScreenConfirm extends StatelessWidget {
                 VtxButton(
                   color: AppTheme.buttonColorGreen,
                   text: "Confirm",
+                  function: () {
+                    context.read<TransferCubit>().completeTransfer(
+                          context
+                              .read<AuthCubit>()
+                              .getSignedInUserWithoutEmit()
+                              .id,
+                        );
+                    context.read<TransferCubit>().cleanUpInitial();
+                    Navigator.popUntil(context, ModalRoute.withName('/main'));
+                  },
                 ),
                 SizedBox(height: getProportionateScreenHeight(94)),
                 VtxButton(
@@ -58,9 +69,12 @@ class TransferScreenConfirm extends StatelessWidget {
 }
 
 class ConfirmTransferAppbar extends StatelessWidget {
-  const ConfirmTransferAppbar({
+  ConfirmTransferAppbar({
     Key key,
   }) : super(key: key);
+
+  final MoneyMaskedTextController _moneyController =
+      MoneyMaskedTextController(precision: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -89,9 +103,13 @@ class ConfirmTransferAppbar extends StatelessWidget {
               width: getProportionateScreenWidth(285),
               listViewBuilder: BlocBuilder<TransferCubit, TransferScreenState>(
                 buildWhen: (previous, current) =>
-                    current.transaction != Transaction.empty,
+                    current.transactionSender != Transaction.empty,
                 builder: (context, state) {
-                  return TransferItem(transaction: state.transaction);
+                  _moneyController.updateValue(state.amount.value);
+                  return TransferItem(
+                    transaction: state.transactionSender,
+                    moneyController: _moneyController,
+                  );
                 },
               ),
             ),
@@ -149,15 +167,12 @@ class TransferItem extends StatelessWidget {
   TransferItem({
     Key key,
     @required this.transaction,
-  })  : _moneyController = MoneyMaskedTextController(precision: 2),
-        super(key: key) {
-    _moneyController.updateValue(transaction.amount.value);
-    amount = _moneyController.text;
-  }
+    @required moneyController,
+  })  : this.amount = moneyController.text,
+        super(key: key);
 
   final Transaction transaction;
-  final MoneyMaskedTextController _moneyController;
-  String amount;
+  final String amount;
 
   @override
   Widget build(BuildContext context) {
