@@ -23,30 +23,32 @@ class TransferScreenConfirm extends StatelessWidget {
         return Future.value(true);
       },
       child: Scaffold(
-        body: Background(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-              ConfirmTransferAppbar(),
-              SizedBox(height: getProportionateScreenHeight(94)),
-              VtxButton(
-                color: AppTheme.buttonColorGreen,
-                text: "Confirm",
-              ),
-              SizedBox(height: getProportionateScreenHeight(94)),
-              VtxButton(
-                color: AppTheme.buttonColorRed,
-                text: "Cancel",
-                function: () {
-                  context.read<TransferCubit>().cleanUpInitial();
-                  Navigator.popUntil(
-                    context,
-                    ModalRoute.withName('/main'),
-                  );
-                },
-              ),
-            ],
+        body: _Background(
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                ConfirmTransferAppbar(),
+                SizedBox(height: getProportionateScreenHeight(94)),
+                VtxButton(
+                  color: AppTheme.buttonColorGreen,
+                  text: "Confirm",
+                ),
+                SizedBox(height: getProportionateScreenHeight(94)),
+                VtxButton(
+                  color: AppTheme.buttonColorRed,
+                  text: "Cancel",
+                  function: () {
+                    context.read<TransferCubit>().cleanUpInitial();
+                    Navigator.popUntil(
+                      context,
+                      ModalRoute.withName('/main'),
+                    );
+                  },
+                ),
+              ],
+            ),
           ),
         ),
       ),
@@ -85,6 +87,8 @@ class ConfirmTransferAppbar extends StatelessWidget {
               height: getProportionateScreenHeight(190),
               width: getProportionateScreenWidth(285),
               listViewBuilder: BlocBuilder<TransferCubit, TransferScreenState>(
+                buildWhen: (previous, current) =>
+                    current.transaction != Transaction.empty,
                 builder: (context, state) {
                   return TransferItem(transaction: state.transaction);
                 },
