@@ -4,8 +4,8 @@ enum TransferScreenStage { initial, selected }
 
 class TransferScreenState extends Equatable {
   final List<Contact> contactList;
-  final int indexContactListSelected;
-  final String amount;
+  final SelectedContact indexContactListSelected;
+  final MoneyAmount amount;
   final Transaction transaction;
   final TransferScreenStage stage;
 
@@ -20,15 +20,15 @@ class TransferScreenState extends Equatable {
   static final empty = TransferScreenState(
     stage: TransferScreenStage.initial,
     contactList: [],
-    indexContactListSelected: -1,
-    amount: '0',
+    indexContactListSelected: SelectedContact(-1),
+    amount: MoneyAmount(0),
     transaction: Transaction.empty,
   );
 
   TransferScreenState copyWith({
     List<Contact> contactList,
-    int indexContactListSelected,
-    String amount,
+    SelectedContact indexContactListSelected,
+    MoneyAmount amount,
     Transaction transaction,
     TransferScreenStage stage,
   }) {

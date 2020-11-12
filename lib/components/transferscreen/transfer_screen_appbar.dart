@@ -5,13 +5,15 @@ import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 
 class TransferScreenAppBar extends StatelessWidget {
-  final Function functionChanged;
-  final MoneyMaskedTextController _moneyController =
-      MoneyMaskedTextController();
+  final Function(String) functionChanged;
+  final MoneyMaskedTextController moneyController;
+  final String errorText;
 
   TransferScreenAppBar({
     Key key,
     @required this.functionChanged,
+    @required this.moneyController,
+    @required this.errorText,
   }) : super(key: key);
 
   @override
@@ -54,10 +56,12 @@ class TransferScreenAppBar extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: getProportionateScreenWidth(6)),
+                    //NOTE(Geraldo): Correa, tu que fez o texto não dar overflow,
+                    //               não foi o controller não. Olha esse Flexible ai
                     Flexible(
                       child: TextField(
                         onChanged: functionChanged,
-                        controller: _moneyController,
+                        controller: moneyController,
                         keyboardType: TextInputType.number,
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(24),
@@ -65,6 +69,7 @@ class TransferScreenAppBar extends StatelessWidget {
                           color: AppTheme.textColor,
                         ),
                         decoration: InputDecoration(
+                          errorText: errorText,
                           border: InputBorder.none,
                           focusedBorder: InputBorder.none,
                           enabledBorder: InputBorder.none,

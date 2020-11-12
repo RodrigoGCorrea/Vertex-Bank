@@ -1,8 +1,10 @@
+import 'package:vertexbank/models/inputs/money_amount.dart';
+
 class Transaction {
   final String id;
   final String targetUser;
   final bool received;
-  final String amount;
+  final MoneyAmount amount;
   final DateTime date;
 
   const Transaction({
@@ -17,7 +19,7 @@ class Transaction {
     id: "",
     targetUser: "",
     received: null,
-    amount: "",
+    amount: MoneyAmount(0),
     date: DateTime(1989, DateTime.november, 9),
   );
 
