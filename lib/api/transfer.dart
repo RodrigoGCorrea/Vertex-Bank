@@ -16,11 +16,15 @@ class TransferApi {
   final emailField = User.dbFields["email"];
 
   Future<void> makeTransfer(
-      String idSender, String idReceiver, Transaction transaction) async {
+    String idSender,
+    String idReceiver,
+    Transaction transactionSender,
+    Transaction transactionReceiver,
+  ) async {
     try {
       final sender = await _db.collection(userCollection).doc(idSender).get();
       final senderMoney = await sender.get(moneyField);
-      if (senderMoney < transaction.amount) {
+      if (senderMoney < transactionSender.amount.value) {
         throw Failure("You don't have enough money...");
       }
 
@@ -28,25 +32,36 @@ class TransferApi {
           await _db.collection(userCollection).doc(idReceiver).get();
       final receiverMoney = await receiver.get(moneyField);
 
+      await _db.collection(userCollection).doc(idSender).update(
+          {"$moneyField": senderMoney - transactionSender.amount.value});
+
       await _db
           .collection(userCollection)
           .doc(idSender)
-          .update({"$moneyField": senderMoney - transaction.amount});
-
-      await _db.collection(transactionCollection).add({
-        "${Transaction.dbFields["targetUser"]}": transaction.targetUser,
-        "${Transaction.dbFields["received"]}": transaction.received,
-        "${Transaction.dbFields["amount"]}": transaction.amount,
-        "${Transaction.dbFields["date"]}": transaction.date,
+          .collection(transactionCollection)
+          .add({
+        "${Transaction.dbFields["targetUser"]}": transactionSender.targetUser,
+        "${Transaction.dbFields["received"]}": transactionSender.received,
+        "${Transaction.dbFields["amount"]}": transactionSender.amount.value,
+        "${Transaction.dbFields["date"]}": transactionSender.date,
       });
 
       await _db
           .collection(userCollection)
           .doc(idReceiver)
-          .update({"$moneyField": receiverMoney + transaction.amount});
-    } on Error {
+          .collection(transactionCollection)
+          .add({
+        "${Transaction.dbFields["targetUser"]}": transactionReceiver.targetUser,
+        "${Transaction.dbFields["received"]}": transactionReceiver.received,
+        "${Transaction.dbFields["amount"]}": transactionReceiver.amount.value,
+        "${Transaction.dbFields["date"]}": transactionReceiver.date,
+      });
+
+      await _db.collection(userCollection).doc(idReceiver).update(
+          {"$moneyField": receiverMoney + transactionReceiver.amount.value});
+    } on Error catch (e) {
       //This should never reach!!
-      throw Failure("Couldn't make payment...");
+      throw Failure("Couldn't make payment... $e");
     }
   }
 

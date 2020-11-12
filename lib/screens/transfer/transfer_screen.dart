@@ -36,9 +36,13 @@ class TransferScreen extends StatelessWidget {
                   builder: (context, state) {
                     return TransferScreenAppBar(
                       moneyController: _moneyController,
-                      functionChanged: (_) => context
-                          .read<TransferCubit>()
-                          .amountChanged(_moneyController.numberValue),
+                      functionChanged: (_) {
+                        final user = context
+                            .read<AuthCubit>()
+                            .getSignedInUserWithoutEmit();
+                        context.read<TransferCubit>().amountChanged(
+                            _moneyController.numberValue, user.money);
+                      },
                       errorText: !state.amount.isValid &&
                               state.stage != TransferScreenStage.initial
                           ? state.amount.errorText
@@ -57,12 +61,12 @@ class TransferScreen extends StatelessWidget {
                       return VtxButton(
                         text: "Next",
                         function: () {
-                          context.read<TransferCubit>().proceedTransfer(
-                                context
-                                    .read<AuthCubit>()
-                                    .getSignedInUserWithoutEmit()
-                                    .id,
-                              );
+                          final user = context
+                              .read<AuthCubit>()
+                              .getSignedInUserWithoutEmit();
+                          context
+                              .read<TransferCubit>()
+                              .proceedTransfer(user.id, user.name);
                           Navigator.pushNamed(
                               context, '/transfer/confirmation');
                         },
@@ -70,13 +74,14 @@ class TransferScreen extends StatelessWidget {
                     } else {
                       return VtxButton(
                         text: "Next",
-                        function: () =>
-                            context.read<TransferCubit>().proceedTransfer(
-                                  context
-                                      .read<AuthCubit>()
-                                      .getSignedInUserWithoutEmit()
-                                      .id,
-                                ),
+                        function: () {
+                          final user = context
+                              .read<AuthCubit>()
+                              .getSignedInUserWithoutEmit();
+                          context
+                              .read<TransferCubit>()
+                              .proceedTransfer(user.id, user.name);
+                        },
                       );
                     }
                   },

@@ -34,30 +34,65 @@ class TransferCubit extends Cubit<TransferScreenState> {
 
   void cleanUpSelected() {
     emit(state.copyWith(
-      transaction: Transaction.empty,
+      transactionSender: Transaction.empty,
+      transactionReceiver: Transaction.empty,
     ));
   }
 
-  void proceedTransfer() {
+  void completeTransfer(String senderId) async {
+    try {
+      final transactionSender = state.transactionSender;
+      final transactionReceiver = state.transactionReceiver;
+      await transferApi.makeTransfer(
+        senderId,
+        transactionSender.id,
+        transactionSender,
+        transactionReceiver,
+      );
+    } on Failure catch (e) {
+      //TODO(Geraldo): fazer uma splash screen para mostrar o erro
+      //               e adicionar states da transferencia: loading, error
+      print(e.message);
+    }
+  }
+
+  void proceedTransfer(String senderId, String senderName) {
     if (state.indexContactListSelected.isValid && state.amount.isValid) {
       final int index = state.indexContactListSelected.value;
       final Contact contact = state.contactList[index];
-      Transaction transaction = Transaction(
-        id: contact.userID,
+      final date = DateTime.now();
+
+      // This will be in the sender transaction collection
+      Transaction transactionSender = Transaction(
+        id: contact
+            .userID, //NOTE(Geraldo): eu acho que esse id não pera pra ser do
+        //                            usuario e sim da propria transação, mas
+        //                            por enquanto virou isso ai mesmo
         targetUser: contact.nickname,
         amount: state.amount,
         received: false,
-        date: DateTime.now(),
+        date: date,
       );
+
+      // And this one will be in the receiver, meaning that received will be true
+      Transaction transactionReceiver = Transaction(
+        id: senderId,
+        targetUser: senderName,
+        amount: state.amount,
+        received: true,
+        date: date,
+      );
+
       emit(state.copyWith(
-        transaction: transaction,
+        transactionSender: transactionSender,
+        transactionReceiver: transactionReceiver,
         stage: TransferScreenStage.selected,
       ));
     } else {
       emit(state.copyWith(
         stage: TransferScreenStage.selected,
       ));
-      amountChanged(state.amount.value);
+      amountChanged(state.amount.value, 0);
     }
   }
 
