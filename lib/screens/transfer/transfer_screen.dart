@@ -59,7 +59,7 @@ class _TransferScreenState extends State<TransferScreen> {
                             _moneyController.numberValue, user.money);
                       },
                       errorText: !state.amount.isValid &&
-                              state.stage != TransferScreenStage.initial
+                              state.stage != TransferFormStage.initial
                           ? state.amount.errorText
                           : null,
                     );

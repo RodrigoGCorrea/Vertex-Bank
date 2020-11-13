@@ -1,6 +1,6 @@
 part of 'transfer_form_cubit.dart';
 
-enum TransferScreenStage { initial, selected }
+enum TransferFormStage { initial, selected }
 
 class TransferFormState extends Equatable {
   final List<Contact> contactList;
@@ -8,7 +8,7 @@ class TransferFormState extends Equatable {
   final MoneyAmount amount;
   final Transaction transactionSender;
   final Transaction transactionReceiver;
-  final TransferScreenStage stage;
+  final TransferFormStage stage;
   final User userInfo;
 
   const TransferFormState({
@@ -22,7 +22,7 @@ class TransferFormState extends Equatable {
   }) : super();
 
   static final empty = TransferFormState(
-    stage: TransferScreenStage.initial,
+    stage: TransferFormStage.initial,
     contactList: [],
     indexContactListSelected: SelectedContact(-1),
     amount: MoneyAmount(0),
@@ -37,7 +37,7 @@ class TransferFormState extends Equatable {
     MoneyAmount amount,
     Transaction transactionSender,
     Transaction transactionReceiver,
-    TransferScreenStage stage,
+    TransferFormStage stage,
     User userInfo,
   }) {
     return TransferFormState(
