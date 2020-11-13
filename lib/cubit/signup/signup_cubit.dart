@@ -3,7 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
 
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/models/inputs/email.dart';
 import 'package:vertexbank/models/inputs/name.dart';
 import 'package:vertexbank/models/inputs/password.dart';
@@ -12,15 +11,23 @@ import 'package:vertexbank/models/user.dart';
 part 'signup_state.dart';
 
 class SignupCubit extends Cubit<SignupState> {
-  SignupCubit({
-    @required this.authCubit,
-  }) : super(
-          SignupState.empty,
-        );
+  SignupCubit() : super(SignupState.empty);
 
-  final AuthCubit authCubit;
+  void cleanUp() {
+    emit(SignupState.empty);
+  }
 
-  void finishSignUp() {
+  void setSignUpFormNextAndRefresh() {
+    emit(state.copyWith(
+      stage: SignupStage.next,
+    ));
+    // This is to refresh the inputs
+    emailChanged(state.email.value);
+    passwordChanged(state.password.value);
+    passwordConfirmChanged(state.confirmPassword.value);
+  }
+
+  void setSignUpFormFinishAndRefresh() {
     final User user = User(
       email: state.email.value,
       name: state.name.value,
@@ -29,32 +36,14 @@ class SignupCubit extends Cubit<SignupState> {
       money: 0,
       id: "",
     );
-
-    authCubit.signUp(
-      user,
-      state.confirmPassword.value,
-    );
-    emit(SignupState.empty);
-  }
-
-  void cleanUp() {
-    emit(SignupState.empty);
-  }
-
-  void goToNextScreen() {
-    emit(state.copyWith(stage: SignupStage.next));
-    // This is to refresh the inputs
-    emailChanged(state.email.value);
-    passwordChanged(state.password.value);
-    passwordConfirmChanged(state.confirmPassword.value);
-  }
-
-  void goToFinishScreen() {
-    emit(state.copyWith(stage: SignupStage.finish));
+    emit(state.copyWith(
+      stage: SignupStage.finish,
+      finishedUser: user,
+    ));
     // This is to refresh the inputs
     nameChanged(state.name.value);
     lastNameChanged(state.lastName.value);
-    birthChanged(state.birth.toString());
+    birthChanged(birthParsed: state.birth);
   }
 
   void emailChanged(String email) {
@@ -125,12 +114,14 @@ class SignupCubit extends Cubit<SignupState> {
     );
   }
 
-  void birthChanged(String birth) {
+  void birthChanged({String birth, DateTime birthParsed}) {
     //NOTE(Geraldo): Não sei se o parse retorna algum tipo de erro...
-    final parsedBirth = DateFormat("dd/MM/yyyy").parse(birth);
+    DateTime parsedBirth;
+    if (birth != null) parsedBirth = DateFormat("dd/MM/yyyy").parse(birth);
+
     emit(
       state.copyWith(
-        birth: parsedBirth,
+        birth: birthParsed ?? parsedBirth,
       ),
     );
   }

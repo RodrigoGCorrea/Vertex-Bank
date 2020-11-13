@@ -11,6 +11,7 @@ class SignupState extends Equatable {
     @required this.password,
     @required this.confirmPassword,
     @required this.stage,
+    @required this.finishedUser,
   }) : super();
 
   final Email email;
@@ -20,6 +21,7 @@ class SignupState extends Equatable {
   final Password password;
   final Password confirmPassword;
   final SignupStage stage;
+  final User finishedUser;
 
   static final SignupState empty = SignupState(
     email: Email(""),
@@ -29,6 +31,7 @@ class SignupState extends Equatable {
     password: Password(""),
     confirmPassword: Password(""),
     stage: SignupStage.intial,
+    finishedUser: User.empty,
   );
 
   SignupState copyWith({
@@ -39,6 +42,7 @@ class SignupState extends Equatable {
     Password password,
     Password confirmPassword,
     SignupStage stage,
+    User finishedUser,
   }) {
     return SignupState(
       email: email ?? this.email,
@@ -48,6 +52,7 @@ class SignupState extends Equatable {
       password: password ?? this.password,
       confirmPassword: confirmPassword ?? this.confirmPassword,
       stage: stage ?? this.stage,
+      finishedUser: finishedUser ?? this.finishedUser,
     );
   }
 
@@ -61,6 +66,7 @@ class SignupState extends Equatable {
       password,
       confirmPassword,
       stage,
+      finishedUser,
     ];
   }
 }

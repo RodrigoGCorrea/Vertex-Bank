@@ -37,30 +37,25 @@ void main() async {
   final authApi = AuthApi();
   final transferApi = TransferApi();
   final AuthCubit authCubit = AuthCubit(authApi: authApi);
-  final SignupCubit signupCubit = SignupCubit(authCubit: authCubit);
   final TransferCubit transferCubit = TransferCubit(transferApi: transferApi);
 
   runApp(App(
     authCubit,
-    signupCubit,
     transferCubit,
   ));
 
   authCubit.close();
-  signupCubit.close();
   transferCubit.close();
 }
 
 class App extends StatelessWidget {
   const App(
     this.authCubit,
-    this.signupCubit,
     this.transferCubit, {
     Key key,
   }) : super(key: key);
 
   final AuthCubit authCubit;
-  final SignupCubit signupCubit;
   final TransferCubit transferCubit;
 
   // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
@@ -80,14 +75,7 @@ class App extends StatelessWidget {
           '/': (context) => SplashScreen(),
           '/login': (context) => LoginScreen(),
           '/main': (context) => MainScreen(),
-          '/signup': (context) => BlocProvider.value(
-                value: signupCubit,
-                child: SignUpScreen(),
-              ),
-          '/signup/finish': (context) => BlocProvider.value(
-                value: signupCubit,
-                child: SignUpFinishScreen(),
-              ),
+          '/signup': (context) => SignUpScreen(),
           '/transfer': (context) => BlocProvider.value(
                 value: transferCubit
                   ..setContactList(authCubit.getSignedInUserWithoutEmit().id),

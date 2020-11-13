@@ -14,13 +14,30 @@ import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/signup/signup_cubit.dart';
 
 class SignUpFinishScreen extends StatelessWidget {
+  final _dobController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final _dobController = TextEditingController();
     return Scaffold(
-      body: _buildSignUpFinishForm(
-        context,
-        _dobController,
+      body: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthenticatedState) {
+            // For some misterious reason flutter does not provide
+            // pushAndRemoveUntil with named routes...
+            Navigator.popUntil(context, ModalRoute.withName('/login'));
+            Navigator.pushReplacementNamed(context, '/main');
+          } else if (state is ErrorState) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error.message),
+              ),
+            );
+          }
+        },
+        child: _buildSignUpFinishForm(
+          context,
+          _dobController,
+        ),
       ),
     );
   }
@@ -108,7 +125,7 @@ class SignUpFinishScreen extends StatelessWidget {
       child: VtxTextBox(
         text: "Birthday",
         onChangedFunction: (birth) =>
-            context.read<SignupCubit>().birthChanged(birth),
+            context.read<SignupCubit>().birthChanged(birth: birth),
       ),
     );
   }
@@ -140,41 +157,31 @@ class SignUpFinishScreen extends StatelessWidget {
       ],
     );
   }
-}
 
-Widget _buildFinishButton(BuildContext context) {
-  return BlocListener<AuthCubit, AuthState>(
-    listener: (context, state) {
-      if (state is AuthenticatedState) {
-        // For some misterious reason flutter does not provide
-        // pushAndRemoveUntil with named routes...
-        Navigator.popUntil(context, ModalRoute.withName('/login'));
-        Navigator.pushReplacementNamed(context, '/main');
-      } else if (state is ErrorState) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text(state.error.message),
-          ),
-        );
-      }
-    },
-    child: BlocBuilder<SignupCubit, SignupState>(
+  Widget _buildFinishButton(BuildContext context) {
+    return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
         final isFormValid =
             state.name.isValid & state.lastName.isValid & (state.birth != null);
         if (isFormValid)
           return VtxButton(
-            text: "Finish",
-            function: () => context.read<SignupCubit>().finishSignUp(),
-          );
+              text: "Finish",
+              function: () {
+                context.read<SignupCubit>().setSignUpFormFinishAndRefresh();
+                context.read<AuthCubit>().signUp(
+                      state.finishedUser,
+                      state.confirmPassword.value,
+                    );
+              });
         else
           return VtxButton(
             text: "Finish",
-            function: () => context.read<SignupCubit>().goToFinishScreen(),
+            function: () =>
+                context.read<SignupCubit>().setSignUpFormFinishAndRefresh(),
           );
       },
-    ),
-  );
+    );
+  }
 }
 
 class _HeaderSignUp extends StatelessWidget {

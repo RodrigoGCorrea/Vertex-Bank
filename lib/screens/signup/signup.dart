@@ -8,19 +8,32 @@ import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancel_button.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:vertexbank/screens/signup/signup_finish.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  _SignUpScreenState() : super();
+
+  final signUpCubit = SignupCubit();
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        context.read<SignupCubit>().cleanUp();
-        return Future.value(true);
-      },
+    return BlocProvider.value(
+      value: signUpCubit,
       child: Scaffold(
         body: _buildSignUpForm(context),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    signUpCubit.close();
+    super.dispose();
   }
 
   Widget _buildSignUpForm(BuildContext context) {
@@ -130,21 +143,30 @@ class SignUpScreen extends StatelessWidget {
   Widget _buildNextButton(BuildContext context) {
     return BlocBuilder<SignupCubit, SignupState>(
       builder: (context, state) {
-        bool isFormValid = state.email.isValid &
+        final bool isFormValid = state.email.isValid &
             state.password.isValid &
             state.confirmPassword.isValid;
         if (isFormValid)
           return VtxButton(
             text: "Next",
             function: () {
-              context.read<SignupCubit>().goToNextScreen();
-              Navigator.pushNamed(context, '/signup/finish');
+              context.read<SignupCubit>().setSignUpFormNextAndRefresh();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: signUpCubit,
+                    child: SignUpFinishScreen(),
+                  ),
+                ),
+              );
             },
           );
         else
           return VtxButton(
             text: "Next",
-            function: () => context.read<SignupCubit>().goToNextScreen(),
+            function: () =>
+                context.read<SignupCubit>().setSignUpFormNextAndRefresh(),
           );
       },
     );
