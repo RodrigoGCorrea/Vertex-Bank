@@ -8,7 +8,6 @@ import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
-import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/components/vtx_listviewbox.dart';
 import 'package:vertexbank/cubit/transfer/action/transfer_action_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
@@ -180,30 +179,6 @@ class _Background extends StatelessWidget {
       height: VtxSizeConfig.screenHeight,
       color: AppTheme.appBackgroundColor,
       child: child,
-    );
-  }
-}
-
-class _BackgroundOld extends StatelessWidget {
-  final Widget child;
-
-  const _BackgroundOld({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: VtxGradient(
-        color: AppTheme.generalColorBlue,
-        begin: Alignment.topLeft,
-        end: Alignment(0.06, 0),
-        child: child,
-      ),
     );
   }
 }

@@ -7,7 +7,6 @@ import 'package:vertexbank/components/mainScreen/main_screen_appbar.dart';
 import 'package:vertexbank/components/mainScreen/balance_box.dart';
 import 'package:vertexbank/components/mainScreen/transaction_list.dart';
 import 'package:vertexbank/components/mainScreen/vtx_buttonbar.dart';
-import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/models/inputs/money_amount.dart';
 import 'package:vertexbank/models/transaction.dart';
@@ -105,29 +104,6 @@ class _Background extends StatelessWidget {
       height: VtxSizeConfig.screenHeight,
       color: AppTheme.appBackgroundColor,
       child: child,
-    );
-  }
-}
-
-class _BackgroundOld extends StatelessWidget {
-  const _BackgroundOld({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: VtxGradient(
-        color: AppTheme.generalColorGreen,
-        begin: Alignment.topLeft,
-        child: child,
-      ),
     );
   }
 }
