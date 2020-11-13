@@ -15,12 +15,12 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  final signUpCubit = SignUpFormCubit();
+  final signUpFormCubit = SignUpFormCubit();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: signUpCubit,
+      value: signUpFormCubit,
       child: Scaffold(
         body: _buildSignUpForm(context),
       ),
@@ -29,7 +29,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   @override
   void dispose() {
-    signUpCubit.close();
+    signUpFormCubit.close();
     super.dispose();
   }
 
@@ -152,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 context,
                 MaterialPageRoute(
                   builder: (context) => BlocProvider.value(
-                    value: signUpCubit,
+                    value: signUpFormCubit,
                     child: SignUpFinishScreen(),
                   ),
                 ),
