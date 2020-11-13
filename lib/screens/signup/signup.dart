@@ -15,8 +15,6 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  _SignUpScreenState() : super();
-
   final signUpCubit = SignUpFormCubit();
 
   @override
