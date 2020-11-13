@@ -42,23 +42,6 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     ));
   }
 
-  void completeTransfer(String senderId) async {
-    try {
-      final transactionSender = state.transactionSender;
-      final transactionReceiver = state.transactionReceiver;
-      await transferApi.makeTransfer(
-        senderId,
-        transactionSender.id,
-        transactionSender,
-        transactionReceiver,
-      );
-    } on Failure catch (e) {
-      //TODO(Geraldo): fazer uma splash screen para mostrar o erro
-      //               e adicionar states da transferencia: loading, error
-      print(e.message);
-    }
-  }
-
   void setTransferFormSelected() {
     final int index = state.indexContactListSelected.value;
     final Contact contact = state.contactList[index];
@@ -88,13 +71,13 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     emit(state.copyWith(
       transactionSender: transactionSender,
       transactionReceiver: transactionReceiver,
-      stage: TransferScreenStage.selected,
+      stage: TransferFormStage.selected,
     ));
   }
 
   void setTransferFormSelectedError() {
     emit(state.copyWith(
-      stage: TransferScreenStage.selected,
+      stage: TransferFormStage.selected,
     ));
     amountChanged(state.amount.value, 0);
   }

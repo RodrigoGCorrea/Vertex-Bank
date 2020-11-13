@@ -4,13 +4,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/components/vtx_listviewbox.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/transfer/action/transfer_action_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
+import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/models/transaction.dart';
 
 class TransferScreenConfirm extends StatelessWidget {
@@ -20,43 +22,92 @@ class TransferScreenConfirm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _Background(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-              ConfirmTransferAppbar(),
-              SizedBox(height: getProportionateScreenHeight(94)),
-              VtxButton(
-                color: AppTheme.buttonColorGreen,
-                text: "Confirm",
-                function: () {
-                  context.read<TransferFormCubit>().completeTransfer(
-                        context
-                            .read<AuthCubit>()
-                            .getSignedInUserWithoutEmit()
-                            .id,
-                      );
-                  Navigator.popUntil(context, ModalRoute.withName('/main'));
-                },
-              ),
-              SizedBox(height: getProportionateScreenHeight(94)),
-              VtxButton(
-                color: AppTheme.buttonColorRed,
-                text: "Cancel",
-                function: () {
-                  Navigator.popUntil(
-                    context,
-                    ModalRoute.withName('/main'),
-                  );
-                },
-              ),
-            ],
-          ),
+    return BlocProvider(
+      create: (context) =>
+          TransferActionCubit(transferApi: getIt<TransferApi>()),
+      child: Scaffold(
+        body: BlocConsumer<TransferActionCubit, TransferActionState>(
+          listener: (context, state) {
+            if (state is TransferActionCompleted) {
+              Navigator.popUntil(context, ModalRoute.withName('/main'));
+            } else if (state is TransferActionError) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.error.message),
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            // I need to check the completed state, otherwise it will load the
+            // old page and the pop out to the main. This makes the transaction
+            // between pages more concise
+            if (state is TransferActionLoading ||
+                state is TransferActionCompleted) {
+              return _Background(
+                  child: Center(child: CircularProgressIndicator()));
+            } else {
+              return _Background(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                      ConfirmTransferAppbar(),
+                      SizedBox(height: getProportionateScreenHeight(94)),
+                      _ConfirmButton(),
+                      SizedBox(height: getProportionateScreenHeight(94)),
+                      _CancelButton(),
+                    ],
+                  ),
+                ),
+              );
+            }
+          },
         ),
       ),
+    );
+  }
+}
+
+class _ConfirmButton extends StatelessWidget {
+  const _ConfirmButton({Key key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TransferFormCubit, TransferFormState>(
+      builder: (context, state) {
+        return VtxButton(
+          color: AppTheme.buttonColorGreen,
+          text: "Confirm",
+          function: () {
+            context.read<TransferActionCubit>().completeTransfer(
+                  state.transactionSender,
+                  state.transactionReceiver,
+                );
+          },
+        );
+      },
+    );
+  }
+}
+
+class _CancelButton extends StatelessWidget {
+  const _CancelButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return VtxButton(
+      color: AppTheme.buttonColorRed,
+      text: "Cancel",
+      function: () {
+        Navigator.popUntil(
+          context,
+          ModalRoute.withName('/main'),
+        );
+      },
     );
   }
 }

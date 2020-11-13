@@ -12,3 +12,16 @@ class TransferActionInitial extends TransferActionState {}
 class TransferActionLoading extends TransferActionState {}
 
 class TransferActionCompleted extends TransferActionState {}
+
+class TransferActionError extends TransferActionState {
+  TransferActionError({
+    @required this.error,
+  });
+
+  final Failure error;
+
+  @override
+  List<Object> get props => [
+        error,
+      ];
+}
