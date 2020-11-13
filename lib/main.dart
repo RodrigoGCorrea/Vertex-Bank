@@ -5,19 +5,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:vertexbank/api/auth.dart';
-import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/login/login_form_cubit.dart';
-import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
-import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
+import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/screens/main_screen.dart';
 import 'package:vertexbank/screens/signup/signup.dart';
-import 'package:vertexbank/screens/signup/signup_finish.dart';
 import 'package:vertexbank/screens/splash.dart';
 import 'package:vertexbank/screens/transfer/transfer_screen.dart';
-import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,37 +28,20 @@ void main() async {
   ]);
 
   await Firebase.initializeApp();
-
-  final authApi = AuthApi();
-  final transferApi = TransferApi();
-  final AuthCubit authCubit = AuthCubit(authApi: authApi);
-  final TransferCubit transferCubit = TransferCubit(transferApi: transferApi);
-
-  runApp(App(
-    authCubit,
-    transferCubit,
-  ));
-
-  authCubit.close();
-  transferCubit.close();
+  getItSetup();
+  runApp(App());
 }
 
 class App extends StatelessWidget {
-  const App(
-    this.authCubit,
-    this.transferCubit, {
-    Key key,
-  }) : super(key: key);
-
-  final AuthCubit authCubit;
-  final TransferCubit transferCubit;
+  const App({Key key}) : super(key: key);
 
   // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
   //                deu certo no main, ainda não sei.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider.value(
-      value: authCubit..getSignedInUser(),
+    return BlocProvider(
+      create: (context) =>
+          AuthCubit(authApi: getIt<AuthApi>())..getSignedInUser(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
@@ -76,15 +54,7 @@ class App extends StatelessWidget {
           '/login': (context) => LoginScreen(),
           '/main': (context) => MainScreen(),
           '/signup': (context) => SignUpScreen(),
-          '/transfer': (context) => BlocProvider.value(
-                value: transferCubit
-                  ..setContactList(authCubit.getSignedInUserWithoutEmit().id),
-                child: TransferScreen(),
-              ),
-          '/transfer/confirmation': (context) => BlocProvider.value(
-                value: transferCubit,
-                child: TransferScreenConfirm(),
-              )
+          '/transfer': (context) => TransferScreen(),
         },
       ),
     );
