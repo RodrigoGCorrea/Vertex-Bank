@@ -3,13 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
+
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/components/vtx_listviewbox.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/models/transaction.dart';
 
 class TransferScreenConfirm extends StatelessWidget {
@@ -19,48 +20,40 @@ class TransferScreenConfirm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        context.read<TransferCubit>().cleanUpSelected();
-        return Future.value(true);
-      },
-      child: Scaffold(
-        body: _Background(
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                ConfirmTransferAppbar(),
-                SizedBox(height: getProportionateScreenHeight(94)),
-                VtxButton(
-                  color: AppTheme.buttonColorGreen,
-                  text: "Confirm",
-                  function: () {
-                    context.read<TransferCubit>().completeTransfer(
-                          context
-                              .read<AuthCubit>()
-                              .getSignedInUserWithoutEmit()
-                              .id,
-                        );
-                    context.read<TransferCubit>().cleanUpInitial();
-                    Navigator.popUntil(context, ModalRoute.withName('/main'));
-                  },
-                ),
-                SizedBox(height: getProportionateScreenHeight(94)),
-                VtxButton(
-                  color: AppTheme.buttonColorRed,
-                  text: "Cancel",
-                  function: () {
-                    context.read<TransferCubit>().cleanUpInitial();
-                    Navigator.popUntil(
-                      context,
-                      ModalRoute.withName('/main'),
-                    );
-                  },
-                ),
-              ],
-            ),
+    return Scaffold(
+      body: _Background(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+              ConfirmTransferAppbar(),
+              SizedBox(height: getProportionateScreenHeight(94)),
+              VtxButton(
+                color: AppTheme.buttonColorGreen,
+                text: "Confirm",
+                function: () {
+                  context.read<TransferFormCubit>().completeTransfer(
+                        context
+                            .read<AuthCubit>()
+                            .getSignedInUserWithoutEmit()
+                            .id,
+                      );
+                  Navigator.popUntil(context, ModalRoute.withName('/main'));
+                },
+              ),
+              SizedBox(height: getProportionateScreenHeight(94)),
+              VtxButton(
+                color: AppTheme.buttonColorRed,
+                text: "Cancel",
+                function: () {
+                  Navigator.popUntil(
+                    context,
+                    ModalRoute.withName('/main'),
+                  );
+                },
+              ),
+            ],
           ),
         ),
       ),
@@ -101,7 +94,8 @@ class ConfirmTransferAppbar extends StatelessWidget {
             child: VtxListViewBox(
               height: getProportionateScreenHeight(190),
               width: getProportionateScreenWidth(285),
-              listViewBuilder: BlocBuilder<TransferCubit, TransferScreenState>(
+              listViewBuilder:
+                  BlocBuilder<TransferFormCubit, TransferFormState>(
                 buildWhen: (previous, current) =>
                     current.transactionSender != Transaction.empty,
                 builder: (context, state) {

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+
+import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
@@ -8,29 +10,42 @@ import 'package:vertexbank/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/components/transferscreen/transfer_screen_appbar.dart';
 import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
-import 'package:vertexbank/models/contact.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
+import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
 
-class TransferScreen extends StatelessWidget {
+class TransferScreen extends StatefulWidget {
   TransferScreen({Key key}) : super(key: key);
+
+  @override
+  _TransferScreenState createState() => _TransferScreenState();
+}
+
+class _TransferScreenState extends State<TransferScreen> {
+  final transferCubit = TransferFormCubit(transferApi: getIt<TransferApi>());
 
   final MoneyMaskedTextController _moneyController =
       MoneyMaskedTextController(precision: 2);
 
   @override
+  void dispose() {
+    transferCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        context.read<TransferCubit>().cleanUpInitial();
-        return Future.value(true);
-      },
+    return BlocProvider.value(
+      value: transferCubit
+        ..setUserInfo(context.watch<AuthCubit>().getSignedInUserWithoutEmit())
+        ..setContactList(),
       child: Scaffold(
         body: _Background(
           child: SingleChildScrollView(
             child: Column(
               children: [
                 SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                BlocBuilder<TransferCubit, TransferScreenState>(
+                BlocBuilder<TransferFormCubit, TransferFormState>(
                   buildWhen: (previous, current) =>
                       previous.amount != current.amount,
                   builder: (context, state) {
@@ -40,7 +55,7 @@ class TransferScreen extends StatelessWidget {
                         final user = context
                             .read<AuthCubit>()
                             .getSignedInUserWithoutEmit();
-                        context.read<TransferCubit>().amountChanged(
+                        context.read<TransferFormCubit>().amountChanged(
                             _moneyController.numberValue, user.money);
                       },
                       errorText: !state.amount.isValid &&
@@ -51,41 +66,9 @@ class TransferScreen extends StatelessWidget {
                   },
                 ),
                 SizedBox(height: getProportionateScreenHeight(30)),
-                ContactList(contactList: contactListSample),
+                ContactList(),
                 SizedBox(height: getProportionateScreenHeight(40)),
-                BlocBuilder<TransferCubit, TransferScreenState>(
-                  builder: (context, state) {
-                    final isFormValid = state.amount.isValid &
-                        state.indexContactListSelected.isValid;
-                    if (isFormValid) {
-                      return VtxButton(
-                        text: "Next",
-                        function: () {
-                          final user = context
-                              .read<AuthCubit>()
-                              .getSignedInUserWithoutEmit();
-                          context
-                              .read<TransferCubit>()
-                              .proceedTransfer(user.id, user.name);
-                          Navigator.pushNamed(
-                              context, '/transfer/confirmation');
-                        },
-                      );
-                    } else {
-                      return VtxButton(
-                        text: "Next",
-                        function: () {
-                          final user = context
-                              .read<AuthCubit>()
-                              .getSignedInUserWithoutEmit();
-                          context
-                              .read<TransferCubit>()
-                              .proceedTransfer(user.id, user.name);
-                        },
-                      );
-                    }
-                  },
-                ),
+                _NextButton(transferCubit: transferCubit),
                 SizedBox(
                   height: getProportionateScreenHeight(13),
                 ),
@@ -100,18 +83,58 @@ class TransferScreen extends StatelessWidget {
                   //TODO(Geraldo): botar a tela de novo contato aqui!!
                   //               Deixei essa função só pra lembrar como
                   //               atualiza os contatos manualmente
-                  function: () => context.read<TransferCubit>().setContactList(
-                        context
-                            .read<AuthCubit>()
-                            .getSignedInUserWithoutEmit()
-                            .id,
-                      ),
+                  function: () =>
+                      context.read<TransferFormCubit>().setContactList(),
                 ),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _NextButton extends StatelessWidget {
+  const _NextButton({
+    Key key,
+    @required this.transferCubit,
+  }) : super(key: key);
+
+  final TransferFormCubit transferCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<TransferFormCubit, TransferFormState>(
+      builder: (context, state) {
+        final isFormValid =
+            state.amount.isValid & state.indexContactListSelected.isValid;
+
+        if (isFormValid) {
+          return VtxButton(
+            text: "Next",
+            function: () {
+              context.read<TransferFormCubit>().setTransferFormSelected();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: transferCubit,
+                    child: TransferScreenConfirm(),
+                  ),
+                ),
+              );
+            },
+          );
+        } else {
+          return VtxButton(
+            text: "Next",
+            function: () {
+              context.read<TransferFormCubit>().setTransferFormSelectedError();
+            },
+          );
+        }
+      },
     );
   }
 }
@@ -182,13 +205,3 @@ class _BackgroundOld extends StatelessWidget {
     );
   }
 }
-
-List<Contact> contactListSample = [
-  Contact("FDP Corp."),
-  Contact("Marcelin Marreta"),
-  Contact("Jaqueline Lasquera"),
-  Contact("Edivaldo Jr."),
-  Contact("Marcelin Marreta"),
-  Contact("FDP Corp."),
-  Contact("Edivaldo Jr."),
-];
