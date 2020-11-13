@@ -5,10 +5,10 @@ import 'package:meta/meta.dart';
 import 'package:vertexbank/models/inputs/email.dart';
 import 'package:vertexbank/models/inputs/password.dart';
 
-part 'login_state.dart';
+part 'login_form_state.dart';
 
-class LoginCubit extends Cubit<LoginState> {
-  LoginCubit() : super(LoginState.empty);
+class LoginFormCubit extends Cubit<LoginFormState> {
+  LoginFormCubit() : super(LoginFormState.empty);
 
   void setLoginFormAndRefresh() {
     emit(state.copyWith(stage: LoginStage.sent));
@@ -19,7 +19,7 @@ class LoginCubit extends Cubit<LoginState> {
   }
 
   void cleanUp() {
-    emit(LoginState.empty);
+    emit(LoginFormState.empty);
   }
 
   void emailChanged(String email) {

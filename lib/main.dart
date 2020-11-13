@@ -8,7 +8,7 @@ import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/login/login_cubit.dart';
+import 'package:vertexbank/cubit/login/login_form_cubit.dart';
 import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
 import 'package:vertexbank/cubit/signup/signup_cubit.dart';
 import 'package:vertexbank/screens/login.dart';

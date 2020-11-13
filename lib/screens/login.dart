@@ -7,7 +7,7 @@ import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/login/login_cubit.dart';
+import 'package:vertexbank/cubit/login/login_form_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
@@ -17,7 +17,7 @@ class LoginScreen extends StatelessWidget {
     VtxSizeConfig().init(context);
 
     return BlocProvider(
-      create: (context) => LoginCubit(),
+      create: (context) => LoginFormCubit(),
       child: Scaffold(
         body: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
@@ -79,7 +79,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildEmailInput(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocBuilder<LoginFormCubit, LoginFormState>(
       buildWhen: (previous, current) =>
           previous.email != current.email || previous.stage != current.stage,
       builder: (context, state) {
@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
           child: VtxTextBox(
             text: "Email",
             onChangedFunction: (email) =>
-                context.read<LoginCubit>().emailChanged(email),
+                context.read<LoginFormCubit>().emailChanged(email),
             errorText: !state.email.isValid && state.stage == LoginStage.sent
                 ? state.email.errorText
                 : null,
@@ -100,7 +100,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildPasswordInput(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocBuilder<LoginFormCubit, LoginFormState>(
       buildWhen: (previous, current) =>
           previous.password != current.password ||
           previous.stage != current.stage,
@@ -112,7 +112,7 @@ class LoginScreen extends StatelessWidget {
             obscureText: true,
             text: "Password",
             onChangedFunction: (password) =>
-                context.read<LoginCubit>().passwordChanged(password),
+                context.read<LoginFormCubit>().passwordChanged(password),
             errorText: !state.password.isValid && state.stage == LoginStage.sent
                 ? state.password.errorText
                 : null,
@@ -123,7 +123,7 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginButton(BuildContext context) {
-    return BlocBuilder<LoginCubit, LoginState>(
+    return BlocBuilder<LoginFormCubit, LoginFormState>(
       builder: (context, state) {
         final bool isFormValid = state.email.isValid & state.password.isValid;
 
@@ -139,7 +139,8 @@ class LoginScreen extends StatelessWidget {
         } else {
           return VtxButton(
             text: "Login",
-            function: () => context.read<LoginCubit>().setLoginFormAndRefresh(),
+            function: () =>
+                context.read<LoginFormCubit>().setLoginFormAndRefresh(),
           );
         }
       },
