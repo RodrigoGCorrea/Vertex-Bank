@@ -39,7 +39,7 @@ class TransferScreenConfirm extends StatelessWidget {
           },
           builder: (context, state) {
             // I need to check the completed state, otherwise it will load the
-            // old page and the pop out to the main. This makes the transaction
+            // old page and then pop out to the main. This makes the transaction
             // between pages more concise
             if (state is TransferActionLoading ||
                 state is TransferActionCompleted) {
