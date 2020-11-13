@@ -10,16 +10,16 @@ import 'package:vertexbank/models/user.dart';
 
 part 'signup_state.dart';
 
-class SignupCubit extends Cubit<SignupState> {
-  SignupCubit() : super(SignupState.empty);
+class SignUpFormCubit extends Cubit<SignUpFormState> {
+  SignUpFormCubit() : super(SignUpFormState.empty);
 
   void cleanUp() {
-    emit(SignupState.empty);
+    emit(SignUpFormState.empty);
   }
 
   void setSignUpFormNextAndRefresh() {
     emit(state.copyWith(
-      stage: SignupStage.next,
+      stage: SignUpStage.next,
     ));
     // This is to refresh the inputs
     emailChanged(state.email.value);
@@ -37,7 +37,7 @@ class SignupCubit extends Cubit<SignupState> {
       id: "",
     );
     emit(state.copyWith(
-      stage: SignupStage.finish,
+      stage: SignUpStage.finish,
       finishedUser: user,
     ));
     // This is to refresh the inputs

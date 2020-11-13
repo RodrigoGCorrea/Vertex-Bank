@@ -13,7 +13,7 @@ class CancelButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<SignupCubit>().cleanUp();
+        context.read<SignUpFormCubit>().cleanUp();
         Navigator.popUntil(context, ModalRoute.withName("/login"));
       },
       child: Text(

@@ -1,9 +1,9 @@
 part of 'signup_cubit.dart';
 
-enum SignupStage { intial, next, finish }
+enum SignUpStage { intial, next, finish }
 
-class SignupState extends Equatable {
-  const SignupState({
+class SignUpFormState extends Equatable {
+  const SignUpFormState({
     @required this.email,
     @required this.name,
     @required this.lastName,
@@ -20,31 +20,31 @@ class SignupState extends Equatable {
   final DateTime birth;
   final Password password;
   final Password confirmPassword;
-  final SignupStage stage;
+  final SignUpStage stage;
   final User finishedUser;
 
-  static final SignupState empty = SignupState(
+  static final SignUpFormState empty = SignUpFormState(
     email: Email(""),
     name: Name(""),
     lastName: Name(""),
     birth: null,
     password: Password(""),
     confirmPassword: Password(""),
-    stage: SignupStage.intial,
+    stage: SignUpStage.intial,
     finishedUser: User.empty,
   );
 
-  SignupState copyWith({
+  SignUpFormState copyWith({
     Email email,
     Name name,
     Name lastName,
     DateTime birth,
     Password password,
     Password confirmPassword,
-    SignupStage stage,
+    SignUpStage stage,
     User finishedUser,
   }) {
-    return SignupState(
+    return SignUpFormState(
       email: email ?? this.email,
       name: name ?? this.name,
       lastName: lastName ?? this.lastName,
