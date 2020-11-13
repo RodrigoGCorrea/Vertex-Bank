@@ -21,21 +21,22 @@ class TransferScreen extends StatefulWidget {
 }
 
 class _TransferScreenState extends State<TransferScreen> {
-  final transferCubit = TransferFormCubit(transferApi: getIt<TransferApi>());
+  final transferFormCubit =
+      TransferFormCubit(transferApi: getIt<TransferApi>());
 
   final MoneyMaskedTextController _moneyController =
       MoneyMaskedTextController(precision: 2);
 
   @override
   void dispose() {
-    transferCubit.close();
+    transferFormCubit.close();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider.value(
-      value: transferCubit
+      value: transferFormCubit
         ..setUserInfo(context.watch<AuthCubit>().getSignedInUserWithoutEmit())
         ..setContactList(),
       child: Scaffold(
@@ -67,7 +68,7 @@ class _TransferScreenState extends State<TransferScreen> {
                 SizedBox(height: getProportionateScreenHeight(30)),
                 ContactList(),
                 SizedBox(height: getProportionateScreenHeight(40)),
-                _NextButton(transferCubit: transferCubit),
+                _NextButton(transferFormCubit: transferFormCubit),
                 SizedBox(
                   height: getProportionateScreenHeight(13),
                 ),
@@ -97,10 +98,10 @@ class _TransferScreenState extends State<TransferScreen> {
 class _NextButton extends StatelessWidget {
   const _NextButton({
     Key key,
-    @required this.transferCubit,
+    @required this.transferFormCubit,
   }) : super(key: key);
 
-  final TransferFormCubit transferCubit;
+  final TransferFormCubit transferFormCubit;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +119,7 @@ class _NextButton extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => BlocProvider.value(
-                    value: transferCubit,
+                    value: transferFormCubit,
                     child: TransferScreenConfirm(),
                   ),
                 ),
