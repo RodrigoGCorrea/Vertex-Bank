@@ -6,21 +6,31 @@ import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancel_button.dart';
-import 'package:vertexbank/components/vtx_gradient.dart';
-import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
+import 'package:vertexbank/screens/signup/signup_finish.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends StatefulWidget {
+  @override
+  _SignUpScreenState createState() => _SignUpScreenState();
+}
+
+class _SignUpScreenState extends State<SignUpScreen> {
+  final signUpFormCubit = SignUpFormCubit();
+
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: () {
-        context.read<SignupCubit>().cleanUp();
-        return Future.value(true);
-      },
+    return BlocProvider.value(
+      value: signUpFormCubit,
       child: Scaffold(
         body: _buildSignUpForm(context),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    signUpFormCubit.close();
+    super.dispose();
   }
 
   Widget _buildSignUpForm(BuildContext context) {
@@ -52,7 +62,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildEmailInput(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       buildWhen: (previous, current) =>
           previous.email != current.email || previous.stage != current.stage,
       builder: (context, state) {
@@ -62,8 +72,8 @@ class SignUpScreen extends StatelessWidget {
           child: VtxTextBox(
             text: "Email",
             onChangedFunction: (email) =>
-                context.read<SignupCubit>().emailChanged(email),
-            errorText: !state.email.isValid && state.stage != SignupStage.intial
+                context.read<SignUpFormCubit>().emailChanged(email),
+            errorText: !state.email.isValid && state.stage != SignUpStage.intial
                 ? state.email.errorText
                 : null,
           ),
@@ -73,7 +83,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildPasswordInput(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       buildWhen: (previous, current) =>
           previous.password != current.password ||
           previous.stage != current.stage,
@@ -85,9 +95,9 @@ class SignUpScreen extends StatelessWidget {
             text: "Password",
             obscureText: true,
             onChangedFunction: (pass) =>
-                context.read<SignupCubit>().passwordChanged(pass),
+                context.read<SignUpFormCubit>().passwordChanged(pass),
             errorText:
-                !state.password.isValid && state.stage != SignupStage.intial
+                !state.password.isValid && state.stage != SignUpStage.intial
                     ? state.password.errorText
                     : null,
           ),
@@ -97,11 +107,11 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildPassConfirmationInput(BuildContext context) {
-    return BlocConsumer<SignupCubit, SignupState>(
+    return BlocConsumer<SignUpFormCubit, SignUpFormState>(
       listenWhen: (previous, current) => previous.password != current.password,
       listener: (context, state) => {
         context
-            .read<SignupCubit>()
+            .read<SignUpFormCubit>()
             .passwordConfirmChanged(state.confirmPassword.value)
       },
       buildWhen: (previous, current) =>
@@ -116,9 +126,9 @@ class SignUpScreen extends StatelessWidget {
             text: "Confirm Password",
             obscureText: true,
             onChangedFunction: (pass) =>
-                context.read<SignupCubit>().passwordConfirmChanged(pass),
+                context.read<SignUpFormCubit>().passwordConfirmChanged(pass),
             errorText: !state.confirmPassword.isValid &&
-                    state.stage != SignupStage.intial
+                    state.stage != SignUpStage.intial
                 ? state.confirmPassword.errorText
                 : null,
           ),
@@ -128,23 +138,32 @@ class SignUpScreen extends StatelessWidget {
   }
 
   Widget _buildNextButton(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       builder: (context, state) {
-        bool isFormValid = state.email.isValid &
+        final bool isFormValid = state.email.isValid &
             state.password.isValid &
             state.confirmPassword.isValid;
         if (isFormValid)
           return VtxButton(
             text: "Next",
             function: () {
-              context.read<SignupCubit>().goToNextScreen();
-              Navigator.pushNamed(context, '/signup/finish');
+              context.read<SignUpFormCubit>().setSignUpFormNextAndRefresh();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                    value: signUpFormCubit,
+                    child: SignUpFinishScreen(),
+                  ),
+                ),
+              );
             },
           );
         else
           return VtxButton(
             text: "Next",
-            function: () => context.read<SignupCubit>().goToNextScreen(),
+            function: () =>
+                context.read<SignUpFormCubit>().setSignUpFormNextAndRefresh(),
           );
       },
     );
@@ -166,34 +185,6 @@ class _Background extends StatelessWidget {
       height: VtxSizeConfig.screenHeight,
       color: AppTheme.appBackgroundColor,
       child: child,
-    );
-  }
-}
-
-class _BackgroundOld extends StatelessWidget {
-  final Widget child;
-
-  const _BackgroundOld({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: VtxGradient(
-        begin: Alignment.topLeft,
-        color: AppTheme.generalColorBlue,
-        child: VtxGradient(
-          begin: Alignment.topRight,
-          end: Alignment(0.06, 0),
-          color: AppTheme.generalColorGreen.withOpacity(0.8),
-          child: child,
-        ),
-      ),
     );
   }
 }

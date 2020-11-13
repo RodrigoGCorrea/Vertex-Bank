@@ -9,18 +9,34 @@ import 'package:vertexbank/components/back_button.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancel_button.dart';
-import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 
 class SignUpFinishScreen extends StatelessWidget {
+  final _dobController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-    final _dobController = TextEditingController();
     return Scaffold(
-      body: _buildSignUpFinishForm(
-        context,
-        _dobController,
+      body: BlocListener<AuthCubit, AuthState>(
+        listener: (context, state) {
+          if (state is AuthenticatedState) {
+            // For some misterious reason flutter does not provide
+            // pushAndRemoveUntil with named routes...
+            Navigator.popUntil(context, ModalRoute.withName('/login'));
+            Navigator.pushReplacementNamed(context, '/main');
+          } else if (state is ErrorState) {
+            Scaffold.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.error.message),
+              ),
+            );
+          }
+        },
+        child: _buildSignUpFinishForm(
+          context,
+          _dobController,
+        ),
       ),
     );
   }
@@ -57,7 +73,7 @@ class SignUpFinishScreen extends StatelessWidget {
   }
 
   Widget _buildNameInput(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       buildWhen: (previous, current) =>
           previous.name != current.name || previous.stage != current.stage,
       builder: (context, state) {
@@ -67,8 +83,8 @@ class SignUpFinishScreen extends StatelessWidget {
           child: VtxTextBox(
             text: "Name",
             onChangedFunction: (name) =>
-                context.read<SignupCubit>().nameChanged(name),
-            errorText: !state.name.isValid && state.stage != SignupStage.next
+                context.read<SignUpFormCubit>().nameChanged(name),
+            errorText: !state.name.isValid && state.stage != SignUpStage.next
                 ? state.name.errorText
                 : null,
           ),
@@ -78,7 +94,7 @@ class SignUpFinishScreen extends StatelessWidget {
   }
 
   Widget _buildLastNameInput(BuildContext context) {
-    return BlocBuilder<SignupCubit, SignupState>(
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       buildWhen: (previous, current) =>
           previous.lastName != current.lastName ||
           previous.stage != current.stage,
@@ -89,9 +105,9 @@ class SignUpFinishScreen extends StatelessWidget {
           child: VtxTextBox(
             text: "Last name",
             onChangedFunction: (lastName) =>
-                context.read<SignupCubit>().lastNameChanged(lastName),
+                context.read<SignUpFormCubit>().lastNameChanged(lastName),
             errorText:
-                !state.lastName.isValid && state.stage != SignupStage.next
+                !state.lastName.isValid && state.stage != SignUpStage.next
                     ? state.lastName.errorText
                     : null,
           ),
@@ -108,7 +124,7 @@ class SignUpFinishScreen extends StatelessWidget {
       child: VtxTextBox(
         text: "Birthday",
         onChangedFunction: (birth) =>
-            context.read<SignupCubit>().birthChanged(birth),
+            context.read<SignUpFormCubit>().birthChanged(birth: birth),
       ),
     );
   }
@@ -140,41 +156,31 @@ class SignUpFinishScreen extends StatelessWidget {
       ],
     );
   }
-}
 
-Widget _buildFinishButton(BuildContext context) {
-  return BlocListener<AuthCubit, AuthState>(
-    listener: (context, state) {
-      if (state is AuthenticatedState) {
-        // For some misterious reason flutter does not provide
-        // pushAndRemoveUntil with named routes...
-        Navigator.popUntil(context, ModalRoute.withName('/login'));
-        Navigator.pushReplacementNamed(context, '/main');
-      } else if (state is ErrorState) {
-        Scaffold.of(context).showSnackBar(
-          SnackBar(
-            content: Text(state.error.message),
-          ),
-        );
-      }
-    },
-    child: BlocBuilder<SignupCubit, SignupState>(
+  Widget _buildFinishButton(BuildContext context) {
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
       builder: (context, state) {
         final isFormValid =
             state.name.isValid & state.lastName.isValid & (state.birth != null);
         if (isFormValid)
           return VtxButton(
-            text: "Finish",
-            function: () => context.read<SignupCubit>().finishSignUp(),
-          );
+              text: "Finish",
+              function: () {
+                context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh();
+                context.read<AuthCubit>().signUp(
+                      state.finishedUser,
+                      state.confirmPassword.value,
+                    );
+              });
         else
           return VtxButton(
             text: "Finish",
-            function: () => context.read<SignupCubit>().goToFinishScreen(),
+            function: () =>
+                context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh(),
           );
       },
-    ),
-  );
+    );
+  }
 }
 
 class _HeaderSignUp extends StatelessWidget {
@@ -216,34 +222,6 @@ class _Background extends StatelessWidget {
       height: VtxSizeConfig.screenHeight,
       color: AppTheme.appBackgroundColor,
       child: child,
-    );
-  }
-}
-
-class _BackgroundOld extends StatelessWidget {
-  final Widget child;
-
-  const _BackgroundOld({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: VtxGradient(
-        begin: Alignment.topLeft,
-        color: AppTheme.generalColorBlue,
-        child: VtxGradient(
-          begin: Alignment.topRight,
-          end: Alignment(0.06, 0),
-          color: AppTheme.generalColorGreen.withOpacity(0.8),
-          child: child,
-        ),
-      ),
     );
   }
 }

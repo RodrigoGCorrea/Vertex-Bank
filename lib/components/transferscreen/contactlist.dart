@@ -4,17 +4,12 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/cubit/transfer/transfer_cubit.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/models/contact.dart';
 import 'package:vertexbank/components/vtx_listviewbox.dart';
 
 class ContactList extends StatelessWidget {
-  const ContactList({
-    Key key,
-    this.contactList,
-  }) : super(key: key);
-
-  final List<Contact> contactList;
+  const ContactList({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +34,7 @@ class ContactList extends StatelessWidget {
                 width: getProportionateScreenWidth(285),
                 height: getProportionateScreenHeight(140),
                 listViewBuilder:
-                    BlocBuilder<TransferCubit, TransferScreenState>(
+                    BlocBuilder<TransferFormCubit, TransferFormState>(
                   builder: (context, state) {
                     if (state.contactList.length == 0) {
                       return Text(
@@ -59,7 +54,7 @@ class ContactList extends StatelessWidget {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () => context
-                                .read<TransferCubit>()
+                                .read<TransferFormCubit>()
                                 .selectContact(index),
                             child: ContactListItem(
                               contact: state.contactList[index],

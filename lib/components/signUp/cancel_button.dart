@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CancelButton extends StatelessWidget {
@@ -13,7 +13,7 @@ class CancelButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        context.read<SignupCubit>().cleanUp();
+        context.read<SignUpFormCubit>().cleanUp();
         Navigator.popUntil(context, ModalRoute.withName("/login"));
       },
       child: Text(
