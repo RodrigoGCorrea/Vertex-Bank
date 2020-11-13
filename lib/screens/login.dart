@@ -6,7 +6,6 @@ import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/logo.dart';
 import 'package:vertexbank/components/login/textbox.dart';
-import 'package:vertexbank/components/vtx_gradient.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/login/login_cubit.dart';
 
@@ -17,39 +16,55 @@ class LoginScreen extends StatelessWidget {
     //               esse é único lugar que a chama o init dele.
     VtxSizeConfig().init(context);
 
-    return Scaffold(
-      body: _Background(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              _buildLogo(),
-              SizedBox(
-                height: getProportionateScreenHeight(45),
+    return BlocProvider(
+      create: (context) => LoginCubit(),
+      child: Scaffold(
+        body: BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthenticatedState) {
+              Navigator.pushReplacementNamed(context, "/main");
+            } else if (state is ErrorState) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.error.message),
+                ),
+              );
+            }
+          },
+          child: _Background(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  _buildLogo(),
+                  SizedBox(
+                    height: getProportionateScreenHeight(45),
+                  ),
+                  _buildEmailInput(context),
+                  SizedBox(
+                    height: getProportionateScreenHeight(20),
+                  ),
+                  _buildPasswordInput(context),
+                  SizedBox(
+                    height: getProportionateScreenHeight(45),
+                  ),
+                  _buildLoginButton(context),
+                  SizedBox(
+                    height: getProportionateScreenHeight(13),
+                  ),
+                  Text(
+                    "or",
+                    style: TextStyle(color: AppTheme.textColor),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(25),
+                  ),
+                  _buildSignUpButton(context),
+                  SizedBox(
+                    height: VtxSizeConfig.screenHeight * 0.1,
+                  )
+                ],
               ),
-              _buildEmailInput(context),
-              SizedBox(
-                height: getProportionateScreenHeight(20),
-              ),
-              _buildPasswordInput(context),
-              SizedBox(
-                height: getProportionateScreenHeight(45),
-              ),
-              _buildLoginButton(context),
-              SizedBox(
-                height: getProportionateScreenHeight(13),
-              ),
-              Text(
-                "or",
-                style: TextStyle(color: AppTheme.textColor),
-              ),
-              SizedBox(
-                height: getProportionateScreenHeight(25),
-              ),
-              _buildSignUpButton(context),
-              SizedBox(
-                height: VtxSizeConfig.screenHeight * 0.1,
-              )
-            ],
+            ),
           ),
         ),
       ),
@@ -108,23 +123,26 @@ class LoginScreen extends StatelessWidget {
   }
 
   Widget _buildLoginButton(BuildContext context) {
-    return BlocListener<AuthCubit, AuthState>(
-      listener: (context, state) {
-        if (state is AuthenticatedState) {
-          context.read<LoginCubit>().cleanUp();
-          Navigator.pushReplacementNamed(context, "/main");
-        } else if (state is ErrorState) {
-          Scaffold.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.error.message),
-            ),
+    return BlocBuilder<LoginCubit, LoginState>(
+      builder: (context, state) {
+        final bool isFormValid = state.email.isValid & state.password.isValid;
+
+        if (isFormValid) {
+          return VtxButton(
+            text: "Login",
+            function: () {
+              context
+                  .read<AuthCubit>()
+                  .logIn(state.email.value, state.password.value);
+            },
+          );
+        } else {
+          return VtxButton(
+            text: "Login",
+            function: () => context.read<LoginCubit>().setLoginFormAndRefresh(),
           );
         }
       },
-      child: VtxButton(
-        text: "Login",
-        function: () => context.read<LoginCubit>().finishLogin(),
-      ),
     );
   }
 
@@ -160,34 +178,6 @@ class _Background extends StatelessWidget {
       height: VtxSizeConfig.screenHeight,
       color: AppTheme.appBackgroundColor,
       child: child,
-    );
-  }
-}
-
-class _BackgroundOld extends StatelessWidget {
-  const _BackgroundOld({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: VtxGradient(
-        begin: Alignment.topLeft,
-        color: AppTheme.generalColorBlue,
-        child: VtxGradient(
-          begin: Alignment.topRight,
-          end: Alignment(0.06, 0),
-          color: AppTheme.generalColorGreen.withOpacity(0.8),
-          child: child,
-        ),
-      ),
     );
   }
 }

@@ -37,19 +37,16 @@ void main() async {
   final authApi = AuthApi();
   final transferApi = TransferApi();
   final AuthCubit authCubit = AuthCubit(authApi: authApi);
-  final LoginCubit loginCubit = LoginCubit(authCubit: authCubit);
   final SignupCubit signupCubit = SignupCubit(authCubit: authCubit);
   final TransferCubit transferCubit = TransferCubit(transferApi: transferApi);
 
   runApp(App(
     authCubit,
-    loginCubit,
     signupCubit,
     transferCubit,
   ));
 
   authCubit.close();
-  loginCubit.close();
   signupCubit.close();
   transferCubit.close();
 }
@@ -57,14 +54,12 @@ void main() async {
 class App extends StatelessWidget {
   const App(
     this.authCubit,
-    this.loginCubit,
     this.signupCubit,
     this.transferCubit, {
     Key key,
   }) : super(key: key);
 
   final AuthCubit authCubit;
-  final LoginCubit loginCubit;
   final SignupCubit signupCubit;
   final TransferCubit transferCubit;
 
@@ -83,10 +78,7 @@ class App extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),
-          '/login': (context) => BlocProvider.value(
-                value: loginCubit,
-                child: LoginScreen(),
-              ),
+          '/login': (context) => LoginScreen(),
           '/main': (context) => MainScreen(),
           '/signup': (context) => BlocProvider.value(
                 value: signupCubit,
