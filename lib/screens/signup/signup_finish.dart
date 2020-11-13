@@ -10,7 +10,7 @@ import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancel_button.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 
 class SignUpFinishScreen extends StatelessWidget {
   final _dobController = TextEditingController();

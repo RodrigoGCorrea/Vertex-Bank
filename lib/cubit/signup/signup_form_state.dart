@@ -1,4 +1,4 @@
-part of 'signup_cubit.dart';
+part of 'signup_form_cubit.dart';
 
 enum SignUpStage { intial, next, finish }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CancelButton extends StatelessWidget {

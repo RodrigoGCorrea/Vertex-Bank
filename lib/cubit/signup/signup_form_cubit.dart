@@ -8,7 +8,7 @@ import 'package:vertexbank/models/inputs/name.dart';
 import 'package:vertexbank/models/inputs/password.dart';
 import 'package:vertexbank/models/user.dart';
 
-part 'signup_state.dart';
+part 'signup_form_state.dart';
 
 class SignUpFormCubit extends Cubit<SignUpFormState> {
   SignUpFormCubit() : super(SignUpFormState.empty);

@@ -6,7 +6,7 @@ import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/login/textbox.dart';
 import 'package:vertexbank/components/signUp/cancel_button.dart';
-import 'package:vertexbank/cubit/signup/signup_cubit.dart';
+import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 import 'package:vertexbank/screens/signup/signup_finish.dart';
 
 class SignUpScreen extends StatefulWidget {
