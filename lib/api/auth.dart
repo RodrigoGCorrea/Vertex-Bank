@@ -14,16 +14,19 @@ class AuthApi {
     if (firebaseUser == null) return null;
     try {
       final user = await _db.collection('users').doc(firebaseUser.uid).get();
+      var money = await user.get('money');
+      if (money is int) money = money.toDouble();
       return User(
         id: user.id,
         birth: await user.get('birth'),
         email: await user.get('email'),
         lastName: await user.get('lastName'),
-        money: await user.get('money'),
+        money: money,
         name: await user.get('name'),
       );
-    } on Error {
+    } on Error catch (e) {
       //This should never reach!!
+      print(e);
       throw Failure("Failed to get logged user");
     }
   }

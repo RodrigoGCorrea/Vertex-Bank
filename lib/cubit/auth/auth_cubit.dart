@@ -30,10 +30,10 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   User getSignedInUserWithoutEmit() {
-    final lstate = state as AuthenticatedState;
-    if (state is AuthenticatedState)
+    if (state is AuthenticatedState) {
+      final lstate = state as AuthenticatedState;
       return lstate.user;
-    else
+    } else
       return null;
   }
 
