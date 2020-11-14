@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:vertexbank/api/auth.dart';
+import 'package:vertexbank/api/money.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/screens/main_screen.dart';
@@ -39,9 +41,19 @@ class App extends StatelessWidget {
   //                deu certo no main, ainda não sei.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          AuthCubit(authApi: getIt<AuthApi>())..getSignedInUser(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (context) =>
+              AuthCubit(authApi: getIt<AuthApi>())..getSignedInUser(),
+        ),
+        BlocProvider<MoneyWatcherCubit>(
+          create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
+            ..setMoneyWatcher(
+              context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
+            ),
+        ),
+      ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(

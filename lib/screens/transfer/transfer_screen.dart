@@ -9,6 +9,7 @@ import 'package:vertexbank/components/button.dart';
 import 'package:vertexbank/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/components/transferscreen/transfer_screen_appbar.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
@@ -45,25 +46,28 @@ class _TransferScreenState extends State<TransferScreen> {
             child: Column(
               children: [
                 SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                BlocBuilder<TransferFormCubit, TransferFormState>(
-                  buildWhen: (previous, current) =>
-                      previous.amount != current.amount,
-                  builder: (context, state) {
-                    return TransferScreenAppBar(
-                      moneyController: _moneyController,
-                      functionChanged: (_) {
-                        final user = context
-                            .read<AuthCubit>()
-                            .getSignedInUserWithoutEmit();
-                        context.read<TransferFormCubit>().amountChanged(
-                            _moneyController.numberValue, user.money);
-                      },
-                      errorText: !state.amount.isValid &&
-                              state.stage != TransferFormStage.initial
-                          ? state.amount.errorText
-                          : null,
-                    );
+                BlocListener<MoneyWatcherCubit, MoneyWatcherState>(
+                  listener: (context, state) {
+                    context.read<TransferFormCubit>().updateMoney(state.money);
                   },
+                  child: BlocBuilder<TransferFormCubit, TransferFormState>(
+                    buildWhen: (previous, current) =>
+                        previous.amount != current.amount,
+                    builder: (context, state) {
+                      return TransferScreenAppBar(
+                        moneyController: _moneyController,
+                        functionChanged: (_) {
+                          context
+                              .read<TransferFormCubit>()
+                              .amountChanged(_moneyController.numberValue);
+                        },
+                        errorText: !state.amount.isValid &&
+                                state.stage != TransferFormStage.initial
+                            ? state.amount.errorText
+                            : null,
+                      );
+                    },
+                  ),
                 ),
                 SizedBox(height: getProportionateScreenHeight(30)),
                 ContactList(),

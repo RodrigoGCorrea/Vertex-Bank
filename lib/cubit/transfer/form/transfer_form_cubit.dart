@@ -42,6 +42,15 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     ));
   }
 
+  void updateMoney(double money) {
+    emit(
+      state.copyWith(
+        userInfo: state.userInfo.copyWith(money: money),
+      ),
+    );
+    amountChanged(state.amount.value);
+  }
+
   void setTransferFormSelected() {
     final int index = state.indexContactListSelected.value;
     final Contact contact = state.contactList[index];
@@ -79,16 +88,16 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     emit(state.copyWith(
       stage: TransferFormStage.selected,
     ));
-    amountChanged(state.amount.value, 0);
+    amountChanged(state.amount.value);
   }
 
-  void amountChanged(double amount, double userMoney) {
+  void amountChanged(double amount) {
     bool isValid;
     String error = MoneyAmount.valueIsZero;
 
     if (!MoneyAmount.validate(amount))
       isValid = false;
-    else if (userMoney < amount) {
+    else if (state.userInfo.money < amount) {
       isValid = false;
       error = MoneyAmount.notEnoughMoney;
     } else

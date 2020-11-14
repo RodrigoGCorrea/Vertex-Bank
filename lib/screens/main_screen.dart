@@ -40,53 +40,45 @@ class MainScreen extends StatelessWidget {
 
   Widget build(BuildContext context) {
     VtxSizeConfig().init(context);
-    return BlocProvider(
-      create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
-        ..setMoneyWatcher(
-            context.read<AuthCubit>().getSignedInUserWithoutEmit().id),
-      child: Scaffold(
-        body: _Background(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                BlocConsumer<AuthCubit, AuthState>(
-                  listener: (context, state) {
-                    if (state is UnauthenticatedState)
-                      Navigator.pushReplacementNamed(context, "/login");
-                  },
-                  buildWhen: (previous, current) =>
-                      current is AuthenticatedState,
-                  builder: (context, state) {
-                    if (state is AuthenticatedState)
-                      return MainScreenAppBar(
-                        userName: state.user.name,
-                        configFunction: () =>
-                            context.read<AuthCubit>().signOut(),
-                      );
-                    else
-                      //This should never reach!!
-                      return MainScreenAppBar(
-                        userName: "",
-                        configFunction: () =>
-                            context.read<AuthCubit>().signOut(),
-                      );
-                  },
-                ),
-                SizedBox(height: getProportionateScreenHeight(20)),
-                BlocBuilder<MoneyWatcherCubit, MoneyWatcherState>(
-                  builder: (context, state) {
-                    return BalanceBox(money: state.money.toString());
-                  },
-                ),
-                SizedBox(height: getProportionateScreenHeight(18)),
-                TransactionList(
-                  list: transactionList,
-                ),
-                SizedBox(height: getProportionateScreenHeight(16)),
-                VtxButtonBar(),
-              ],
-            ),
+    return Scaffold(
+      body: _Background(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+              BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is UnauthenticatedState)
+                    Navigator.pushReplacementNamed(context, "/login");
+                },
+                buildWhen: (previous, current) => current is AuthenticatedState,
+                builder: (context, state) {
+                  if (state is AuthenticatedState)
+                    return MainScreenAppBar(
+                      userName: state.user.name,
+                      configFunction: () => context.read<AuthCubit>().signOut(),
+                    );
+                  else
+                    //This should never reach!!
+                    return MainScreenAppBar(
+                      userName: "",
+                      configFunction: () => context.read<AuthCubit>().signOut(),
+                    );
+                },
+              ),
+              SizedBox(height: getProportionateScreenHeight(20)),
+              BlocBuilder<MoneyWatcherCubit, MoneyWatcherState>(
+                builder: (context, state) {
+                  return BalanceBox(money: state.money.toString());
+                },
+              ),
+              SizedBox(height: getProportionateScreenHeight(18)),
+              TransactionList(
+                list: transactionList,
+              ),
+              SizedBox(height: getProportionateScreenHeight(16)),
+              VtxButtonBar(),
+            ],
           ),
         ),
       ),
