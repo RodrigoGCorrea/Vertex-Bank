@@ -63,7 +63,7 @@ class TransferFormCubit extends Cubit<TransferFormState> {
       //                            usuario e sim da propria transação, mas
       //                            por enquanto virou isso ai mesmo
       targetUser: contact.nickname,
-      amount: state.amount,
+      amount: (state.amount.value * 100).toInt(),
       received: false,
       date: date,
     );
@@ -72,7 +72,7 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     Transaction transactionReceiver = Transaction(
       id: state.userInfo.id,
       targetUser: state.userInfo.name,
-      amount: state.amount,
+      amount: (state.amount.value * 100).toInt(),
       received: true,
       date: date,
     );
@@ -97,7 +97,7 @@ class TransferFormCubit extends Cubit<TransferFormState> {
 
     if (!MoneyAmount.validate(amount))
       isValid = false;
-    else if (state.userInfo.money < amount) {
+    else if ((state.userInfo.money * 0.01) < amount) {
       isValid = false;
       error = MoneyAmount.notEnoughMoney;
     } else
