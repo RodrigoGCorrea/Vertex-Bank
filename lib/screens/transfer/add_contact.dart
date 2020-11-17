@@ -12,40 +12,44 @@ class AddContact extends StatelessWidget {
         child: GestureDetector(
           onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                HeaderAddContact(),
-                SizedBox(height: getProportionateScreenHeight(35)),
-                NicknameInput(),
-                SizedBox(height: getProportionateScreenHeight(20)),
-                ContactIdInput(),
-                SizedBox(height: getProportionateScreenHeight(50)),
-                VtxButton(
-                  text: "Finish",
-                  color: AppTheme.buttonColorGreen,
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(13),
-                ),
-                Text(
-                  "or",
-                  style: TextStyle(color: AppTheme.textColor),
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(25),
-                ),
-                InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                      color: AppTheme.textColor,
-                      fontSize: getProportionateScreenWidth(12),
-                      decoration: TextDecoration.underline,
+            child: Container(
+              height: VtxSizeConfig.screenHeight,
+              child: Column(
+                children: [
+                  HeaderAddContact(),
+                  SizedBox(height: getProportionateScreenHeight(35)),
+                  NicknameInput(),
+                  SizedBox(height: getProportionateScreenHeight(20)),
+                  ContactIdInput(),
+                  Spacer(),
+                  VtxButton(
+                    text: "Finish",
+                    color: AppTheme.buttonColorGreen,
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(13),
+                  ),
+                  Text(
+                    "or",
+                    style: TextStyle(color: AppTheme.textColor),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(25),
+                  ),
+                  InkWell(
+                    onTap: () => Navigator.pop(context),
+                    child: Text(
+                      "Cancel",
+                      style: TextStyle(
+                        color: AppTheme.textColor,
+                        fontSize: getProportionateScreenWidth(12),
+                        decoration: TextDecoration.underline,
+                      ),
                     ),
                   ),
-                )
-              ],
+                  SizedBox(height: VtxSizeConfig.screenHeight * 0.1)
+                ],
+              ),
             ),
           ),
         ),
