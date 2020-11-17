@@ -5,10 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/components/back_button.dart';
-import 'package:vertexbank/components/button.dart';
-import 'package:vertexbank/components/login/textbox.dart';
-import 'package:vertexbank/components/signUp/cancel_button.dart';
+import 'package:vertexbank/view/components/back_button.dart';
+import 'package:vertexbank/view/components/button.dart';
+import 'package:vertexbank/view/components/login/textbox.dart';
+import 'package:vertexbank/view/components/signUp/cancel_button.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 

@@ -4,7 +4,7 @@ import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/models/transaction.dart';
 
-import 'package:vertexbank/components/vtx_listviewbox.dart';
+import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 
 class TransactionList extends StatelessWidget {
   const TransactionList({

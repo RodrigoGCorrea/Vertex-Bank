@@ -6,7 +6,7 @@ import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/models/contact.dart';
-import 'package:vertexbank/components/vtx_listviewbox.dart';
+import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 
 class ContactList extends StatelessWidget {
   const ContactList({Key key}) : super(key: key);

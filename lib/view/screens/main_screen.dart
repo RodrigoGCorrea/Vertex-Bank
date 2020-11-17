@@ -3,10 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/components/mainScreen/main_screen_appbar.dart';
-import 'package:vertexbank/components/mainScreen/balance_box.dart';
-import 'package:vertexbank/components/mainScreen/transaction_list.dart';
-import 'package:vertexbank/components/mainScreen/vtx_buttonbar.dart';
+import 'package:vertexbank/view/components/mainScreen/main_screen_appbar.dart';
+import 'package:vertexbank/view/components/mainScreen/balance_box.dart';
+import 'package:vertexbank/view/components/mainScreen/transaction_list.dart';
+import 'package:vertexbank/view/components/mainScreen/vtx_buttonbar.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/models/inputs/money_amount.dart';

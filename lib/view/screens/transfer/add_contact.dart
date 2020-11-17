@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:vertexbank/components/button.dart';
-import 'package:vertexbank/components/login/textbox.dart';
+import 'package:vertexbank/view/components/button.dart';
+import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 
