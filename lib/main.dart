@@ -6,9 +6,11 @@ import 'package:firebase_core/firebase_core.dart';
 
 import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/api/money.dart';
+import 'package:vertexbank/api/transaction_list.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
+import 'package:vertexbank/cubit/transaction_list/transaction_list_watcher_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/screens/login.dart';
 import 'package:vertexbank/screens/main_screen.dart';
@@ -50,6 +52,13 @@ class App extends StatelessWidget {
         BlocProvider<MoneyWatcherCubit>(
           create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
             ..setMoneyWatcher(
+              context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
+            ),
+        ),
+        BlocProvider<TransactionListCubit>(
+          create: (context) => TransactionListCubit(
+              transactionListApi: getIt<TransactionListApi>())
+            ..setTransactionListWatcher(
               context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
             ),
         ),

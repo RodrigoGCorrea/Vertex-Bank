@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:intl/intl.dart';
+import 'package:vertexbank/components/vtx_listviewbox.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -10,35 +11,12 @@ import 'package:vertexbank/components/mainScreen/transaction_list.dart';
 import 'package:vertexbank/components/mainScreen/vtx_buttonbar.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
-import 'package:vertexbank/models/inputs/money_amount.dart';
-import 'package:vertexbank/models/transaction.dart';
+import 'package:vertexbank/cubit/transaction_list/transaction_list_watcher_cubit.dart';
 
 class MainScreen extends StatelessWidget {
   MainScreen({
     Key key,
   }) : super(key: key);
-
-  final MoneyMaskedTextController _moneyController =
-      MoneyMaskedTextController(precision: 2);
-
-  final List<Widget> transactionList = [
-    VtxTransactionItem(
-      transaction: Transaction(
-        targetUser: "FDP Corp.",
-        amount: MoneyAmount(189230),
-        received: true,
-        date: DateTime.now(),
-      ),
-    ),
-    VtxTransactionItem(
-      transaction: Transaction(
-        targetUser: "Jaqueline Marreta",
-        amount: MoneyAmount(189230),
-        received: false,
-        date: DateTime.now(),
-      ),
-    )
-  ];
 
   Widget build(BuildContext context) {
     VtxSizeConfig().init(context);
@@ -71,13 +49,48 @@ class MainScreen extends StatelessWidget {
               SizedBox(height: getProportionateScreenHeight(20)),
               BlocBuilder<MoneyWatcherCubit, MoneyWatcherState>(
                 builder: (context, state) {
-                  _moneyController.updateValue(state.money.toDouble() * 0.01);
-                  return BalanceBox(money: _moneyController.text);
+                  final money =
+                      NumberFormat.currency(locale: 'pt_BR', symbol: "")
+                          .format(state.money * 0.01);
+                  return BalanceBox(money: money);
                 },
               ),
               SizedBox(height: getProportionateScreenHeight(18)),
-              TransactionList(
-                list: transactionList,
+              BlocBuilder<TransactionListCubit, TransactionListState>(
+                builder: (context, state) {
+                  if (state.transactionList.length > 0) {
+                    List<VtxTransactionItem> transactionListWidget = [];
+                    state.transactionList.forEach((e) {
+                      final money =
+                          NumberFormat.currency(locale: 'pt_BR', symbol: "")
+                              .format(e.amount * 0.01);
+                      transactionListWidget.add(VtxTransactionItem(
+                        userName: e.targetUser,
+                        amount: money,
+                        date: e.date,
+                        received: e.received,
+                      ));
+                    });
+                    return TransactionList(list: transactionListWidget);
+                  } else {
+                    return VtxListViewBox(
+                        width: getProportionateScreenWidth(285),
+                        height: getProportionateScreenHeight(187),
+                        listViewBuilder: Center(
+                          child: Padding(
+                            padding: AppTheme.defaultHorizontalPadding,
+                            child: Text(
+                              "You didn't make any transactions...",
+                              style: TextStyle(
+                                fontSize: getProportionateScreenWidth(14),
+                                color: AppTheme.textColor,
+                                fontWeight: FontWeight.w100,
+                              ),
+                            ),
+                          ),
+                        ));
+                  }
+                },
               ),
               SizedBox(height: getProportionateScreenHeight(16)),
               VtxButtonBar(),
