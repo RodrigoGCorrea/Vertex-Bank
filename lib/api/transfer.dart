@@ -24,7 +24,7 @@ class TransferApi {
     try {
       final sender = await _db.collection(userCollection).doc(idSender).get();
       final senderMoney = await sender.get(moneyField);
-      final transactionMoney = (transactionSender.amount.value * 100).toInt();
+      final transactionMoney = transactionSender.amount;
       if (senderMoney < transactionMoney) {
         throw Failure("You don't have enough money...");
       }
@@ -93,7 +93,10 @@ class TransferApi {
   }
 
   Future<void> addContact(
-      String userId, String contactId, String nickName) async {
+    String userId,
+    String contactId,
+    String nickName,
+  ) async {
     final contact = Contact(nickName, userID: contactId);
     try {
       await _db
