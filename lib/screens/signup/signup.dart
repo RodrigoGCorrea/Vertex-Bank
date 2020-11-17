@@ -21,8 +21,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: signUpFormCubit,
-      child: Scaffold(
-        body: _buildSignUpForm(context),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Scaffold(
+          body: _buildSignUpForm(context),
+        ),
       ),
     );
   }

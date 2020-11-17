@@ -18,51 +18,42 @@ class LoginScreen extends StatelessWidget {
 
     return BlocProvider(
       create: (context) => LoginFormCubit(),
-      child: Scaffold(
-        body: BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthenticatedState) {
-              Navigator.pushReplacementNamed(context, "/main");
-            } else if (state is ErrorState) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.error.message),
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Scaffold(
+          body: BlocListener<AuthCubit, AuthState>(
+            listener: (context, state) {
+              if (state is AuthenticatedState) {
+                Navigator.pushReplacementNamed(context, "/main");
+              } else if (state is ErrorState) {
+                Scaffold.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(state.error.message),
+                  ),
+                );
+              }
+            },
+            child: _Background(
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    _buildLogo(),
+                    SizedBox(height: getProportionateScreenHeight(45)),
+                    _buildEmailInput(context),
+                    SizedBox(height: getProportionateScreenHeight(20)),
+                    _buildPasswordInput(context),
+                    SizedBox(height: getProportionateScreenHeight(45)),
+                    _buildLoginButton(context),
+                    SizedBox(height: getProportionateScreenHeight(13)),
+                    Text(
+                      "or",
+                      style: TextStyle(color: AppTheme.textColor),
+                    ),
+                    SizedBox(height: getProportionateScreenHeight(25)),
+                    _buildSignUpButton(context),
+                    SizedBox(height: VtxSizeConfig.screenHeight * 0.1)
+                  ],
                 ),
-              );
-            }
-          },
-          child: _Background(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  _buildLogo(),
-                  SizedBox(
-                    height: getProportionateScreenHeight(45),
-                  ),
-                  _buildEmailInput(context),
-                  SizedBox(
-                    height: getProportionateScreenHeight(20),
-                  ),
-                  _buildPasswordInput(context),
-                  SizedBox(
-                    height: getProportionateScreenHeight(45),
-                  ),
-                  _buildLoginButton(context),
-                  SizedBox(
-                    height: getProportionateScreenHeight(13),
-                  ),
-                  Text(
-                    "or",
-                    style: TextStyle(color: AppTheme.textColor),
-                  ),
-                  SizedBox(
-                    height: getProportionateScreenHeight(25),
-                  ),
-                  _buildSignUpButton(context),
-                  SizedBox(
-                    height: VtxSizeConfig.screenHeight * 0.1,
-                  )
-                ],
               ),
             ),
           ),

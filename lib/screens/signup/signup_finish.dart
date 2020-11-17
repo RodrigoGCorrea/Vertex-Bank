@@ -17,25 +17,28 @@ class SignUpFinishScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocListener<AuthCubit, AuthState>(
-        listener: (context, state) {
-          if (state is AuthenticatedState) {
-            // For some misterious reason flutter does not provide
-            // pushAndRemoveUntil with named routes...
-            Navigator.popUntil(context, ModalRoute.withName('/login'));
-            Navigator.pushReplacementNamed(context, '/main');
-          } else if (state is ErrorState) {
-            Scaffold.of(context).showSnackBar(
-              SnackBar(
-                content: Text(state.error.message),
-              ),
-            );
-          }
-        },
-        child: _buildSignUpFinishForm(
-          context,
-          _dobController,
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+      child: Scaffold(
+        body: BlocListener<AuthCubit, AuthState>(
+          listener: (context, state) {
+            if (state is AuthenticatedState) {
+              // For some misterious reason flutter does not provide
+              // pushAndRemoveUntil with named routes...
+              Navigator.popUntil(context, ModalRoute.withName('/login'));
+              Navigator.pushReplacementNamed(context, '/main');
+            } else if (state is ErrorState) {
+              Scaffold.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.error.message),
+                ),
+              );
+            }
+          },
+          child: _buildSignUpFinishForm(
+            context,
+            _dobController,
+          ),
         ),
       ),
     );

@@ -12,6 +12,7 @@ import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/screens/transfer/add_contact.dart';
 import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
 
 class TransferScreen extends StatefulWidget {
@@ -40,57 +41,56 @@ class _TransferScreenState extends State<TransferScreen> {
       value: transferFormCubit
         ..setUserInfo(context.watch<AuthCubit>().getSignedInUserWithoutEmit())
         ..setContactList(),
-      child: Scaffold(
-        body: _Background(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                BlocListener<MoneyWatcherCubit, MoneyWatcherState>(
-                  listener: (context, state) {
-                    context.read<TransferFormCubit>().updateMoney(state.money);
-                  },
-                  child: BlocBuilder<TransferFormCubit, TransferFormState>(
-                    buildWhen: (previous, current) =>
-                        previous.amount != current.amount,
-                    builder: (context, state) {
-                      return TransferScreenAppBar(
-                        moneyController: _moneyController,
-                        functionChanged: (_) {
-                          context
-                              .read<TransferFormCubit>()
-                              .amountChanged(_moneyController.numberValue);
-                        },
-                        errorText: !state.amount.isValid &&
-                                state.stage != TransferFormStage.initial
-                            ? state.amount.errorText
-                            : null,
-                      );
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Scaffold(
+          body: _Background(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                  BlocListener<MoneyWatcherCubit, MoneyWatcherState>(
+                    listener: (context, state) {
+                      context
+                          .read<TransferFormCubit>()
+                          .updateMoney(state.money);
                     },
+                    child: BlocBuilder<TransferFormCubit, TransferFormState>(
+                      buildWhen: (previous, current) =>
+                          previous.amount != current.amount,
+                      builder: (context, state) {
+                        return TransferScreenAppBar(
+                          moneyController: _moneyController,
+                          functionChanged: (_) {
+                            context
+                                .read<TransferFormCubit>()
+                                .amountChanged(_moneyController.numberValue);
+                          },
+                          errorText: !state.amount.isValid &&
+                                  state.stage != TransferFormStage.initial
+                              ? state.amount.errorText
+                              : null,
+                        );
+                      },
+                    ),
                   ),
-                ),
-                SizedBox(height: getProportionateScreenHeight(30)),
-                ContactList(),
-                SizedBox(height: getProportionateScreenHeight(40)),
-                _NextButton(transferFormCubit: transferFormCubit),
-                SizedBox(
-                  height: getProportionateScreenHeight(13),
-                ),
-                Text(
-                  "or",
-                  style: TextStyle(color: AppTheme.textColor),
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(25),
-                ),
-                NewContact(
-                  //TODO(Geraldo): botar a tela de novo contato aqui!!
-                  //               Deixei essa função só pra lembrar como
-                  //               atualiza os contatos manualmente
-                  function: () =>
-                      context.read<TransferFormCubit>().setContactList(),
-                ),
-              ],
+                  SizedBox(height: getProportionateScreenHeight(30)),
+                  ContactList(),
+                  SizedBox(height: getProportionateScreenHeight(40)),
+                  _NextButton(transferFormCubit: transferFormCubit),
+                  SizedBox(
+                    height: getProportionateScreenHeight(13),
+                  ),
+                  Text(
+                    "or",
+                    style: TextStyle(color: AppTheme.textColor),
+                  ),
+                  SizedBox(
+                    height: getProportionateScreenHeight(25),
+                  ),
+                  NewContact(transferFormCubit: transferFormCubit),
+                ],
+              ),
             ),
           ),
         ),
@@ -144,25 +144,43 @@ class _NextButton extends StatelessWidget {
 }
 
 class NewContact extends StatelessWidget {
-  final Function function;
+  final TransferFormCubit transferFormCubit;
 
   const NewContact({
     Key key,
-    this.function,
+    @required this.transferFormCubit,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () => function(),
-      child: Text(
-        "Add a new contact",
-        style: TextStyle(
-          color: AppTheme.textColor,
-          fontSize: getProportionateScreenWidth(12),
-          decoration: TextDecoration.underline,
-        ),
-      ),
+    return BlocBuilder<TransferFormCubit, TransferFormState>(
+      builder: (context, state) {
+        return InkWell(
+          onTap: () {
+            //TODO(Geraldo): botar a tela de novo contato aqui!!
+            //               Deixei essa função só pra lembrar como
+            //               atualiza os contatos manualmente
+            context.read<TransferFormCubit>().setContactList();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BlocProvider.value(
+                  value: transferFormCubit,
+                  child: AddContact(),
+                ),
+              ),
+            );
+          },
+          child: Text(
+            "Add a new contact",
+            style: TextStyle(
+              color: AppTheme.textColor,
+              fontSize: getProportionateScreenWidth(12),
+              decoration: TextDecoration.underline,
+            ),
+          ),
+        );
+      },
     );
   }
 }
