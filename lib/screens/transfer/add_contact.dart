@@ -119,7 +119,7 @@ class ContactIdInput extends StatelessWidget {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: VtxTextBox(text: "Contact ID"),
+      child: VtxTextBox(text: "Contact E-mail"),
     );
   }
 }
