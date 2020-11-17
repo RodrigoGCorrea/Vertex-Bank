@@ -13,9 +13,10 @@ class VtxButtonBar extends StatelessWidget {
       child: Row(
         children: [
           VtxIconButton(
-              iconPath: "assets/icons/handshake-solid.svg",
-              text: "Pay",
-              function: () => Navigator.of(context).pushNamed('/transfer')),
+            iconPath: "assets/icons/handshake-solid.svg",
+            text: "Pay",
+            function: () => Navigator.of(context).pushNamed('/transfer'),
+          ),
           Spacer(),
           VtxIconButton(
             iconPath: "assets/icons/money-bill-solid.svg",
@@ -25,6 +26,7 @@ class VtxButtonBar extends StatelessWidget {
           VtxIconButton(
             iconPath: "assets/icons/hand-holding-usd-solid.svg",
             text: "Withdraw",
+            function: () => Navigator.of(context).pushNamed('/withdraw'),
           ),
         ],
       ),
