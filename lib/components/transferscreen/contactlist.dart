@@ -36,7 +36,7 @@ class ContactList extends StatelessWidget {
                 listViewBuilder:
                     BlocBuilder<TransferFormCubit, TransferFormState>(
                   builder: (context, state) {
-                    if (state.contactList.length == 0) {
+                    if (state.contactList.length <= 0) {
                       return Center(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
