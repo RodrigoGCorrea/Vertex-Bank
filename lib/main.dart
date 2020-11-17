@@ -15,6 +15,7 @@ import 'package:vertexbank/screens/main_screen.dart';
 import 'package:vertexbank/screens/signup/signup.dart';
 import 'package:vertexbank/screens/splash.dart';
 import 'package:vertexbank/screens/transfer/transfer_screen.dart';
+import 'package:vertexbank/screens/withdraw/withdraw_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -67,6 +68,7 @@ class App extends StatelessWidget {
           '/main': (context) => MainScreen(),
           '/signup': (context) => SignUpScreen(),
           '/transfer': (context) => TransferScreen(),
+          '/withdraw': (context) => WithdrawScreen(),
         },
       ),
     );
