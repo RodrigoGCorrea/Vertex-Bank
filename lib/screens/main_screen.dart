@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -16,6 +17,9 @@ class MainScreen extends StatelessWidget {
   MainScreen({
     Key key,
   }) : super(key: key);
+
+  final MoneyMaskedTextController _moneyController =
+      MoneyMaskedTextController(precision: 2);
 
   final List<Widget> transactionList = [
     VtxTransactionItem(
@@ -67,7 +71,8 @@ class MainScreen extends StatelessWidget {
               SizedBox(height: getProportionateScreenHeight(20)),
               BlocBuilder<MoneyWatcherCubit, MoneyWatcherState>(
                 builder: (context, state) {
-                  return BalanceBox(money: state.money.toString());
+                  _moneyController.updateValue(state.money.toDouble() * 0.01);
+                  return BalanceBox(money: _moneyController.text);
                 },
               ),
               SizedBox(height: getProportionateScreenHeight(18)),

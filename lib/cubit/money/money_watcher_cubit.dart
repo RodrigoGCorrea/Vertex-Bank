@@ -13,7 +13,7 @@ class MoneyWatcherCubit extends Cubit<MoneyWatcherState> {
   }) : super(MoneyWatcherState(money: 0));
 
   final MoneyApi moneyApi;
-  StreamSubscription<double> _moneySubscription;
+  StreamSubscription<int> _moneySubscription;
 
   void setMoneyWatcher(String id) async {
     try {

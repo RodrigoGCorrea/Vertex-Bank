@@ -24,7 +24,8 @@ class TransferApi {
     try {
       final sender = await _db.collection(userCollection).doc(idSender).get();
       final senderMoney = await sender.get(moneyField);
-      if (senderMoney < transactionSender.amount.value) {
+      final transactionMoney = (transactionSender.amount.value * 100).toInt();
+      if (senderMoney < transactionMoney) {
         throw Failure("You don't have enough money...");
       }
 
@@ -32,8 +33,10 @@ class TransferApi {
           await _db.collection(userCollection).doc(idReceiver).get();
       final receiverMoney = await receiver.get(moneyField);
 
-      await _db.collection(userCollection).doc(idSender).update(
-          {"$moneyField": senderMoney - transactionSender.amount.value});
+      await _db
+          .collection(userCollection)
+          .doc(idSender)
+          .update({"$moneyField": senderMoney - transactionMoney});
 
       await _db
           .collection(userCollection)
@@ -42,7 +45,7 @@ class TransferApi {
           .add({
         "${Transaction.dbFields["targetUser"]}": transactionSender.targetUser,
         "${Transaction.dbFields["received"]}": transactionSender.received,
-        "${Transaction.dbFields["amount"]}": transactionSender.amount.value,
+        "${Transaction.dbFields["amount"]}": transactionMoney,
         "${Transaction.dbFields["date"]}": transactionSender.date,
       });
 
@@ -53,12 +56,14 @@ class TransferApi {
           .add({
         "${Transaction.dbFields["targetUser"]}": transactionReceiver.targetUser,
         "${Transaction.dbFields["received"]}": transactionReceiver.received,
-        "${Transaction.dbFields["amount"]}": transactionReceiver.amount.value,
+        "${Transaction.dbFields["amount"]}": transactionMoney,
         "${Transaction.dbFields["date"]}": transactionReceiver.date,
       });
 
-      await _db.collection(userCollection).doc(idReceiver).update(
-          {"$moneyField": receiverMoney + transactionReceiver.amount.value});
+      await _db
+          .collection(userCollection)
+          .doc(idReceiver)
+          .update({"$moneyField": receiverMoney + transactionMoney});
     } on Error catch (e) {
       //This should never reach!!
       throw Failure("Couldn't make payment... $e");

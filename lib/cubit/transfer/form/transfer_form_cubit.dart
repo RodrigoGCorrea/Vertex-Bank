@@ -42,7 +42,7 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     ));
   }
 
-  void updateMoney(double money) {
+  void updateMoney(int money) {
     emit(
       state.copyWith(
         userInfo: state.userInfo.copyWith(money: money),
