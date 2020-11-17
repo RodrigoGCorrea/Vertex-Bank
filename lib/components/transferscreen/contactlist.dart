@@ -37,12 +37,17 @@ class ContactList extends StatelessWidget {
                     BlocBuilder<TransferFormCubit, TransferFormState>(
                   builder: (context, state) {
                     if (state.contactList.length == 0) {
-                      return Text(
-                        "You don't any contacts added...",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(14),
-                          color: AppTheme.textColor,
-                          fontWeight: FontWeight.w100,
+                      return Center(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Text(
+                            "You don't have any contacts added...",
+                            style: TextStyle(
+                              fontSize: getProportionateScreenWidth(14),
+                              color: AppTheme.textColor,
+                              fontWeight: FontWeight.w100,
+                            ),
+                          ),
                         ),
                       );
                     } else {
