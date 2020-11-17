@@ -214,7 +214,7 @@ class TransferItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "to",
+                  "To",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
                     color: AppTheme.textColor,
@@ -249,7 +249,7 @@ class TransferItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "the amount of",
+                  "The amount of",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
                     color: AppTheme.textColor,
