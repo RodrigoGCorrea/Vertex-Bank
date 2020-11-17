@@ -12,11 +12,11 @@ import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/cubit/transaction_list/transaction_list_watcher_cubit.dart';
 import 'package:vertexbank/getit.dart';
-import 'package:vertexbank/screens/login.dart';
-import 'package:vertexbank/screens/main_screen.dart';
-import 'package:vertexbank/screens/signup/signup.dart';
-import 'package:vertexbank/screens/splash.dart';
-import 'package:vertexbank/screens/transfer/transfer_screen.dart';
+import 'package:vertexbank/view/screens/login.dart';
+import 'package:vertexbank/view/screens/main_screen.dart';
+import 'package:vertexbank/view/screens/signup/signup.dart';
+import 'package:vertexbank/view/screens/splash.dart';
+import 'package:vertexbank/view/screens/transfer/transfer_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

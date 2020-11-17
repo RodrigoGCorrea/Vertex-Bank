@@ -3,9 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/components/button.dart';
-import 'package:vertexbank/components/login/logo.dart';
-import 'package:vertexbank/components/login/textbox.dart';
+import 'package:vertexbank/view/components/button.dart';
+import 'package:vertexbank/view/components/login/logo.dart';
+import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/login/login_form_cubit.dart';
 

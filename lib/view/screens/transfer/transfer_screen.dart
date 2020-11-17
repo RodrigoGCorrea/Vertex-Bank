@@ -5,15 +5,15 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/components/button.dart';
-import 'package:vertexbank/components/transferscreen/contactlist.dart';
-import 'package:vertexbank/components/transferscreen/transfer_screen_appbar.dart';
+import 'package:vertexbank/view/components/button.dart';
+import 'package:vertexbank/view/components/transferscreen/contactlist.dart';
+import 'package:vertexbank/view/components/transferscreen/transfer_screen_appbar.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
-import 'package:vertexbank/screens/transfer/add_contact.dart';
-import 'package:vertexbank/screens/transfer/confirm_transfer.dart';
+import 'package:vertexbank/view/screens/transfer/add_contact.dart';
+import 'package:vertexbank/view/screens/transfer/confirm_transfer.dart';
 
 class TransferScreen extends StatefulWidget {
   TransferScreen({Key key}) : super(key: key);
