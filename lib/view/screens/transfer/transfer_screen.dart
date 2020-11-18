@@ -157,10 +157,6 @@ class NewContact extends StatelessWidget {
       builder: (context, state) {
         return InkWell(
           onTap: () {
-            //TODO(Geraldo): botar a tela de novo contato aqui!!
-            //               Deixei essa função só pra lembrar como
-            //               atualiza os contatos manualmente
-            context.read<TransferFormCubit>().setContactList();
             Navigator.push(
               context,
               MaterialPageRoute(
