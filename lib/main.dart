@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/api/money.dart';
@@ -69,6 +70,9 @@ class App extends StatelessWidget {
           fontFamily: 'Roboto',
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        builder: (BuildContext context, Widget child) {
+          return FlutterEasyLoading(child: child);
+        },
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),
