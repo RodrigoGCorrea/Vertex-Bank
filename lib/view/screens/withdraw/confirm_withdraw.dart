@@ -5,6 +5,7 @@ import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/view/screens/withdraw/generate_e_check.dart';
 
 class ConfirmWithdraw extends StatelessWidget {
   @override
@@ -19,12 +20,16 @@ class ConfirmWithdraw extends StatelessWidget {
             child: Column(
               children: [
                 ConfirmWithdrawAppbar(),
-                SizedBox(height: getProportionateScreenHeight(94)),
+                Spacer(),
                 VtxButton(
                   text: "Confirm",
                   color: AppTheme.buttonColorGreen,
+                  function: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => GenerateCheckScreen())),
                 ),
-                Spacer(),
+                SizedBox(height: getProportionateScreenHeight(20)),
                 CancelButton()
               ],
             ),
