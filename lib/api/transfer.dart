@@ -97,6 +97,7 @@ class TransferApi {
     String contactId,
     String nickName,
   ) async {
+    if (userId == contactId) throw Failure("You can't add yourself.");
     final contact = Contact(nickName, userID: contactId);
     try {
       await _db
