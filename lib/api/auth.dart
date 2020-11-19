@@ -19,7 +19,7 @@ class AuthApi {
         birth: await user.get('birth'),
         email: await user.get('email'),
         lastName: await user.get('lastName'),
-        money: await user.get('money'),
+        money: await user.get('money').toInt(),
         name: await user.get('name'),
       );
     } on Error catch (e) {
