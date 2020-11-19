@@ -6,7 +6,7 @@ import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/logo.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/login/login_form_cubit.dart';
 
 class LoginScreen extends StatelessWidget {

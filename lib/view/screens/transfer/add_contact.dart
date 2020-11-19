@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:vertexbank/api/transfer.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/transfer/action/addcontact/addcontact_action_cubit.dart';
 
 import 'package:vertexbank/cubit/transfer/form/addcontact/addcontact_form_cubit.dart';

@@ -7,7 +7,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/config/apptheme.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/screens/login.dart';
 import 'package:vertexbank/view/screens/main_screen.dart';

@@ -6,7 +6,7 @@ import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/models/failure.dart';
 import 'package:vertexbank/models/user.dart';
 
-part 'auth_state.dart';
+part 'auth_action_state.dart';
 
 class AuthActionCubit extends Cubit<AuthActionState> {
   AuthActionCubit({

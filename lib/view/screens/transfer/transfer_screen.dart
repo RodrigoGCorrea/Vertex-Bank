@@ -9,7 +9,7 @@ import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/view/components/transferscreen/transfer_screen_appbar.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';

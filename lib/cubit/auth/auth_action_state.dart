@@ -1,4 +1,4 @@
-part of 'auth_cubit.dart';
+part of 'auth_action_cubit.dart';
 
 abstract class AuthActionState extends Equatable {
   const AuthActionState();

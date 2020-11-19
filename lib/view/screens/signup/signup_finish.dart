@@ -9,7 +9,7 @@ import 'package:vertexbank/view/components/back_button.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/view/components/signUp/cancel_button.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 
 class SignUpFinishScreen extends StatelessWidget {
