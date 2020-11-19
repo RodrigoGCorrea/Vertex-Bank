@@ -14,6 +14,7 @@ class TransactionListApi {
           .collection(userCollection)
           .doc(id)
           .collection(transactionCollection)
+          .orderBy('date', descending: true)
           .snapshots()
           .map((snapshot) {
         List<Transaction> transactions = [];
