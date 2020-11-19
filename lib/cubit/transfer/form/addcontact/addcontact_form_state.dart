@@ -9,18 +9,18 @@ class AddContactFormState extends Equatable {
     @required this.stage,
   });
 
-  final Name nickNameContact;
+  final String nickNameContact;
   final Email emailContact;
   final AddContactFormStage stage;
 
   static final empty = AddContactFormState(
-    nickNameContact: Name(""),
+    nickNameContact: "",
     emailContact: Email(""),
     stage: AddContactFormStage.intial,
   );
 
   AddContactFormState copyWith({
-    Name nickNameContact,
+    String nickNameContact,
     Email emailContact,
     AddContactFormStage stage,
   }) {

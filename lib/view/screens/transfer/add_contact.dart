@@ -48,9 +48,9 @@ class AddContact extends StatelessWidget {
                     children: [
                       HeaderAddContact(),
                       SizedBox(height: getProportionateScreenHeight(35)),
-                      NicknameInput(),
-                      SizedBox(height: getProportionateScreenHeight(20)),
                       ContactIdInput(),
+                      SizedBox(height: getProportionateScreenHeight(20)),
+                      NicknameInput(),
                       Spacer(),
                       NextButton(),
                       SizedBox(height: VtxSizeConfig.screenHeight * 0.1)
@@ -75,21 +75,20 @@ class NextButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AddContactFormCubit, AddContactFormState>(
         builder: (context, state) {
-      final bool isFormValid =
-          state.emailContact.isValid & state.nickNameContact.isValid;
+      final bool isFormValid = state.emailContact.isValid;
       if (isFormValid) {
         return VtxButton(
           text: "Finish",
           color: AppTheme.buttonColorGreen,
           function: () {
-            context.read<AddContactFormCubit>().setContactFormToSent();
+            context.read<AddContactFormCubit>().setContactFormToSentIfValid();
             context.read<AddContactActionCubit>().addContact(
                   context
                       .read<AuthActionCubit>()
                       .getSignedInUserWithoutEmit()
                       .id,
                   state.emailContact.value,
-                  state.nickNameContact.value,
+                  state.nickNameContact,
                 );
             context.read<TransferFormCubit>().setContactList();
           },
@@ -99,7 +98,9 @@ class NextButton extends StatelessWidget {
           text: "Finish",
           color: AppTheme.buttonColorGreen,
           function: () {
-            context.read<AddContactFormCubit>().setContactFormToSent();
+            context
+                .read<AddContactFormCubit>()
+                .setContactFormToSentIfNotValid();
           },
         );
       }
@@ -157,19 +158,12 @@ class NicknameInput extends StatelessWidget {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: BlocBuilder<AddContactFormCubit, AddContactFormState>(
-          builder: (context, state) {
-        return VtxTextBox(
-          text: "Nickname",
-          onChangedFunction: (nickName) => context
-              .read<AddContactFormCubit>()
-              .nickNameContactChanged(nickName),
-          errorText: !state.nickNameContact.isValid &&
-                  state.stage == AddContactFormStage.sent
-              ? state.nickNameContact.errorText
-              : null,
-        );
-      }),
+      child: VtxTextBox(
+        text: "Nickname (optional)",
+        onChangedFunction: (nickName) => context
+            .read<AddContactFormCubit>()
+            .nickNameContactChanged(nickName),
+      ),
     );
   }
 }

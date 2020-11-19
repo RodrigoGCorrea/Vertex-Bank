@@ -81,7 +81,8 @@ class TransferApi {
           .collection(contactCollection)
           .get()
           .then((snapshot) => snapshot.docs.forEach((doc) {
-                final contact = Contact(doc.get(nickNameField), userID: doc.id);
+                final contact =
+                    Contact(nickname: doc.get(nickNameField), userID: doc.id);
                 contacts.add(contact);
               }));
 
@@ -98,7 +99,7 @@ class TransferApi {
     String nickName,
   ) async {
     if (userId == contactId) throw Failure("You can't add yourself.");
-    final contact = Contact(nickName, userID: contactId);
+    final contact = Contact(nickname: nickName, userID: contactId);
     try {
       await _db
           .collection(userCollection)

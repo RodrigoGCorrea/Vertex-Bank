@@ -19,7 +19,13 @@ class AddContactActionCubit extends Cubit<AddContactActionState> {
     try {
       emit(AddContactActionLoading());
       final contactInfo = await transferApi.findPossibleContact(email);
-      await transferApi.addContact(userId, contactInfo.id, nickName);
+      await transferApi.addContact(
+        userId,
+        contactInfo.id,
+        nickName == ""
+            ? "${contactInfo.name} ${contactInfo.lastName}"
+            : nickName,
+      );
       emit(AddContactActionFinished(message: "User added with success!"));
     } on Failure catch (e) {
       emit(AddContactActionError(error: e));

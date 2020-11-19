@@ -3,26 +3,28 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 import 'package:vertexbank/models/inputs/email.dart';
-import 'package:vertexbank/models/inputs/name.dart';
 
 part 'addcontact_form_state.dart';
 
 class AddContactFormCubit extends Cubit<AddContactFormState> {
   AddContactFormCubit() : super(AddContactFormState.empty);
 
-  void setContactFormToSent() {
+  void setContactFormToSentIfValid() {
     emit(
       state.copyWith(stage: AddContactFormStage.sent),
     );
-    nickNameContactChanged(state.nickNameContact.value);
+  }
+
+  void setContactFormToSentIfNotValid() {
+    emit(state.copyWith(stage: AddContactFormStage.sent));
+    nickNameContactChanged(state.nickNameContact);
     contactEmailChanged(state.emailContact.value);
   }
 
   void nickNameContactChanged(String nickName) {
-    final bool isValid = Name.validate(nickName);
     emit(
       state.copyWith(
-        nickNameContact: Name(nickName, isValid: isValid),
+        nickNameContact: nickName,
       ),
     );
   }
