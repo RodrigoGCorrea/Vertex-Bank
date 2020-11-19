@@ -177,6 +177,13 @@ class SignUpFinishScreen extends StatelessWidget {
             text: "Finish",
             function: () {
               context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh();
+
+              if (state.finishedUser != User.empty) {
+                context.read<AuthActionCubit>().signUp(
+                      state.finishedUser,
+                      state.confirmPassword.value,
+                    );
+              }
             },
           );
         else
