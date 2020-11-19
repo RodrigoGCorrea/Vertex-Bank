@@ -9,7 +9,9 @@ class TransferFormState extends Equatable {
   final Transaction transactionSender;
   final Transaction transactionReceiver;
   final TransferFormStage stage;
-  final User userInfo;
+  final String userId;
+  final String userName;
+  final int userMoney;
 
   const TransferFormState({
     @required this.stage,
@@ -18,17 +20,21 @@ class TransferFormState extends Equatable {
     @required this.amount,
     @required this.contactList,
     @required this.indexContactListSelected,
-    @required this.userInfo,
+    @required this.userId,
+    @required this.userName,
+    @required this.userMoney,
   }) : super();
 
   static final empty = TransferFormState(
     stage: TransferFormStage.initial,
     contactList: [],
     indexContactListSelected: SelectedContact(-1),
-    amount: MoneyAmount(0),
+    amount: MoneyAmount(value: 0),
     transactionSender: Transaction.empty,
     transactionReceiver: Transaction.empty,
-    userInfo: User.empty,
+    userId: "",
+    userName: "",
+    userMoney: 0,
   );
 
   TransferFormState copyWith({
@@ -38,7 +44,9 @@ class TransferFormState extends Equatable {
     Transaction transactionSender,
     Transaction transactionReceiver,
     TransferFormStage stage,
-    User userInfo,
+    String userId,
+    String userName,
+    int userMoney,
   }) {
     return TransferFormState(
       contactList: contactList ?? this.contactList,
@@ -48,7 +56,9 @@ class TransferFormState extends Equatable {
       transactionSender: transactionSender ?? this.transactionSender,
       transactionReceiver: transactionReceiver ?? this.transactionReceiver,
       stage: stage ?? this.stage,
-      userInfo: userInfo ?? this.userInfo,
+      userId: userId ?? this.userId,
+      userName: userName ?? this.userName,
+      userMoney: userMoney ?? this.userMoney,
     );
   }
 
@@ -60,6 +70,8 @@ class TransferFormState extends Equatable {
         transactionSender,
         transactionReceiver,
         stage,
-        userInfo,
+        userId,
+        userName,
+        userMoney,
       ];
 }

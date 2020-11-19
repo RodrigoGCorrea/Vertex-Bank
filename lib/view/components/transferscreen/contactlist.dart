@@ -108,7 +108,7 @@ class ContactList extends StatelessWidget {
 }
 
 class ContactListItem extends StatelessWidget {
-  ContactListItem({
+  const ContactListItem({
     @required this.contact,
     @required this.isSelected,
     Key key,

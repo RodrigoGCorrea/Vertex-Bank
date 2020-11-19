@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
 
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
@@ -112,12 +112,9 @@ class _CancelButton extends StatelessWidget {
 }
 
 class ConfirmTransferAppbar extends StatelessWidget {
-  ConfirmTransferAppbar({
+  const ConfirmTransferAppbar({
     Key key,
   }) : super(key: key);
-
-  final MoneyMaskedTextController _moneyController =
-      MoneyMaskedTextController(precision: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +146,11 @@ class ConfirmTransferAppbar extends StatelessWidget {
                 buildWhen: (previous, current) =>
                     current.transactionSender != Transaction.empty,
                 builder: (context, state) {
-                  _moneyController.updateValue(state.amount.value);
                   return TransferItem(
+                    amount:
+                        NumberFormat.currency(locale: 'pt_BR', symbol: "R\$")
+                            .format(state.amount.value * 0.01),
                     transaction: state.transactionSender,
-                    moneyController: _moneyController,
                   );
                 },
               ),
@@ -184,12 +182,11 @@ class _Background extends StatelessWidget {
 }
 
 class TransferItem extends StatelessWidget {
-  TransferItem({
+  const TransferItem({
     Key key,
     @required this.transaction,
-    @required moneyController,
-  })  : this.amount = moneyController.text,
-        super(key: key);
+    @required this.amount,
+  }) : super(key: key);
 
   final Transaction transaction;
   final String amount;
@@ -257,7 +254,7 @@ class TransferItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "R\$ $amount",
+                  "$amount",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,
