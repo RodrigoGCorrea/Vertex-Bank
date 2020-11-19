@@ -2,9 +2,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/models/user.dart';
 import 'package:vertexbank/view/components/back_button.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
@@ -22,15 +24,15 @@ class SignUpFinishScreen extends StatelessWidget {
       child: Scaffold(
         body: BlocListener<AuthActionCubit, AuthActionState>(
           listener: (context, state) {
-            if (state is AuthActionAuthenticated) {
+            if (state is AuthActionLoading) {
+              EasyLoading.show(status: "Finishing up...");
+            } else if (state is AuthActionAuthenticated) {
+              EasyLoading.dismiss();
               Navigator.pushNamedAndRemoveUntil(
                   context, '/main', ModalRoute.withName('/'));
             } else if (state is AuthActionError) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.error.message),
-                ),
-              );
+              EasyLoading.dismiss();
+              EasyLoading.showError(state.error.message);
             }
           },
           child: _buildSignUpFinishForm(
