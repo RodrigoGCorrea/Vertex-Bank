@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 
@@ -25,44 +26,33 @@ class TransferScreenConfirm extends StatelessWidget {
       create: (context) =>
           TransferActionCubit(transferApi: getIt<TransferApi>()),
       child: Scaffold(
-        body: BlocConsumer<TransferActionCubit, TransferActionState>(
+        body: BlocListener<TransferActionCubit, TransferActionState>(
           listener: (context, state) {
-            if (state is TransferActionCompleted) {
+            if (state is TransferActionLoading) {
+              EasyLoading.show(status: "Making paymente...");
+            } else if (state is TransferActionCompleted) {
+              EasyLoading.dismiss();
               Navigator.popUntil(context, ModalRoute.withName('/main'));
             } else if (state is TransferActionError) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.error.message),
-                ),
-              );
+              EasyLoading.dismiss();
+              EasyLoading.showError(state.error.message);
             }
           },
-          builder: (context, state) {
-            // I need to check the completed state, otherwise it will load the
-            // old page and then pop out to the main. This makes the transaction
-            // between pages more concise
-            if (state is TransferActionLoading ||
-                state is TransferActionCompleted) {
-              return _Background(
-                  child: Center(child: CircularProgressIndicator()));
-            } else {
-              return _Background(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                      ConfirmTransferAppbar(),
-                      SizedBox(height: getProportionateScreenHeight(94)),
-                      _ConfirmButton(),
-                      SizedBox(height: getProportionateScreenHeight(94)),
-                      _CancelButton(),
-                    ],
-                  ),
-                ),
-              );
-            }
-          },
+          child: _Background(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                  ConfirmTransferAppbar(),
+                  SizedBox(height: getProportionateScreenHeight(94)),
+                  _ConfirmButton(),
+                  SizedBox(height: getProportionateScreenHeight(94)),
+                  _CancelButton(),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
