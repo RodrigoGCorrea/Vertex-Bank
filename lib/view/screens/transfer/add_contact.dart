@@ -84,7 +84,10 @@ class NextButton extends StatelessWidget {
           function: () {
             context.read<AddContactFormCubit>().setContactFormToSent();
             context.read<AddContactActionCubit>().addContact(
-                  context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
+                  context
+                      .read<AuthActionCubit>()
+                      .getSignedInUserWithoutEmit()
+                      .id,
                   state.emailContact.value,
                   state.nickNameContact.value,
                 );

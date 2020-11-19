@@ -19,11 +19,11 @@ class LoginScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Scaffold(
-          body: BlocListener<AuthCubit, AuthState>(
+          body: BlocListener<AuthActionCubit, AuthActionState>(
             listener: (context, state) {
-              if (state is AuthenticatedState) {
+              if (state is AuthActionAuthenticated) {
                 Navigator.pushReplacementNamed(context, "/main");
-              } else if (state is ErrorState) {
+              } else if (state is AuthActionError) {
                 Scaffold.of(context).showSnackBar(
                   SnackBar(
                     content: Text(state.error.message),
@@ -121,7 +121,7 @@ class LoginScreen extends StatelessWidget {
             text: "Login",
             function: () {
               context
-                  .read<AuthCubit>()
+                  .read<AuthActionCubit>()
                   .logIn(state.email.value, state.password.value);
             },
           );

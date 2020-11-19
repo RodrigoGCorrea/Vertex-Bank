@@ -8,12 +8,12 @@ import 'package:vertexbank/models/user.dart';
 
 part 'auth_state.dart';
 
-class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({
+class AuthActionCubit extends Cubit<AuthActionState> {
+  AuthActionCubit({
     @required AuthApi authApi,
   })  : assert(authApi != null),
         _authApi = authApi,
-        super(UnauthenticatedState());
+        super(AuthActionUnauthenticated());
 
   final AuthApi _authApi;
 
@@ -21,17 +21,17 @@ class AuthCubit extends Cubit<AuthState> {
     try {
       final user = await _authApi.user;
       if (user == null)
-        emit(UnauthenticatedState());
+        emit(AuthActionUnauthenticated());
       else
-        emit(AuthenticatedState(user: user));
+        emit(AuthActionAuthenticated(user: user));
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 
   User getSignedInUserWithoutEmit() {
-    if (state is AuthenticatedState) {
-      final lstate = state as AuthenticatedState;
+    if (state is AuthActionAuthenticated) {
+      final lstate = state as AuthActionAuthenticated;
       return lstate.user;
     } else
       return null;
@@ -45,11 +45,11 @@ class AuthCubit extends Cubit<AuthState> {
       );
       final loggedInUser = await _authApi.user;
       if (loggedInUser == null)
-        emit(UnauthenticatedState());
+        emit(AuthActionUnauthenticated());
       else
-        emit(AuthenticatedState(user: loggedInUser));
+        emit(AuthActionAuthenticated(user: loggedInUser));
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 
@@ -62,20 +62,20 @@ class AuthCubit extends Cubit<AuthState> {
 
       final user = await _authApi.user;
       if (user == null)
-        emit(UnauthenticatedState());
+        emit(AuthActionUnauthenticated());
       else
-        emit(AuthenticatedState(user: user));
+        emit(AuthActionAuthenticated(user: user));
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 
   void signOut() async {
     try {
       await _authApi.logOut();
-      emit(UnauthenticatedState());
+      emit(AuthActionUnauthenticated());
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 }

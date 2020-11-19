@@ -20,12 +20,12 @@ class SignUpFinishScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
       child: Scaffold(
-        body: BlocListener<AuthCubit, AuthState>(
+        body: BlocListener<AuthActionCubit, AuthActionState>(
           listener: (context, state) {
-            if (state is AuthenticatedState) {
+            if (state is AuthActionAuthenticated) {
               Navigator.pushNamedAndRemoveUntil(
                   context, '/main', ModalRoute.withName('/'));
-            } else if (state is ErrorState) {
+            } else if (state is AuthActionError) {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
                   content: Text(state.error.message),
@@ -163,7 +163,7 @@ class SignUpFinishScreen extends StatelessWidget {
       listenWhen: (previous, current) => previous.stage != current.stage,
       listener: (context, state) {
         if (state.stage == SignUpStage.finish) {
-          context.read<AuthCubit>().signUp(
+          context.read<AuthActionCubit>().signUp(
                 state.finishedUser,
                 state.confirmPassword.value,
               );

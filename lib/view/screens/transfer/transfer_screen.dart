@@ -46,11 +46,14 @@ class _TransferScreenState extends State<TransferScreen> {
         BlocProvider.value(
           value: transferFormCubit
             ..setUserInfo(
-              context.watch<AuthCubit>().getSignedInUserWithoutEmit().id,
-              context.watch<AuthCubit>().getSignedInUserWithoutEmit().name +
+              context.watch<AuthActionCubit>().getSignedInUserWithoutEmit().id,
+              context
+                      .watch<AuthActionCubit>()
+                      .getSignedInUserWithoutEmit()
+                      .name +
                   " " +
                   context
-                      .watch<AuthCubit>()
+                      .watch<AuthActionCubit>()
                       .getSignedInUserWithoutEmit()
                       .lastName,
             )
@@ -59,7 +62,7 @@ class _TransferScreenState extends State<TransferScreen> {
         BlocProvider<MoneyWatcherCubit>(
           create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
             ..setMoneyWatcher(
-              context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
+              context.read<AuthActionCubit>().getSignedInUserWithoutEmit().id,
             ),
         ),
       ],

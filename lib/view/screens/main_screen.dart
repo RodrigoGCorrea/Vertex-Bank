@@ -28,14 +28,14 @@ class MainScreen extends StatelessWidget {
         BlocProvider<MoneyWatcherCubit>(
           create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
             ..setMoneyWatcher(
-              context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
+              context.read<AuthActionCubit>().getSignedInUserWithoutEmit().id,
             ),
         ),
         BlocProvider<TransactionListCubit>(
           create: (context) => TransactionListCubit(
               transactionListApi: getIt<TransactionListApi>())
             ..setTransactionListWatcher(
-              context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
+              context.read<AuthActionCubit>().getSignedInUserWithoutEmit().id,
             ),
         ),
       ],
@@ -45,26 +45,26 @@ class MainScreen extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                BlocConsumer<AuthCubit, AuthState>(
+                BlocConsumer<AuthActionCubit, AuthActionState>(
                   listener: (context, state) {
-                    if (state is UnauthenticatedState)
+                    if (state is AuthActionUnauthenticated)
                       Navigator.pushReplacementNamed(context, "/login");
                   },
                   buildWhen: (previous, current) =>
-                      current is AuthenticatedState,
+                      current is AuthActionAuthenticated,
                   builder: (context, state) {
-                    if (state is AuthenticatedState)
+                    if (state is AuthActionAuthenticated)
                       return MainScreenAppBar(
                         userName: state.user.name,
                         configFunction: () =>
-                            context.read<AuthCubit>().signOut(),
+                            context.read<AuthActionCubit>().signOut(),
                       );
                     else
                       //This should never reach!!
                       return MainScreenAppBar(
                         userName: "",
                         configFunction: () =>
-                            context.read<AuthCubit>().signOut(),
+                            context.read<AuthActionCubit>().signOut(),
                       );
                   },
                 ),
