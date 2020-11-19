@@ -43,7 +43,11 @@ class AuthCubit extends Cubit<AuthState> {
         user: user,
         password: password,
       );
-      emit(AuthenticatedState(user: user));
+      final loggedInUser = await _authApi.user;
+      if (loggedInUser == null)
+        emit(UnauthenticatedState());
+      else
+        emit(AuthenticatedState(user: loggedInUser));
     } on Failure catch (e) {
       emit(ErrorState(error: e));
     }

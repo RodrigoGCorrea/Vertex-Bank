@@ -40,7 +40,10 @@ class SignUpFormCubit extends Cubit<SignUpFormState> {
       stage: SignUpStage.finish,
       finishedUser: user,
     ));
-    // This is to refresh the inputs
+    finalFormRefresh();
+  }
+
+  void finalFormRefresh() {
     nameChanged(state.name.value);
     lastNameChanged(state.lastName.value);
     birthChanged(birthParsed: state.birth);

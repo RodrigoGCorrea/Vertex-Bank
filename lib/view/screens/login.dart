@@ -12,8 +12,6 @@ import 'package:vertexbank/cubit/login/login_form_cubit.dart';
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //NOTE(Geraldo): Se uma tela for carregada antes do Login o size config vai dar merda,
-    //               esse é único lugar que a chama o init dele.
     VtxSizeConfig().init(context);
 
     return BlocProvider(

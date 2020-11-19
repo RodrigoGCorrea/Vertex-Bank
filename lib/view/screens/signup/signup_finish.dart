@@ -23,10 +23,8 @@ class SignUpFinishScreen extends StatelessWidget {
         body: BlocListener<AuthCubit, AuthState>(
           listener: (context, state) {
             if (state is AuthenticatedState) {
-              // For some misterious reason flutter does not provide
-              // pushAndRemoveUntil with named routes...
-              Navigator.popUntil(context, ModalRoute.withName('/login'));
-              Navigator.pushReplacementNamed(context, '/main');
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/main', ModalRoute.withName('/'));
             } else if (state is ErrorState) {
               Scaffold.of(context).showSnackBar(
                 SnackBar(
@@ -161,25 +159,30 @@ class SignUpFinishScreen extends StatelessWidget {
   }
 
   Widget _buildFinishButton(BuildContext context) {
-    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+    return BlocConsumer<SignUpFormCubit, SignUpFormState>(
+      listenWhen: (previous, current) => previous.stage != current.stage,
+      listener: (context, state) {
+        if (state.stage == SignUpStage.finish) {
+          context.read<AuthCubit>().signUp(
+                state.finishedUser,
+                state.confirmPassword.value,
+              );
+        }
+      },
       builder: (context, state) {
         final isFormValid =
             state.name.isValid & state.lastName.isValid & (state.birth != null);
         if (isFormValid)
           return VtxButton(
-              text: "Finish",
-              function: () {
-                context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh();
-                context.read<AuthCubit>().signUp(
-                      state.finishedUser,
-                      state.confirmPassword.value,
-                    );
-              });
+            text: "Finish",
+            function: () {
+              context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh();
+            },
+          );
         else
           return VtxButton(
             text: "Finish",
-            function: () =>
-                context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh(),
+            function: () => context.read<SignUpFormCubit>().finalFormRefresh(),
           );
       },
     );
