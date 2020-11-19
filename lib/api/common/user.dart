@@ -31,8 +31,7 @@ class UserCommonApi {
         name: user.get(User.dbFields["name"]),
         lastName: user.get(User.dbFields["lastName"]),
         birth: user.get(User.dbFields["birth"]),
-        money:
-            user.get(User.dbFields["money"]).toInt(), //NOTE(Geraldo): Wtf????
+        money: user.get(User.dbFields["money"]).toInt(),
       );
     } on Error catch (e) {
       throw InnerFailure(

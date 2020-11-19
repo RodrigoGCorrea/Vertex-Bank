@@ -36,8 +36,6 @@ void main() async {
 class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
 
-  // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
-  //                deu certo no main, ainda não sei.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
