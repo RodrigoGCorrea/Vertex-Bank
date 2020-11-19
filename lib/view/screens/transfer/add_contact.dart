@@ -35,7 +35,7 @@ class AddContact extends StatelessWidget {
               EasyLoading.dismiss();
               EasyLoading.showSuccess(state.message);
             } else if (state is AddContactActionLoading) {
-              EasyLoading.show(status: "loading...");
+              EasyLoading.show(status: "Adding contact...");
             }
           },
           child: Background(
