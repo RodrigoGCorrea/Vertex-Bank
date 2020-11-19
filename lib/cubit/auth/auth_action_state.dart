@@ -7,6 +7,8 @@ abstract class AuthActionState extends Equatable {
   List<Object> get props => [];
 }
 
+class AuthActionInitial extends AuthActionState {}
+
 class AuthActionError extends AuthActionState {
   const AuthActionError({
     @required this.error,

@@ -13,12 +13,14 @@ class AuthActionCubit extends Cubit<AuthActionState> {
     @required AuthApi authApi,
   })  : assert(authApi != null),
         _authApi = authApi,
-        super(AuthActionUnauthenticated());
+        super(AuthActionInitial());
 
   final AuthApi _authApi;
 
   void getSignedInUser() async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       final user = await _authApi.user;
       if (user == null)
         emit(AuthActionUnauthenticated());
@@ -38,7 +40,9 @@ class AuthActionCubit extends Cubit<AuthActionState> {
   }
 
   void signUp(User user, String password) async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       await _authApi.signUp(
         user: user,
         password: password,
@@ -54,7 +58,9 @@ class AuthActionCubit extends Cubit<AuthActionState> {
   }
 
   void logIn(String email, String password) async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       await _authApi.logInWithEmailAndPassword(
         email: email,
         password: password,
@@ -71,7 +77,9 @@ class AuthActionCubit extends Cubit<AuthActionState> {
   }
 
   void signOut() async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       await _authApi.logOut();
       emit(AuthActionUnauthenticated());
     } on Failure catch (e) {
