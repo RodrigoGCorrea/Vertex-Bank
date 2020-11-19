@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -21,14 +22,14 @@ class LoginScreen extends StatelessWidget {
         child: Scaffold(
           body: BlocListener<AuthActionCubit, AuthActionState>(
             listener: (context, state) {
-              if (state is AuthActionAuthenticated) {
+              if (state is AuthActionLoading) {
+                EasyLoading.show(status: "Log in...");
+              } else if (state is AuthActionAuthenticated) {
+                EasyLoading.dismiss();
                 Navigator.pushReplacementNamed(context, "/main");
               } else if (state is AuthActionError) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.error.message),
-                  ),
-                );
+                EasyLoading.dismiss();
+                EasyLoading.showError(state.error.message);
               }
             },
             child: _Background(
