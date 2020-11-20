@@ -210,26 +210,31 @@ class TransferItem extends StatelessWidget {
               ),
             ),
             SizedBox(width: getProportionateScreenWidth(20)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "To",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColor,
-                    fontWeight: FontWeight.w100,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "To",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(12),
+                      color: AppTheme.textColor,
+                      fontWeight: FontWeight.w100,
+                    ),
                   ),
-                ),
-                Text(
-                  "${transaction.targetUser}",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(20),
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textColor,
+                  Text(
+                    "${transaction.targetUser}",
+                    overflow: TextOverflow.fade,
+                    maxLines: 1,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(20),
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textColor,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
