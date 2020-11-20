@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
@@ -9,6 +10,7 @@ import 'package:vertexbank/cubit/transfer/action/addcontact/addcontact_action_cu
 import 'package:vertexbank/cubit/transfer/form/addcontact/addcontact_form_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
+
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
@@ -65,6 +67,7 @@ class AddContact extends StatelessWidget {
     );
   }
 }
+
 
 class NextButton extends StatelessWidget {
   const NextButton({
@@ -158,6 +161,7 @@ class NicknameInput extends StatelessWidget {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+
       child: VtxTextBox(
         text: "Nickname (optional)",
         onChangedFunction: (nickName) => context
@@ -174,6 +178,7 @@ class ContactIdInput extends StatelessWidget {
     return Padding(
       padding:
           EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+
       child: BlocBuilder<AddContactFormCubit, AddContactFormState>(
         builder: (context, state) {
           return VtxTextBox(

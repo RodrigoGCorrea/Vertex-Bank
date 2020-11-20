@@ -9,11 +9,13 @@ import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/view/screens/deposit/deposit_screen.dart';
 import 'package:vertexbank/view/screens/login.dart';
 import 'package:vertexbank/view/screens/main_screen.dart';
 import 'package:vertexbank/view/screens/signup/signup.dart';
 import 'package:vertexbank/view/screens/splash.dart';
 import 'package:vertexbank/view/screens/transfer/transfer_screen.dart';
+import 'package:vertexbank/view/screens/withdraw/withdraw_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -61,6 +63,8 @@ class App extends StatelessWidget {
           '/main': (context) => MainScreen(),
           '/signup': (context) => SignUpScreen(),
           '/transfer': (context) => TransferScreen(),
+          '/withdraw': (context) => WithdrawScreen(),
+          '/deposit': (context) => DepositScreen(),
         },
       ),
     );

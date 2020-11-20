@@ -32,7 +32,8 @@ dependencies:
   datetime_picker_formfield: ^1.0.0
   intl: ^0.16.1
   flutter_masked_text: ^0.8.0
-
+  qr_flutter: ^3.1.0
+  qr_code_scanner: ^0.0.13
   bloc: ^6.1.0
   flutter_bloc: ^6.1.0
   equatable: ^1.2.5

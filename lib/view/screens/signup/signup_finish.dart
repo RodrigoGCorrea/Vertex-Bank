@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
@@ -7,11 +8,14 @@ import 'package:intl/intl.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/models/user.dart';
+
 import 'package:vertexbank/view/components/back_button.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/view/components/signUp/cancel_button.dart';
+
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
+
 import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 
 class SignUpFinishScreen extends StatelessWidget {
@@ -137,7 +141,6 @@ class SignUpFinishScreen extends StatelessWidget {
       },
     );
   }
-
   Widget _buildBackButton() {
     return Stack(
       children: [
@@ -156,6 +159,7 @@ class SignUpFinishScreen extends StatelessWidget {
   }
 
   Widget _buildFinishButton(BuildContext context) {
+
     return BlocConsumer<SignUpFormCubit, SignUpFormState>(
       listenWhen: (previous, current) => previous.stage != current.stage,
       listener: (context, state) {
@@ -195,7 +199,6 @@ class SignUpFinishScreen extends StatelessWidget {
       },
     );
   }
-}
 
 class _BasicDateField extends StatelessWidget {
   final Function(DateTime) onChanged;

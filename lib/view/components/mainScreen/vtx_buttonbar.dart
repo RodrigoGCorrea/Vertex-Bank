@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:vertexbank/config/size_config.dart';
+
+import '../vtx_icon_button.dart';
+
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -13,25 +17,35 @@ class VtxButtonBar extends StatelessWidget {
       child: Row(
         children: [
           VtxIconButton(
-              iconPath: "assets/icons/handshake-solid.svg",
-              text: "Pay",
-              function: () => Navigator.of(context).pushNamed('/transfer')),
+            iconPath: "assets/icons/handshake-solid.svg",
+            text: "Pay",
+            width: getProportionateScreenHeight(75),
+            height: getProportionateScreenHeight(70),
+            function: () => Navigator.of(context).pushNamed('/transfer'),
+          ),
           Spacer(),
           VtxIconButton(
             iconPath: "assets/icons/money-bill-solid.svg",
             text: "Deposit",
+            width: getProportionateScreenHeight(75),
+            height: getProportionateScreenHeight(70),
+            function: () => Navigator.of(context).pushNamed('/deposit'),
+
           ),
           Spacer(),
           VtxIconButton(
             iconPath: "assets/icons/hand-holding-usd-solid.svg",
             text: "Withdraw",
+            width: getProportionateScreenHeight(75),
+            height: getProportionateScreenHeight(70),
+            function: () => Navigator.of(context).pushNamed('/withdraw'),
+
           ),
         ],
       ),
     );
   }
 }
-
 class VtxIconButton extends StatelessWidget {
   final String iconPath;
   final String text;

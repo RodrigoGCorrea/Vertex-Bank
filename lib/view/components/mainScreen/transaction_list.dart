@@ -110,6 +110,7 @@ class VtxTransactionItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
+
                 "$userName",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(11),
@@ -133,6 +134,7 @@ class VtxTransactionItem extends StatelessWidget {
                 top: getProportionateScreenHeight(6),
                 right: getProportionateScreenWidth(5)),
             child: Text(
+
               "${date.day}/${date.month}/${date.year}",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(9),

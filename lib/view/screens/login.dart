@@ -2,12 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
+
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/logo.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
+
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
+
 import 'package:vertexbank/cubit/login/login_form_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -20,6 +23,7 @@ class LoginScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Scaffold(
+
           body: BlocListener<AuthActionCubit, AuthActionState>(
             listener: (context, state) {
               if (state is AuthActionLoading) {
@@ -122,6 +126,7 @@ class LoginScreen extends StatelessWidget {
             text: "Login",
             function: () {
               context
+
                   .read<AuthActionCubit>()
                   .logIn(state.email.value, state.password.value);
             },
