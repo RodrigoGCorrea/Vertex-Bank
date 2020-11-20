@@ -10,6 +10,7 @@ import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/cubit/auth/auth_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/view/screens/deposit/deposit_screen.dart';
 import 'package:vertexbank/view/screens/login.dart';
 import 'package:vertexbank/view/screens/main_screen.dart';
 import 'package:vertexbank/view/screens/signup/signup.dart';
@@ -69,6 +70,7 @@ class App extends StatelessWidget {
           '/signup': (context) => SignUpScreen(),
           '/transfer': (context) => TransferScreen(),
           '/withdraw': (context) => WithdrawScreen(),
+          '/deposit': (context) => DepositScreen(),
         },
       ),
     );
