@@ -1,7 +1,7 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:intl/intl.dart';
 import 'package:meta/meta.dart';
+import 'package:vertexbank/models/inputs/birthday.dart';
 
 import 'package:vertexbank/models/inputs/email.dart';
 import 'package:vertexbank/models/inputs/name.dart';
@@ -27,7 +27,7 @@ class SignUpFormCubit extends Cubit<SignUpFormState> {
     passwordConfirmChanged(state.confirmPassword.value);
   }
 
-  void setSignUpFormFinishAndRefresh() {
+  void setSignUpFormFinishAndRefreshIfValid() {
     final User user = User(
       email: state.email.value,
       name: state.name.value,
@@ -37,13 +37,19 @@ class SignUpFormCubit extends Cubit<SignUpFormState> {
       id: "",
     );
     emit(state.copyWith(
-      stage: SignUpStage.finish,
+      stage: SignUpStage.finishOk,
       finishedUser: user,
     ));
-    // This is to refresh the inputs
+    setSignUpFormFinishAndRefreshIfNotValid();
+  }
+
+  void setSignUpFormFinishAndRefreshIfNotValid() {
+    emit(state.copyWith(
+      stage: SignUpStage.finishFail,
+    ));
     nameChanged(state.name.value);
     lastNameChanged(state.lastName.value);
-    birthChanged(birthParsed: state.birth);
+    birthChanged(state.birth.value);
   }
 
   void emailChanged(String email) {
@@ -114,14 +120,13 @@ class SignUpFormCubit extends Cubit<SignUpFormState> {
     );
   }
 
-  void birthChanged({String birth, DateTime birthParsed}) {
-    //NOTE(Geraldo): Não sei se o parse retorna algum tipo de erro...
-    DateTime parsedBirth;
-    if (birth != null) parsedBirth = DateFormat("dd/MM/yyyy").parse(birth);
+  void birthChanged(DateTime birth) {
+    final isValid = Birthday.validate(birth);
+    final newBirthday = new Birthday(birth, isValid: isValid);
 
     emit(
       state.copyWith(
-        birth: birthParsed ?? parsedBirth,
+        birth: newBirthday,
       ),
     );
   }

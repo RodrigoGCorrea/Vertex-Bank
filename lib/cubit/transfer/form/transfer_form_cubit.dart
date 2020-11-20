@@ -8,7 +8,6 @@ import 'package:vertexbank/models/failure.dart';
 import 'package:vertexbank/models/inputs/money_amount.dart';
 import 'package:vertexbank/models/inputs/selected_contact.dart';
 import 'package:vertexbank/models/transaction.dart';
-import 'package:vertexbank/models/user.dart';
 
 part 'transfer_form_state.dart';
 
@@ -19,13 +18,16 @@ class TransferFormCubit extends Cubit<TransferFormState> {
 
   final TransferApi transferApi;
 
-  void setUserInfo(User user) {
-    emit(state.copyWith(userInfo: user));
+  void setUserInfo(String userId, String userName) {
+    emit(state.copyWith(
+      userId: userId,
+      userName: userName,
+    ));
   }
 
   void setContactList() async {
     try {
-      final list = await transferApi.getContacts(state.userInfo.id);
+      final list = await transferApi.getContacts(state.userId);
       emit(state.copyWith(contactList: list));
     } on Failure {
       emit(state.copyWith(contactList: []));
@@ -42,15 +44,6 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     ));
   }
 
-  void updateMoney(double money) {
-    emit(
-      state.copyWith(
-        userInfo: state.userInfo.copyWith(money: money),
-      ),
-    );
-    amountChanged(state.amount.value);
-  }
-
   void setTransferFormSelected() {
     final int index = state.indexContactListSelected.value;
     final Contact contact = state.contactList[index];
@@ -63,16 +56,16 @@ class TransferFormCubit extends Cubit<TransferFormState> {
       //                            usuario e sim da propria transação, mas
       //                            por enquanto virou isso ai mesmo
       targetUser: contact.nickname,
-      amount: state.amount,
+      amount: state.amount.value,
       received: false,
       date: date,
     );
 
     // And this one will be in the receiver, meaning that received will be true
     Transaction transactionReceiver = Transaction(
-      id: state.userInfo.id,
-      targetUser: state.userInfo.name,
-      amount: state.amount,
+      id: state.userId,
+      targetUser: state.userName,
+      amount: state.amount.value,
       received: true,
       date: date,
     );
@@ -88,23 +81,34 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     emit(state.copyWith(
       stage: TransferFormStage.selected,
     ));
-    amountChanged(state.amount.value);
+    amountInputChanged(amountInt: state.amount.value);
   }
 
-  void amountChanged(double amount) {
+  void updateUserMoney(int amount) {
+    emit(state.copyWith(userMoney: amount));
+    amountInputChanged(amountInt: state.amount.value);
+  }
+
+  void amountInputChanged({double amountDouble, int amountInt}) {
+    var amount;
+    if (amountInt != null)
+      amount = amountInt;
+    else
+      amount = (amountDouble * 100).toInt();
+
     bool isValid;
     String error = MoneyAmount.valueIsZero;
 
     if (!MoneyAmount.validate(amount))
       isValid = false;
-    else if (state.userInfo.money < amount) {
+    else if (state.userMoney < amount) {
       isValid = false;
       error = MoneyAmount.notEnoughMoney;
     } else
       isValid = true;
 
     emit(state.copyWith(
-      amount: MoneyAmount(amount, isValid: isValid, errorText: error),
+      amount: MoneyAmount(value: amount, isValid: isValid, errorText: error),
     ));
   }
 }

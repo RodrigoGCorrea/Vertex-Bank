@@ -3,12 +3,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:vertexbank/api/auth.dart';
-import 'package:vertexbank/api/money.dart';
 import 'package:vertexbank/config/apptheme.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
-import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/screens/deposit/deposit_screen.dart';
 import 'package:vertexbank/view/screens/login.dart';
@@ -39,21 +38,13 @@ void main() async {
 class App extends StatelessWidget {
   const App({Key key}) : super(key: key);
 
-  // NOTE(Geraldo): Removi os try do firebase. Talvez verificar se a conexão
-  //                deu certo no main, ainda não sei.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<AuthCubit>(
+        BlocProvider<AuthActionCubit>(
           create: (context) =>
-              AuthCubit(authApi: getIt<AuthApi>())..getSignedInUser(),
-        ),
-        BlocProvider<MoneyWatcherCubit>(
-          create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
-            ..setMoneyWatcher(
-              context.read<AuthCubit>().getSignedInUserWithoutEmit().id,
-            ),
+              AuthActionCubit(authApi: getIt<AuthApi>())..getSignedInUser(),
         ),
       ],
       child: MaterialApp(
@@ -62,6 +53,9 @@ class App extends StatelessWidget {
           fontFamily: 'Roboto',
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        builder: (BuildContext context, Widget child) {
+          return FlutterEasyLoading(child: child);
+        },
         initialRoute: '/',
         routes: {
           '/': (context) => SplashScreen(),

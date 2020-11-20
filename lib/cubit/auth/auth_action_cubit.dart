@@ -6,51 +6,61 @@ import 'package:vertexbank/api/auth.dart';
 import 'package:vertexbank/models/failure.dart';
 import 'package:vertexbank/models/user.dart';
 
-part 'auth_state.dart';
+part 'auth_action_state.dart';
 
-class AuthCubit extends Cubit<AuthState> {
-  AuthCubit({
+class AuthActionCubit extends Cubit<AuthActionState> {
+  AuthActionCubit({
     @required AuthApi authApi,
   })  : assert(authApi != null),
         _authApi = authApi,
-        super(UnauthenticatedState());
+        super(AuthActionInitial());
 
   final AuthApi _authApi;
 
   void getSignedInUser() async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       final user = await _authApi.user;
       if (user == null)
-        emit(UnauthenticatedState());
+        emit(AuthActionUnauthenticated());
       else
-        emit(AuthenticatedState(user: user));
+        emit(AuthActionAuthenticated(user: user));
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 
   User getSignedInUserWithoutEmit() {
-    if (state is AuthenticatedState) {
-      final lstate = state as AuthenticatedState;
+    if (state is AuthActionAuthenticated) {
+      final lstate = state as AuthActionAuthenticated;
       return lstate.user;
     } else
       return null;
   }
 
   void signUp(User user, String password) async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       await _authApi.signUp(
         user: user,
         password: password,
       );
-      emit(AuthenticatedState(user: user));
+      final loggedInUser = await _authApi.user;
+      if (loggedInUser == null)
+        emit(AuthActionUnauthenticated());
+      else
+        emit(AuthActionAuthenticated(user: loggedInUser));
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 
   void logIn(String email, String password) async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       await _authApi.logInWithEmailAndPassword(
         email: email,
         password: password,
@@ -58,20 +68,22 @@ class AuthCubit extends Cubit<AuthState> {
 
       final user = await _authApi.user;
       if (user == null)
-        emit(UnauthenticatedState());
+        emit(AuthActionUnauthenticated());
       else
-        emit(AuthenticatedState(user: user));
+        emit(AuthActionAuthenticated(user: user));
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 
   void signOut() async {
+    emit(AuthActionInitial());
     try {
+      emit(AuthActionLoading());
       await _authApi.logOut();
-      emit(UnauthenticatedState());
+      emit(AuthActionUnauthenticated());
     } on Failure catch (e) {
-      emit(ErrorState(error: e));
+      emit(AuthActionError(error: e));
     }
   }
 }

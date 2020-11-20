@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
+
 
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
@@ -25,44 +28,34 @@ class TransferScreenConfirm extends StatelessWidget {
       create: (context) =>
           TransferActionCubit(transferApi: getIt<TransferApi>()),
       child: Scaffold(
-        body: BlocConsumer<TransferActionCubit, TransferActionState>(
+
+        body: BlocListener<TransferActionCubit, TransferActionState>(
           listener: (context, state) {
-            if (state is TransferActionCompleted) {
+            if (state is TransferActionLoading) {
+              EasyLoading.show(status: "Making paymente...");
+            } else if (state is TransferActionCompleted) {
+              EasyLoading.dismiss();
               Navigator.popUntil(context, ModalRoute.withName('/main'));
             } else if (state is TransferActionError) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.error.message),
-                ),
-              );
+              EasyLoading.dismiss();
+              EasyLoading.showError(state.error.message);
             }
           },
-          builder: (context, state) {
-            // I need to check the completed state, otherwise it will load the
-            // old page and then pop out to the main. This makes the transaction
-            // between pages more concise
-            if (state is TransferActionLoading ||
-                state is TransferActionCompleted) {
-              return _Background(
-                  child: Center(child: CircularProgressIndicator()));
-            } else {
-              return _Background(
-                child: SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                      ConfirmTransferAppbar(),
-                      SizedBox(height: getProportionateScreenHeight(94)),
-                      _ConfirmButton(),
-                      SizedBox(height: getProportionateScreenHeight(94)),
-                      _CancelButton(),
-                    ],
-                  ),
-                ),
-              );
-            }
-          },
+          child: _Background(
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                  ConfirmTransferAppbar(),
+                  SizedBox(height: getProportionateScreenHeight(94)),
+                  _ConfirmButton(),
+                  SizedBox(height: getProportionateScreenHeight(94)),
+                  _CancelButton(),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -112,12 +105,10 @@ class _CancelButton extends StatelessWidget {
 }
 
 class ConfirmTransferAppbar extends StatelessWidget {
-  ConfirmTransferAppbar({
+
+  const ConfirmTransferAppbar({
     Key key,
   }) : super(key: key);
-
-  final MoneyMaskedTextController _moneyController =
-      MoneyMaskedTextController(precision: 2);
 
   @override
   Widget build(BuildContext context) {
@@ -149,10 +140,13 @@ class ConfirmTransferAppbar extends StatelessWidget {
                 buildWhen: (previous, current) =>
                     current.transactionSender != Transaction.empty,
                 builder: (context, state) {
-                  _moneyController.updateValue(state.amount.value);
+
                   return TransferItem(
+                    amount:
+                        NumberFormat.currency(locale: 'pt_BR', symbol: "R\$")
+                            .format(state.amount.value * 0.01),
                     transaction: state.transactionSender,
-                    moneyController: _moneyController,
+
                   );
                 },
               ),
@@ -184,12 +178,12 @@ class _Background extends StatelessWidget {
 }
 
 class TransferItem extends StatelessWidget {
-  TransferItem({
+
+  const TransferItem({
     Key key,
     @required this.transaction,
-    @required moneyController,
-  })  : this.amount = moneyController.text,
-        super(key: key);
+    @required this.amount,
+  }) : super(key: key);
 
   final Transaction transaction;
   final String amount;
@@ -210,31 +204,27 @@ class TransferItem extends StatelessWidget {
               ),
             ),
             SizedBox(width: getProportionateScreenWidth(20)),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "To",
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(12),
-                      color: AppTheme.textColor,
-                      fontWeight: FontWeight.w100,
-                    ),
+
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "to",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(12),
+                    color: AppTheme.textColor,
+                    fontWeight: FontWeight.w100,
                   ),
-                  Text(
-                    "${transaction.targetUser}",
-                    overflow: TextOverflow.fade,
-                    maxLines: 1,
-                    softWrap: false,
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(20),
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textColor,
-                    ),
+                ),
+                Text(
+                  "${transaction.targetUser}",
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(20),
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textColor,
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ],
         ),
@@ -254,7 +244,9 @@ class TransferItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "The amount of",
+
+                  "the amount of",
+
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
                     color: AppTheme.textColor,
@@ -262,7 +254,9 @@ class TransferItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "R\$ $amount",
+
+                  "$amount",
+
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,

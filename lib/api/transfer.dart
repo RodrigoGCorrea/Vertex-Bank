@@ -24,7 +24,8 @@ class TransferApi {
     try {
       final sender = await _db.collection(userCollection).doc(idSender).get();
       final senderMoney = await sender.get(moneyField);
-      if (senderMoney < transactionSender.amount.value) {
+      final transactionMoney = transactionSender.amount;
+      if (senderMoney < transactionMoney) {
         throw Failure("You don't have enough money...");
       }
 
@@ -32,8 +33,10 @@ class TransferApi {
           await _db.collection(userCollection).doc(idReceiver).get();
       final receiverMoney = await receiver.get(moneyField);
 
-      await _db.collection(userCollection).doc(idSender).update(
-          {"$moneyField": senderMoney - transactionSender.amount.value});
+      await _db
+          .collection(userCollection)
+          .doc(idSender)
+          .update({"$moneyField": senderMoney - transactionMoney});
 
       await _db
           .collection(userCollection)
@@ -42,7 +45,7 @@ class TransferApi {
           .add({
         "${Transaction.dbFields["targetUser"]}": transactionSender.targetUser,
         "${Transaction.dbFields["received"]}": transactionSender.received,
-        "${Transaction.dbFields["amount"]}": transactionSender.amount.value,
+        "${Transaction.dbFields["amount"]}": transactionMoney,
         "${Transaction.dbFields["date"]}": transactionSender.date,
       });
 
@@ -53,12 +56,14 @@ class TransferApi {
           .add({
         "${Transaction.dbFields["targetUser"]}": transactionReceiver.targetUser,
         "${Transaction.dbFields["received"]}": transactionReceiver.received,
-        "${Transaction.dbFields["amount"]}": transactionReceiver.amount.value,
+        "${Transaction.dbFields["amount"]}": transactionMoney,
         "${Transaction.dbFields["date"]}": transactionReceiver.date,
       });
 
-      await _db.collection(userCollection).doc(idReceiver).update(
-          {"$moneyField": receiverMoney + transactionReceiver.amount.value});
+      await _db
+          .collection(userCollection)
+          .doc(idReceiver)
+          .update({"$moneyField": receiverMoney + transactionMoney});
     } on Error catch (e) {
       //This should never reach!!
       throw Failure("Couldn't make payment... $e");
@@ -76,7 +81,8 @@ class TransferApi {
           .collection(contactCollection)
           .get()
           .then((snapshot) => snapshot.docs.forEach((doc) {
-                final contact = Contact(doc.get(nickNameField), userID: doc.id);
+                final contact =
+                    Contact(nickname: doc.get(nickNameField), userID: doc.id);
                 contacts.add(contact);
               }));
 
@@ -88,8 +94,12 @@ class TransferApi {
   }
 
   Future<void> addContact(
-      String userId, String contactId, String nickName) async {
-    final contact = Contact(nickName, userID: contactId);
+    String userId,
+    String contactId,
+    String nickName,
+  ) async {
+    if (userId == contactId) throw Failure("You can't add yourself.");
+    final contact = Contact(nickname: nickName, userID: contactId);
     try {
       await _db
           .collection(userCollection)

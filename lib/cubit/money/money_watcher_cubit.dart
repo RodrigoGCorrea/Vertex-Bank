@@ -13,7 +13,7 @@ class MoneyWatcherCubit extends Cubit<MoneyWatcherState> {
   }) : super(MoneyWatcherState(money: 0));
 
   final MoneyApi moneyApi;
-  StreamSubscription<double> _moneySubscription;
+  StreamSubscription<int> _moneySubscription;
 
   void setMoneyWatcher(String id) async {
     try {
@@ -22,8 +22,7 @@ class MoneyWatcherCubit extends Cubit<MoneyWatcherState> {
         emit(MoneyWatcherState(money: money));
       });
     } on Error catch (e) {
-      //NOTE(Geraldo): não sei se da pra cair nesse caso, mas se cair eu tbm
-      //               não sei como e onde lidar com ele...
+      //This should never reach!!!
       print(e);
     }
   }

@@ -1,7 +1,11 @@
+import 'package:meta/meta.dart';
+
 class Contact {
   final String nickname;
   final String userID;
 
-  //TODO(Geraldo): userID tem que ser @required!!
-  const Contact(this.nickname, {this.userID});
+  const Contact({
+    @required this.userID,
+    this.nickname,
+  });
 }

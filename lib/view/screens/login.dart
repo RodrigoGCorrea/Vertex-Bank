@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/logo.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
+
 import 'package:vertexbank/cubit/login/login_form_cubit.dart';
 
 class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    //NOTE(Geraldo): Se uma tela for carregada antes do Login o size config vai dar merda,
-    //               esse é único lugar que a chama o init dele.
     VtxSizeConfig().init(context);
 
     return BlocProvider(
@@ -21,16 +23,17 @@ class LoginScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Scaffold(
-          body: BlocListener<AuthCubit, AuthState>(
+
+          body: BlocListener<AuthActionCubit, AuthActionState>(
             listener: (context, state) {
-              if (state is AuthenticatedState) {
+              if (state is AuthActionLoading) {
+                EasyLoading.show(status: "Log in...");
+              } else if (state is AuthActionAuthenticated) {
+                EasyLoading.dismiss();
                 Navigator.pushReplacementNamed(context, "/main");
-              } else if (state is ErrorState) {
-                Scaffold.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text(state.error.message),
-                  ),
-                );
+              } else if (state is AuthActionError) {
+                EasyLoading.dismiss();
+                EasyLoading.showError(state.error.message);
               }
             },
             child: _Background(
@@ -123,7 +126,8 @@ class LoginScreen extends StatelessWidget {
             text: "Login",
             function: () {
               context
-                  .read<AuthCubit>()
+
+                  .read<AuthActionCubit>()
                   .logIn(state.email.value, state.password.value);
             },
           );

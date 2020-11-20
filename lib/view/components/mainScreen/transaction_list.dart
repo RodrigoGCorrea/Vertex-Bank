@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/models/transaction.dart';
 
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 
@@ -58,25 +57,26 @@ class TransactionList extends StatelessWidget {
   }
 }
 
-// ignore: must_be_immutable
 class VtxTransactionItem extends StatelessWidget {
-  final Transaction transaction;
-  final amount;
-  String ftfield;
-  String sign;
-  Color transactionColor;
+  final String amount;
+  final String userName;
+  final DateTime date;
+  final bool received;
+  final String ftfield;
+  final String sign;
+  final Color transactionColor;
 
-  VtxTransactionItem({
+  const VtxTransactionItem({
     Key key,
-    @required this.transaction,
-  })  : amount = transaction.amount.value.toString(),
-        super(key: key) {
-    transaction.received ? ftfield = "From" : ftfield = "To";
-    transaction.received ? sign = "+" : sign = "-";
-    transaction.received
-        ? transactionColor = AppTheme.buttonColorGreen
-        : transactionColor = AppTheme.buttonColorRed;
-  }
+    @required this.amount,
+    @required this.userName,
+    @required this.date,
+    @required this.received,
+  })  : ftfield = received ? "From" : "To",
+        sign = received ? "+" : "-",
+        transactionColor =
+            received ? AppTheme.buttonColorGreen : AppTheme.buttonColorRed,
+        super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +110,8 @@ class VtxTransactionItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "${transaction.targetUser}",
+
+                "$userName",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(11),
                   fontWeight: FontWeight.w300,
@@ -133,7 +134,8 @@ class VtxTransactionItem extends StatelessWidget {
                 top: getProportionateScreenHeight(6),
                 right: getProportionateScreenWidth(5)),
             child: Text(
-              "${transaction.date.day}/${transaction.date.month}/${transaction.date.year}",
+
+              "${date.day}/${date.month}/${date.year}",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(9),
                 fontWeight: FontWeight.w300,

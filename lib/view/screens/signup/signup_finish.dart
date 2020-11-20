@@ -2,14 +2,20 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:datetime_picker_formfield/datetime_picker_formfield.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:intl/intl.dart';
+
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/models/user.dart';
+
 import 'package:vertexbank/view/components/back_button.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/view/components/signUp/cancel_button.dart';
-import 'package:vertexbank/cubit/auth/auth_cubit.dart';
+
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
+
 import 'package:vertexbank/cubit/signup/signup_form_cubit.dart';
 
 class SignUpFinishScreen extends StatelessWidget {
@@ -20,19 +26,17 @@ class SignUpFinishScreen extends StatelessWidget {
     return GestureDetector(
       onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
       child: Scaffold(
-        body: BlocListener<AuthCubit, AuthState>(
+        body: BlocListener<AuthActionCubit, AuthActionState>(
           listener: (context, state) {
-            if (state is AuthenticatedState) {
-              // For some misterious reason flutter does not provide
-              // pushAndRemoveUntil with named routes...
-              Navigator.popUntil(context, ModalRoute.withName('/login'));
-              Navigator.pushReplacementNamed(context, '/main');
-            } else if (state is ErrorState) {
-              Scaffold.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.error.message),
-                ),
-              );
+            if (state is AuthActionLoading) {
+              EasyLoading.show(status: "Finishing up...");
+            } else if (state is AuthActionAuthenticated) {
+              EasyLoading.dismiss();
+              Navigator.pushNamedAndRemoveUntil(
+                  context, '/main', ModalRoute.withName('/'));
+            } else if (state is AuthActionError) {
+              EasyLoading.dismiss();
+              EasyLoading.showError(state.error.message);
             }
           },
           child: _buildSignUpFinishForm(
@@ -119,30 +123,24 @@ class SignUpFinishScreen extends StatelessWidget {
     );
   }
 
-  //NOTE(Geraldo): Não sei usar o campo de data ali, vou ver isso dps
   Widget _buildBirthInput(BuildContext context) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: VtxTextBox(
-        text: "Birthday",
-        onChangedFunction: (birth) =>
-            context.read<SignUpFormCubit>().birthChanged(birth: birth),
-      ),
+    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+      builder: (context, state) {
+        return Padding(
+          padding:
+              EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
+          child: _BasicDateField(
+            onChanged: (birth) => context.read<SignUpFormCubit>().birthChanged(
+                  birth,
+                ),
+            errorText: !state.birth.isValid && state.stage != SignUpStage.next
+                ? state.birth.errorText
+                : null,
+          ),
+        );
+      },
     );
   }
-
-  //NOTE(Gealdo): Vou usar um input de texto pra data por enquanto, só pra debug.
-  /*Widget _buildBirthInput(TextEditingController _dobController) {
-    return Padding(
-      padding:
-          EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-      child: _BasicDateField(
-        controller: _dobController,
-      ),
-    );
-  }*/
-
   Widget _buildBackButton() {
     return Stack(
       children: [
@@ -161,26 +159,97 @@ class SignUpFinishScreen extends StatelessWidget {
   }
 
   Widget _buildFinishButton(BuildContext context) {
-    return BlocBuilder<SignUpFormCubit, SignUpFormState>(
+
+    return BlocConsumer<SignUpFormCubit, SignUpFormState>(
+      listenWhen: (previous, current) => previous.stage != current.stage,
+      listener: (context, state) {
+        if (state.stage == SignUpStage.finishOk) {
+          context.read<AuthActionCubit>().signUp(
+                state.finishedUser,
+                state.confirmPassword.value,
+              );
+        }
+      },
       builder: (context, state) {
         final isFormValid =
-            state.name.isValid & state.lastName.isValid & (state.birth != null);
+            state.name.isValid & state.lastName.isValid & state.birth.isValid;
         if (isFormValid)
           return VtxButton(
-              text: "Finish",
-              function: () {
-                context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh();
-                context.read<AuthCubit>().signUp(
+            text: "Finish",
+            function: () {
+              context
+                  .read<SignUpFormCubit>()
+                  .setSignUpFormFinishAndRefreshIfValid();
+
+              if (state.finishedUser != User.empty) {
+                context.read<AuthActionCubit>().signUp(
                       state.finishedUser,
                       state.confirmPassword.value,
                     );
-              });
+              }
+            },
+          );
         else
           return VtxButton(
             text: "Finish",
-            function: () =>
-                context.read<SignUpFormCubit>().setSignUpFormFinishAndRefresh(),
+            function: () => context
+                .read<SignUpFormCubit>()
+                .setSignUpFormFinishAndRefreshIfNotValid(),
           );
+      },
+    );
+  }
+
+class _BasicDateField extends StatelessWidget {
+  final Function(DateTime) onChanged;
+  final String errorText;
+
+  const _BasicDateField({
+    Key key,
+    @required this.onChanged,
+    @required this.errorText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return DateTimeField(
+      resetIcon: null,
+      style: TextStyle(
+        fontSize: getProportionateScreenWidth(14),
+        color: AppTheme.textColor,
+      ),
+      format: DateFormat("dd/MM/yyyy"),
+      decoration: InputDecoration(
+        contentPadding: EdgeInsets.symmetric(
+          horizontal: getProportionateScreenWidth(18),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppTheme.textColor,
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppTheme.textColor,
+          ),
+          borderRadius: BorderRadius.circular(15),
+        ),
+        labelText: "Date of birth",
+        labelStyle: TextStyle(
+          color: AppTheme.textColor,
+        ),
+        errorText: errorText,
+      ),
+      onChanged: onChanged,
+      onShowPicker: (context, currentValue) {
+        return showDatePicker(
+          context: context,
+          firstDate: DateTime(1920),
+          initialDate: currentValue ?? DateTime(DateTime.now().year - 17),
+          //At least 18 years old
+          lastDate: DateTime(DateTime.now().year - 17),
+        );
       },
     );
   }
@@ -225,57 +294,6 @@ class _Background extends StatelessWidget {
       height: VtxSizeConfig.screenHeight,
       color: AppTheme.appBackgroundColor,
       child: child,
-    );
-  }
-}
-
-class _BasicDateField extends StatelessWidget {
-  final TextEditingController controller;
-
-  const _BasicDateField({
-    Key key,
-    @required this.controller,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return DateTimeField(
-      controller: controller,
-      resetIcon: null,
-      style: TextStyle(
-        fontSize: getProportionateScreenWidth(14),
-        color: AppTheme.textColor,
-      ),
-      format: DateFormat("dd/MM/yyyy"),
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(18),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: AppTheme.textColor,
-          ),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: AppTheme.textColor,
-          ),
-          borderRadius: BorderRadius.circular(15),
-        ),
-        labelText: "Date of birth",
-        labelStyle: TextStyle(
-          color: AppTheme.textColor,
-        ),
-      ),
-      onShowPicker: (context, currentValue) {
-        return showDatePicker(
-          context: context,
-          firstDate: DateTime(1900),
-          initialDate: currentValue ?? DateTime.now(),
-          lastDate: DateTime(2100),
-        );
-      },
     );
   }
 }

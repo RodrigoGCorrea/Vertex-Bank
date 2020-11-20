@@ -31,10 +31,11 @@ class UserCommonApi {
         name: user.get(User.dbFields["name"]),
         lastName: user.get(User.dbFields["lastName"]),
         birth: user.get(User.dbFields["birth"]),
-        money: user.get(User.dbFields["money"]),
+        money: user.get(User.dbFields["money"]).toInt(),
       );
-    } on Error {
-      throw InnerFailure("Error finding user: ${user.id}");
+    } on Error catch (e) {
+      throw InnerFailure(
+          "Error finding user: ${user.id}. With the follwing error: $e");
     }
   }
 }

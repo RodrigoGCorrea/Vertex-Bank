@@ -8,11 +8,9 @@ class MoneyApi {
   final userCollection = 'users';
   final moneyField = User.dbFields["money"];
 
-  Stream<double> watchMoneyFromUser(String id) async* {
+  Stream<int> watchMoneyFromUser(String id) async* {
     yield* _db.collection(userCollection).doc(id).snapshots().map((snapshot) {
-      var money = snapshot.get(moneyField);
-      if (money is int) money = money.toDouble();
-      return money;
+      return snapshot.get(moneyField);
     });
   }
 }

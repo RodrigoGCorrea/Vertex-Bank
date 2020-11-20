@@ -5,7 +5,7 @@ class MoneyWatcherState extends Equatable {
     @required this.money,
   });
 
-  final double money;
+  final int money;
 
   @override
   List<Object> get props => [
