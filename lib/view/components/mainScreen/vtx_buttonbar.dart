@@ -25,6 +25,7 @@ class VtxButtonBar extends StatelessWidget {
             text: "Deposit",
             width: getProportionateScreenHeight(75),
             height: getProportionateScreenHeight(70),
+            function: () => Navigator.of(context).pushNamed('/deposit'),
           ),
           Spacer(),
           VtxIconButton(
