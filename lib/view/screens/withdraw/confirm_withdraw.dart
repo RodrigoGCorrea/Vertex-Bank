@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter_svg/svg.dart';
+
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 import 'package:vertexbank/config/apptheme.dart';

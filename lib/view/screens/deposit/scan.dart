@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';

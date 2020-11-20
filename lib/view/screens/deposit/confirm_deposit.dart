@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/models/withdraw.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 

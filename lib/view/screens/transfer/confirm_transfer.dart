@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
-
 
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
@@ -28,7 +26,6 @@ class TransferScreenConfirm extends StatelessWidget {
       create: (context) =>
           TransferActionCubit(transferApi: getIt<TransferApi>()),
       child: Scaffold(
-
         body: BlocListener<TransferActionCubit, TransferActionState>(
           listener: (context, state) {
             if (state is TransferActionLoading) {
@@ -105,7 +102,6 @@ class _CancelButton extends StatelessWidget {
 }
 
 class ConfirmTransferAppbar extends StatelessWidget {
-
   const ConfirmTransferAppbar({
     Key key,
   }) : super(key: key);
@@ -140,13 +136,11 @@ class ConfirmTransferAppbar extends StatelessWidget {
                 buildWhen: (previous, current) =>
                     current.transactionSender != Transaction.empty,
                 builder: (context, state) {
-
                   return TransferItem(
                     amount:
                         NumberFormat.currency(locale: 'pt_BR', symbol: "R\$")
                             .format(state.amount.value * 0.01),
                     transaction: state.transactionSender,
-
                   );
                 },
               ),
@@ -178,7 +172,6 @@ class _Background extends StatelessWidget {
 }
 
 class TransferItem extends StatelessWidget {
-
   const TransferItem({
     Key key,
     @required this.transaction,
@@ -204,7 +197,6 @@ class TransferItem extends StatelessWidget {
               ),
             ),
             SizedBox(width: getProportionateScreenWidth(20)),
-
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -244,9 +236,7 @@ class TransferItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-
                   "the amount of",
-
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
                     color: AppTheme.textColor,
@@ -254,9 +244,7 @@ class TransferItem extends StatelessWidget {
                   ),
                 ),
                 Text(
-
                   "$amount",
-
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,

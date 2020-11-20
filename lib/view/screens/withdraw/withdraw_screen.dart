@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-
-import 'confirm_withdraw.dart';
+import 'package:vertexbank/view/screens/withdraw/confirm_withdraw.dart';
 
 class WithdrawScreen extends StatelessWidget {
-  Function(String) functionChanged;
-  MoneyMaskedTextController moneyController =
+  final MoneyMaskedTextController moneyController =
       MoneyMaskedTextController(precision: 2);
-  String errorText;
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +22,9 @@ class WithdrawScreen extends StatelessWidget {
               children: [
                 SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
                 WithdrawScreenAppbar(
-                  functionChanged: functionChanged,
+                  functionChanged: (text) {},
                   moneyController: moneyController,
-                  errorText: errorText,
+                  errorText: "errorText",
                 ),
                 Spacer(),
                 VtxButton(
