@@ -91,11 +91,22 @@ class GenerateCheckScreenAppbar extends StatelessWidget {
                       data: withdraw.toJson(),
                     ),
                     Spacer(),
-                    VtxIconButton(
-                      iconPath: "assets/icons/file-download-solid.svg",
-                      text: "save",
-                      width: getProportionateScreenWidth(65),
-                      height: getProportionateScreenHeight(55),
+                    Column(
+                      children: [
+                        VtxIconButton(
+                          iconPath: "assets/icons/file-download-solid.svg",
+                          text: "save",
+                          width: getProportionateScreenWidth(65),
+                          height: getProportionateScreenHeight(55),
+                        ),
+                        Spacer(),
+                        VtxIconButton(
+                          iconPath: "assets/icons/share-alt-solid.svg",
+                          text: "share",
+                          width: getProportionateScreenWidth(65),
+                          height: getProportionateScreenHeight(55),
+                        ),
+                      ],
                     )
                   ],
                 ),
