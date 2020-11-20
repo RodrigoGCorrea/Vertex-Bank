@@ -1,6 +1,6 @@
 part of 'signup_form_cubit.dart';
 
-enum SignUpStage { intial, next, finish }
+enum SignUpStage { intial, next, finishFail, finishOk }
 
 class SignUpFormState extends Equatable {
   const SignUpFormState({
@@ -17,7 +17,7 @@ class SignUpFormState extends Equatable {
   final Email email;
   final Name name;
   final Name lastName;
-  final DateTime birth;
+  final Birthday birth;
   final Password password;
   final Password confirmPassword;
   final SignUpStage stage;
@@ -27,7 +27,7 @@ class SignUpFormState extends Equatable {
     email: Email(""),
     name: Name(""),
     lastName: Name(""),
-    birth: null,
+    birth: Birthday(null),
     password: Password(""),
     confirmPassword: Password(""),
     stage: SignUpStage.intial,
@@ -38,7 +38,7 @@ class SignUpFormState extends Equatable {
     Email email,
     Name name,
     Name lastName,
-    DateTime birth,
+    Birthday birth,
     Password password,
     Password confirmPassword,
     SignUpStage stage,
