@@ -32,7 +32,7 @@ class SignUpFormCubit extends Cubit<SignUpFormState> {
       email: state.email.value,
       name: state.name.value,
       lastName: state.lastName.value,
-      birth: state.birth.toString(),
+      birth: state.birth.value.toString(),
       money: 0,
       id: "",
     );
