@@ -1,5 +1,14 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:intl/intl.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:qr_flutter/qr_flutter.dart';
+import 'package:share/share.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -31,6 +40,8 @@ class GenerateECheckScreen extends StatelessWidget {
               Spacer(),
               VtxButton(
                 text: "Back to menu",
+                //Before this screen been pushed we remove every other screen from the stack
+                //that's why we don't need to popUntil here
                 function: () {
                   Navigator.pop(context);
                 },
@@ -62,10 +73,17 @@ class Background extends StatelessWidget {
   }
 }
 
-class GenerateCheckScreenAppbar extends StatelessWidget {
+class GenerateCheckScreenAppbar extends StatefulWidget {
   const GenerateCheckScreenAppbar({@required this.eCheck});
-
   final ECheck eCheck;
+
+  @override
+  _GenerateCheckScreenAppbarState createState() =>
+      _GenerateCheckScreenAppbarState();
+}
+
+class _GenerateCheckScreenAppbarState extends State<GenerateCheckScreenAppbar> {
+  GlobalKey _globalKey = new GlobalKey();
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +95,7 @@ class GenerateCheckScreenAppbar extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Please save your QR-Code",
+              "Please, make sure to save your E-Check",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(14),
                 color: AppTheme.textColor,
@@ -95,24 +113,24 @@ class GenerateCheckScreenAppbar extends StatelessWidget {
                 ),
                 child: Row(
                   children: [
-                    QRCodeBuilder(
-                      data: eCheck.toJson(),
+                    _qRCodeBuilder(
+                      widget.eCheck.toJson(),
                     ),
                     Spacer(),
                     Column(
                       children: [
-                        VtxIconButton(
-                          iconPath: "assets/icons/file-download-solid.svg",
-                          text: "save",
-                          width: getProportionateScreenWidth(65),
-                          height: getProportionateScreenHeight(55),
-                        ),
+                        _SaveButton(),
                         Spacer(),
-                        VtxIconButton(
-                          iconPath: "assets/icons/share-alt-solid.svg",
-                          text: "share",
-                          width: getProportionateScreenWidth(65),
-                          height: getProportionateScreenHeight(55),
+                        _ShareButton(
+                          onPressed: () async {
+                            final qrFileName =
+                                await _saveQrCodeAsImageAndReturnItsFilename();
+                            final amount = NumberFormat.currency(
+                                    locale: 'pt_BR', symbol: "R\$")
+                                .format(widget.eCheck.amount * 0.01);
+                            Share.shareFiles([qrFileName],
+                                text: "Here's your E-Check of $amount");
+                          },
                         ),
                       ],
                     )
@@ -125,15 +143,104 @@ class GenerateCheckScreenAppbar extends StatelessWidget {
       ),
     );
   }
+
+  Future<String> _saveQrCodeAsImageAndReturnItsFilename() async {
+    try {
+      final tempDir = await getTemporaryDirectory();
+      final date = DateTime.now().toIso8601String();
+      final fileName = '${tempDir.path}/e-check_$date.png';
+
+      RenderRepaintBoundary boundary =
+          _globalKey.currentContext.findRenderObject();
+      var image = await boundary.toImage();
+      ByteData byteData = await image.toByteData(format: ImageByteFormat.png);
+      Uint8List pngBytes = byteData.buffer.asUint8List();
+
+      final file = await new File(fileName).create();
+      await file.writeAsBytes(pngBytes);
+
+      return fileName;
+    } catch (e) {
+      //I hope this never reaches...
+      throw e;
+    }
+  }
+
+  Widget _qRCodeBuilder(String data) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        Container(
+          width: getProportionateScreenWidth(170),
+          height: getProportionateScreenHeight(150),
+          decoration: BoxDecoration(
+            color: AppTheme.textColor,
+            border: Border.all(
+              width: getProportionateScreenWidth(1),
+              color: AppTheme.textColor,
+            ),
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        Container(
+          child: RepaintBoundary(
+            key: _globalKey,
+            child: QrImage(
+              data: data,
+              version: QrVersions.auto,
+              size: 180,
+              backgroundColor: AppTheme.textColor,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _SaveButton extends StatelessWidget {
+  const _SaveButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return VtxIconButton(
+      iconPath: "assets/icons/file-download-solid.svg",
+      text: "save",
+      width: getProportionateScreenWidth(65),
+      height: getProportionateScreenHeight(55),
+    );
+  }
+}
+
+class _ShareButton extends StatelessWidget {
+  const _ShareButton({
+    @required this.onPressed,
+    Key key,
+  }) : super(key: key);
+
+  final Function onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return VtxIconButton(
+      iconPath: "assets/icons/share-alt-solid.svg",
+      text: "share",
+      function: onPressed,
+      width: getProportionateScreenWidth(65),
+      height: getProportionateScreenHeight(55),
+    );
+  }
 }
 
 class QRCodeBuilder extends StatelessWidget {
   final String data;
 
   const QRCodeBuilder({
-    Key key,
+    GlobalKey key,
     this.data,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -152,10 +259,13 @@ class QRCodeBuilder extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
         ),
-        QrImage(
-          data: data,
-          version: QrVersions.auto,
-          size: 190,
+        RepaintBoundary(
+          key: key,
+          child: QrImage(
+            data: data,
+            version: QrVersions.auto,
+            size: 190,
+          ),
         ),
       ],
     );
