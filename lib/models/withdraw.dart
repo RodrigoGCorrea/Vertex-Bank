@@ -12,6 +12,10 @@ class Withdraw {
     @required this.checkID,
   });
 
+  static final dbFields = {
+    "amount": "amount",
+  };
+
   Map<String, dynamic> toMap() {
     return {
       'senderID': senderID,

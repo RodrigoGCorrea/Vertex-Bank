@@ -1,69 +1,136 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
+import 'package:vertexbank/api/money.dart';
+import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
+import 'package:vertexbank/cubit/e_check/form/echeckform_cubit.dart';
+import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
+import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/screens/withdraw/confirm_withdraw.dart';
 
-class WithdrawScreen extends StatelessWidget {
+class WithdrawScreen extends StatefulWidget {
+  @override
+  _WithdrawScreenState createState() => _WithdrawScreenState();
+}
+
+class _WithdrawScreenState extends State<WithdrawScreen> {
+  final eCheckFormCubit = ECheckFormCubit();
+
   final MoneyMaskedTextController moneyController =
       MoneyMaskedTextController(precision: 2);
 
   @override
+  void dispose() {
+    eCheckFormCubit.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
-      child: Scaffold(
-        body: Background(
-          child: Container(
-            height: VtxSizeConfig.screenHeight,
-            child: Column(
-              children: [
-                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                WithdrawScreenAppbar(
-                  functionChanged: (text) {},
-                  moneyController: moneyController,
-                  errorText: "errorText",
-                ),
-                Spacer(),
-                VtxButton(
-                  text: "Next",
-                  color: AppTheme.buttonColorGreen,
-                  function: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ConfirmWithdraw(),
-                    ),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider.value(
+            value: eCheckFormCubit
+              ..setUserInfo(
+                context.watch<AuthActionCubit>().getSignedInUserWithoutEmit(),
+              )),
+        BlocProvider<MoneyWatcherCubit>(
+          create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
+            ..setMoneyWatcher(
+              context.read<AuthActionCubit>().getSignedInUserWithoutEmit().id,
+            ),
+        ),
+      ],
+      child: GestureDetector(
+        onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
+        child: Scaffold(
+          body: Background(
+            child: Container(
+              height: VtxSizeConfig.screenHeight,
+              child: Column(
+                children: [
+                  SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                  BlocListener<MoneyWatcherCubit, MoneyWatcherState>(
+                    //Yeah... This is to force the listener to run when this screen is opened.
+                    //If you, dear reader, know anything better let me know. Thanks.
+                    listenWhen: (previous, current) =>
+                        previous == current || previous != current,
+                    listener: (context, state) {
+                      context
+                          .read<ECheckFormCubit>()
+                          .updateUserMoney(state.money);
+                    },
+                    child: BlocBuilder<ECheckFormCubit, ECheckFormState>(
+                        builder: (context, state) {
+                      return WithdrawScreenAppbar(
+                        moneyController: moneyController,
+                        functionChanged: (_) => context
+                            .read<ECheckFormCubit>()
+                            .amountInputChanged(
+                                amountDouble: moneyController.numberValue),
+                        errorText: !state.amount.isValid &&
+                                state.stage != ECheckFormStage.initial
+                            ? state.amount.errorText
+                            : null,
+                      );
+                    }),
                   ),
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(13),
-                ),
-                Text(
-                  "or",
-                  style: TextStyle(color: AppTheme.textColor),
-                ),
-                SizedBox(
-                  height: getProportionateScreenHeight(25),
-                ),
-                InkWell(
-                  onTap: () => Navigator.pop(context),
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(
-                      color: AppTheme.textColor,
-                      fontSize: getProportionateScreenWidth(12),
-                      decoration: TextDecoration.underline,
-                    ),
+                  Spacer(),
+                  _NextButton(
+                    eCheckFormCubit: eCheckFormCubit,
                   ),
-                ),
-                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-              ],
+                  SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class _NextButton extends StatelessWidget {
+  const _NextButton({
+    Key key,
+    @required this.eCheckFormCubit,
+  }) : super(key: key);
+
+  final ECheckFormCubit eCheckFormCubit;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ECheckFormCubit, ECheckFormState>(
+      builder: (context, state) {
+        final bool isFormValid = state.amount.isValid;
+        if (isFormValid) {
+          return VtxButton(
+            text: "Next",
+            color: AppTheme.buttonColorGreen,
+            function: () {
+              context.read<ECheckFormCubit>().setECheckFormSelected();
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => BlocProvider.value(
+                      value: eCheckFormCubit, child: ConfirmWithdraw()),
+                ),
+              );
+            },
+          );
+        } else {
+          return VtxButton(
+              text: "Next",
+              color: AppTheme.buttonColorGreen,
+              function: () {
+                context.read<ECheckFormCubit>().setECheckFormSelected();
+              });
+        }
+      },
     );
   }
 }
@@ -76,7 +143,7 @@ class WithdrawScreenAppbar extends StatelessWidget {
     @required this.errorText,
   }) : super(key: key);
 
-  final Function(String p1) functionChanged;
+  final Function(String amount) functionChanged;
   final MoneyMaskedTextController moneyController;
   final String errorText;
 
