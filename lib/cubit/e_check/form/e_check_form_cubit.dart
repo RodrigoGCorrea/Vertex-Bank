@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:vertexbank/models/inputs/money_amount.dart';
 import 'package:vertexbank/models/user.dart';
 
-part 'echeckform_state.dart';
+part 'e_check_form_state.dart';
 
 class ECheckFormCubit extends Cubit<ECheckFormState> {
   ECheckFormCubit() : super(ECheckFormState.empty);

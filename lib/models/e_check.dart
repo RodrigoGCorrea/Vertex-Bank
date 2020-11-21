@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'package:meta/meta.dart';
 
-class Withdraw {
+class ECheck {
   final String senderID;
   final int amount;
   final String checkID;
 
-  Withdraw({
+  ECheck({
     @required this.senderID,
     @required this.amount,
     @required this.checkID,
@@ -24,10 +24,10 @@ class Withdraw {
     };
   }
 
-  factory Withdraw.fromMap(Map<String, dynamic> map) {
+  factory ECheck.fromMap(Map<String, dynamic> map) {
     if (map == null) return null;
 
-    return Withdraw(
+    return ECheck(
       senderID: map['senderID'],
       amount: map['amount'],
       checkID: map['checkID'],
@@ -36,6 +36,5 @@ class Withdraw {
 
   String toJson() => json.encode(toMap());
 
-  factory Withdraw.fromJson(String source) =>
-      Withdraw.fromMap(json.decode(source));
+  factory ECheck.fromJson(String source) => ECheck.fromMap(json.decode(source));
 }

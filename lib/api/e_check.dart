@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart' as firestore;
 import 'package:vertexbank/models/failure.dart';
 
 import 'package:vertexbank/models/user.dart';
-import 'package:vertexbank/models/withdraw.dart';
+import 'package:vertexbank/models/e_check.dart';
 
 class ECheckApi {
   final _db = firestore.FirebaseFirestore.instance;
@@ -10,7 +10,7 @@ class ECheckApi {
   final userCollection = 'users';
   final eCheckCollection = 'echeck';
   final moneyField = User.dbFields["money"];
-  final amountField = Withdraw.dbFields["amount"];
+  final amountField = ECheck.dbFields["amount"];
 
   Future<void> makeECheck(
     String senderId,
@@ -37,7 +37,7 @@ class ECheckApi {
     }
   }
 
-  Future<Withdraw> getECheck(String senderId, String checkId) async {
+  Future<ECheck> getECheck(String senderId, String checkId) async {
     try {
       final check = await _db
           .collection(userCollection)
@@ -55,9 +55,9 @@ class ECheckApi {
     }
   }
 
-  Withdraw fromDocSnapToWithdraw(
+  ECheck fromDocSnapToWithdraw(
       firestore.DocumentSnapshot eCheck, String senderId) {
-    return Withdraw(
+    return ECheck(
         senderID: senderId,
         amount: eCheck.get(amountField),
         checkID: eCheck.id);

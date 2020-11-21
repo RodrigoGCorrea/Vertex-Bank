@@ -6,7 +6,7 @@ import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/transfer/action/addcontact/addcontact_action_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/addcontact/addcontact_form_cubit.dart';
-import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';

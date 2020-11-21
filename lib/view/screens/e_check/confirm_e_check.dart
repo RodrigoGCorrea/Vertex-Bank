@@ -6,9 +6,9 @@ import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/view/screens/withdraw/generate_e_check.dart';
+import 'package:vertexbank/view/screens/e_check/generate_e_check.dart';
 
-class ConfirmWithdraw extends StatelessWidget {
+class ConfirmECheckScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,7 +28,7 @@ class ConfirmWithdraw extends StatelessWidget {
                   function: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => GenerateCheckScreen())),
+                          builder: (context) => GenerateECheckScreen())),
                 ),
                 SizedBox(height: getProportionateScreenHeight(20)),
                 CancelButton()

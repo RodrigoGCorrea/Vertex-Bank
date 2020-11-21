@@ -4,20 +4,20 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'package:vertexbank/api/money.dart';
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
-import 'package:vertexbank/cubit/e_check/form/echeckform_cubit.dart';
+import 'package:vertexbank/cubit/e_check/form/e_check_form_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/view/screens/withdraw/confirm_withdraw.dart';
+import 'package:vertexbank/view/screens/e_check/confirm_e_check.dart';
 
-class WithdrawScreen extends StatefulWidget {
+class ECheckScreen extends StatefulWidget {
   @override
   _WithdrawScreenState createState() => _WithdrawScreenState();
 }
 
-class _WithdrawScreenState extends State<WithdrawScreen> {
+class _WithdrawScreenState extends State<ECheckScreen> {
   final eCheckFormCubit = ECheckFormCubit();
 
   final MoneyMaskedTextController moneyController =
@@ -117,7 +117,7 @@ class _NextButton extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => BlocProvider.value(
-                      value: eCheckFormCubit, child: ConfirmWithdraw()),
+                      value: eCheckFormCubit, child: ConfirmECheckScreen()),
                 ),
               );
             },

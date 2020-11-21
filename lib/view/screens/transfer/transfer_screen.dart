@@ -11,7 +11,7 @@ import 'package:vertexbank/view/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/view/components/transferscreen/transfer_screen_appbar.dart';
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
-import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/screens/transfer/add_contact.dart';
 import 'package:vertexbank/view/screens/transfer/confirm_transfer.dart';

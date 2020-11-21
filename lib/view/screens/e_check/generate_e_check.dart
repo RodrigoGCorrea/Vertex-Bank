@@ -3,11 +3,11 @@ import 'package:qr_flutter/qr_flutter.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/models/withdraw.dart';
+import 'package:vertexbank/models/e_check.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_icon_button.dart';
 
-class GenerateCheckScreen extends StatelessWidget {
+class GenerateECheckScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,8 +60,7 @@ class Background extends StatelessWidget {
 class GenerateCheckScreenAppbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Withdraw withdraw =
-        Withdraw(senderID: "teste", amount: 140, checkID: "brabo");
+    ECheck withdraw = ECheck(senderID: "teste", amount: 140, checkID: "brabo");
     return Container(
       height: getProportionateScreenHeight(220),
       child: Padding(

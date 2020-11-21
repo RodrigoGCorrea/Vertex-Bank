@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer/transfer_form_cubit.dart';
 import 'package:vertexbank/models/contact.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 
@@ -36,9 +36,7 @@ class ContactList extends StatelessWidget {
                 listViewBuilder:
                     BlocBuilder<TransferFormCubit, TransferFormState>(
                   builder: (context, state) {
-
                     if (state.contactList.length <= 0) {
-
                       return Center(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -110,9 +108,7 @@ class ContactList extends StatelessWidget {
 }
 
 class ContactListItem extends StatelessWidget {
-
   const ContactListItem({
-
     @required this.contact,
     @required this.isSelected,
     Key key,

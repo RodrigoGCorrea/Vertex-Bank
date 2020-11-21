@@ -30,7 +30,7 @@ class VtxButtonBar extends StatelessWidget {
           Spacer(),
           VtxIconButton(
             iconPath: "assets/icons/hand-holding-usd-solid.svg",
-            text: "Withdraw",
+            text: "ECheck",
             width: getProportionateScreenHeight(75),
             height: getProportionateScreenHeight(70),
             function: () => Navigator.of(context).pushNamed('/withdraw'),

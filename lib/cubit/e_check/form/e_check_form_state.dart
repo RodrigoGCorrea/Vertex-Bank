@@ -1,4 +1,4 @@
-part of 'echeckform_cubit.dart';
+part of 'e_check_form_cubit.dart';
 
 enum ECheckFormStage { initial, selected }
 
