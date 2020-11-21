@@ -3,17 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'package:vertexbank/api/money.dart';
-
-
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/view/components/transferscreen/transfer_screen_appbar.dart';
-
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
-
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
@@ -31,18 +27,12 @@ class _TransferScreenState extends State<TransferScreen> {
   final transferFormCubit =
       TransferFormCubit(transferApi: getIt<TransferApi>());
 
-
-  final moneyWatcherCubit = MoneyWatcherCubit(moneyApi: getIt<MoneyApi>());
-
   final MoneyMaskedTextController _moneyController =
       MoneyMaskedTextController(precision: 2);
 
   @override
   void dispose() {
     transferFormCubit.close();
-
-    moneyWatcherCubit.close();
-
     super.dispose();
   }
 
@@ -73,7 +63,6 @@ class _TransferScreenState extends State<TransferScreen> {
             ),
         ),
       ],
-
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Scaffold(
@@ -83,7 +72,6 @@ class _TransferScreenState extends State<TransferScreen> {
                 children: [
                   SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
                   BlocListener<MoneyWatcherCubit, MoneyWatcherState>(
-
                     //Yeah... This is to force the listener to run when this screen is opened.
                     //If you, dear reader, know anything better let me know. Thanks.
                     listenWhen: (previous, current) =>
@@ -92,7 +80,6 @@ class _TransferScreenState extends State<TransferScreen> {
                       context
                           .read<TransferFormCubit>()
                           .updateUserMoney(state.money);
-
                     },
                     child: BlocBuilder<TransferFormCubit, TransferFormState>(
                       buildWhen: (previous, current) =>
@@ -103,10 +90,8 @@ class _TransferScreenState extends State<TransferScreen> {
                           functionChanged: (_) {
                             context
                                 .read<TransferFormCubit>()
-
                                 .amountInputChanged(
                                     amountDouble: _moneyController.numberValue);
-
                           },
                           errorText: !state.amount.isValid &&
                                   state.stage != TransferFormStage.initial
