@@ -8,6 +8,12 @@ import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_icon_button.dart';
 
 class GenerateECheckScreen extends StatelessWidget {
+  const GenerateECheckScreen({
+    @required this.eCheck,
+  });
+
+  final ECheck eCheck;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -19,15 +25,14 @@ class GenerateECheckScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              GenerateCheckScreenAppbar(),
+              GenerateCheckScreenAppbar(
+                eCheck: eCheck,
+              ),
               Spacer(),
               VtxButton(
                 text: "Back to menu",
                 function: () {
-                  Navigator.popUntil(
-                    context,
-                    ModalRoute.withName('/main'),
-                  );
+                  Navigator.pop(context);
                 },
               )
             ],
@@ -58,9 +63,12 @@ class Background extends StatelessWidget {
 }
 
 class GenerateCheckScreenAppbar extends StatelessWidget {
+  const GenerateCheckScreenAppbar({@required this.eCheck});
+
+  final ECheck eCheck;
+
   @override
   Widget build(BuildContext context) {
-    ECheck withdraw = ECheck(senderID: "teste", amount: 140, checkID: "brabo");
     return Container(
       height: getProportionateScreenHeight(220),
       child: Padding(
@@ -88,7 +96,7 @@ class GenerateCheckScreenAppbar extends StatelessWidget {
                 child: Row(
                   children: [
                     QRCodeBuilder(
-                      data: withdraw.toJson(),
+                      data: eCheck.toJson(),
                     ),
                     Spacer(),
                     Column(

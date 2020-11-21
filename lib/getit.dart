@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:vertexbank/api/auth.dart';
+import 'package:vertexbank/api/e_check.dart';
 import 'package:vertexbank/api/money.dart';
 import 'package:vertexbank/api/transaction_list.dart';
 import 'package:vertexbank/api/transfer.dart';
@@ -11,4 +12,5 @@ void getItSetup() {
   getIt.registerLazySingleton<TransferApi>(() => TransferApi());
   getIt.registerLazySingleton<MoneyApi>(() => MoneyApi());
   getIt.registerLazySingleton<TransactionListApi>(() => TransactionListApi());
+  getIt.registerLazySingleton<ECheckApi>(() => ECheckApi());
 }

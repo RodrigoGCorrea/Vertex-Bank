@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:intl/intl.dart';
+import 'package:vertexbank/api/e_check.dart';
+import 'package:vertexbank/cubit/e_check/action/e_check_action_cubit.dart';
 
+import 'package:vertexbank/cubit/e_check/form/e_check_form_cubit.dart';
+import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
@@ -11,31 +17,67 @@ import 'package:vertexbank/view/screens/e_check/generate_e_check.dart';
 class ConfirmECheckScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Background(
-        child: Container(
-          height: VtxSizeConfig.screenHeight,
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-                vertical: VtxSizeConfig.screenHeight * 0.1),
-            child: Column(
-              children: [
-                ConfirmWithdrawAppbar(),
-                Spacer(),
-                VtxButton(
-                  text: "Confirm",
-                  color: AppTheme.buttonColorGreen,
-                  function: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => GenerateECheckScreen())),
+    return BlocProvider(
+      create: (context) => ECheckActionCubit(eCheckApi: getIt<ECheckApi>()),
+      child: Scaffold(
+        body: BlocListener<ECheckActionCubit, ECheckActionState>(
+          listener: (context, state) {
+            if (state is ECheckActionLoading) {
+              EasyLoading.show(status: "Creating your E-Check...");
+            } else if (state is ECheckActionFinished) {
+              EasyLoading.dismiss();
+              Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => GenerateECheckScreen(
+                    eCheck: state.eCheck,
+                  ),
                 ),
-                SizedBox(height: getProportionateScreenHeight(20)),
-                CancelButton()
-              ],
+                ModalRoute.withName('/main'),
+              );
+            } else if (state is ECheckActionError) {
+              EasyLoading.dismiss();
+              EasyLoading.showError(state.error.message);
+            }
+          },
+          child: Background(
+            child: Container(
+              height: VtxSizeConfig.screenHeight,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                    vertical: VtxSizeConfig.screenHeight * 0.1),
+                child: Column(
+                  children: [
+                    ConfirmWithdrawAppbar(),
+                    Spacer(),
+                    _ConfirmButton(),
+                    SizedBox(height: getProportionateScreenHeight(20)),
+                    CancelButton()
+                  ],
+                ),
+              ),
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _ConfirmButton extends StatelessWidget {
+  const _ConfirmButton({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<ECheckFormCubit, ECheckFormState>(
+      builder: (context, state) => VtxButton(
+        text: "Confirm",
+        color: AppTheme.buttonColorGreen,
+        function: () => context
+            .read<ECheckActionCubit>()
+            .confirmECheck(state.senderId, state.amount.value),
       ),
     );
   }
@@ -81,9 +123,6 @@ class CancelButton extends StatelessWidget {
 }
 
 class ConfirmWithdrawAppbar extends StatelessWidget {
-  final MoneyMaskedTextController _moneyController =
-      MoneyMaskedTextController(precision: 2);
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -109,8 +148,11 @@ class ConfirmWithdrawAppbar extends StatelessWidget {
             child: VtxListViewBox(
               height: getProportionateScreenHeight(70),
               width: getProportionateScreenWidth(285),
-              listViewBuilder: WithdrawItem(
-                moneyController: _moneyController,
+              listViewBuilder: BlocBuilder<ECheckFormCubit, ECheckFormState>(
+                builder: (context, state) => WithdrawItem(
+                  amount: NumberFormat.currency(locale: 'pt_BR', symbol: "")
+                      .format(state.amount.value * 0.01),
+                ),
               ),
             ),
           ),
@@ -121,11 +163,10 @@ class ConfirmWithdrawAppbar extends StatelessWidget {
 }
 
 class WithdrawItem extends StatelessWidget {
-  WithdrawItem({
+  const WithdrawItem({
     Key key,
-    @required moneyController,
-  })  : this.amount = moneyController.text,
-        super(key: key);
+    @required this.amount,
+  }) : super(key: key);
 
   final String amount;
 
