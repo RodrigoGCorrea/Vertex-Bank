@@ -8,6 +8,7 @@ import 'package:vertexbank/models/failure.dart';
 import 'package:vertexbank/models/inputs/money_amount.dart';
 import 'package:vertexbank/models/inputs/selected_contact.dart';
 import 'package:vertexbank/models/transaction.dart';
+import 'package:vertexbank/models/user.dart';
 
 part 'transfer_form_state.dart';
 
@@ -18,10 +19,10 @@ class TransferFormCubit extends Cubit<TransferFormState> {
 
   final TransferApi transferApi;
 
-  void setUserInfo(String userId, String userName) {
+  void setUserInfo(User user) {
     emit(state.copyWith(
-      userId: userId,
-      userName: userName,
+      userId: user.id,
+      userName: user.name + " " + user.lastName,
     ));
   }
 

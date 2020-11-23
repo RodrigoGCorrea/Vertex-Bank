@@ -43,16 +43,7 @@ class _TransferScreenState extends State<TransferScreen> {
         BlocProvider.value(
           value: transferFormCubit
             ..setUserInfo(
-              context.watch<AuthActionCubit>().getSignedInUserWithoutEmit().id,
-              context
-                      .watch<AuthActionCubit>()
-                      .getSignedInUserWithoutEmit()
-                      .name +
-                  " " +
-                  context
-                      .watch<AuthActionCubit>()
-                      .getSignedInUserWithoutEmit()
-                      .lastName,
+              context.watch<AuthActionCubit>().getSignedInUserWithoutEmit(),
             )
             ..setContactList(),
         ),
