@@ -55,7 +55,59 @@ class ECheckApi {
     }
   }
 
-  Future<ECheck> getECheck(String senderId, String checkId) async {
+  Future<void> depositCheck(ECheck eCheck, String receiverId) async {
+    try {
+      await isCheckValid(eCheck.senderID, eCheck.checkID);
+
+      final date = DateTime.now();
+      final receiver =
+          await _db.collection(userCollection).doc(receiverId).get();
+      final receiverAmount = await receiver.get(moneyField);
+
+      await _db
+          .collection(userCollection)
+          .doc(receiverId)
+          .update({"$moneyField": receiverAmount + eCheck.amount});
+
+      await _db
+          .collection(userCollection)
+          .doc(receiverId)
+          .collection(transactionCollection)
+          .add({
+        "${Transaction.dbFields["targetUser"]}": "received E-Check",
+        "${Transaction.dbFields["received"]}": true,
+        "${Transaction.dbFields["amount"]}": eCheck.amount,
+        "${Transaction.dbFields["date"]}": date,
+      });
+
+      await _db
+          .collection(userCollection)
+          .doc(eCheck.senderID)
+          .collection(eCheckCollection)
+          .doc(eCheck.checkID)
+          .delete();
+    } on Failure {
+      rethrow;
+    } on Error catch (e) {
+      //This should never reach!!!
+      throw Failure(e.toString());
+    }
+  }
+
+  Future<String> getCheckOwnerName(String senderId) async {
+    try {
+      final user = await _db.collection(userCollection).doc(senderId).get();
+      final name = await user.get(User.dbFields["name"]);
+      final lastName = await user.get(User.dbFields["lastName"]);
+
+      return "$name $lastName";
+    } on Error catch (e) {
+      //This should never reach!!!
+      throw Failure(e.toString());
+    }
+  }
+
+  Future<void> isCheckValid(String senderId, String checkId) async {
     try {
       final check = await _db
           .collection(userCollection)
@@ -65,8 +117,6 @@ class ECheckApi {
           .get();
 
       if (!check.exists) throw Failure("This check was used.");
-
-      return fromDocSnapToWithdraw(check, senderId);
     } on Error catch (e) {
       //This should never reach!!!
       throw Failure(e.toString());
