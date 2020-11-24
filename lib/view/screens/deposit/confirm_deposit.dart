@@ -17,8 +17,11 @@ import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 class ConfirmDeposit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Background(
+    return WillPopScope(
+      onWillPop: () {
+        getIt<ScannerDepositActionCubit>().resetState();
+        return Future.value(true);
+      },
       child: MultiBlocProvider(
         providers: [
           BlocProvider.value(value: getIt<ScannerDepositActionCubit>()),

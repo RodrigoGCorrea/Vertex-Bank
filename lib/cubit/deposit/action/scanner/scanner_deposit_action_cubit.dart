@@ -41,4 +41,8 @@ class ScannerDepositActionCubit extends Cubit<ScannerDepositActionState> {
       emit(ScannerDepositActionError(error: e));
     }
   }
+
+  void resetState() {
+    emit(ScannerDepositActionInitial());
+  }
 }
