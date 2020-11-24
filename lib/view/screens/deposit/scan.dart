@@ -154,6 +154,7 @@ class _ScanState extends State<Scan> {
                       ),
                     ],
                   ),
+
                 ),
               )
             ],
@@ -182,24 +183,5 @@ class _ScanState extends State<Scan> {
   void dispose() {
     controller.dispose();
     super.dispose();
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
-    );
   }
 }

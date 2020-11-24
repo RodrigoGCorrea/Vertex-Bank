@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/logo.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
@@ -23,7 +23,6 @@ class LoginScreen extends StatelessWidget {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Scaffold(
-
           body: BlocListener<AuthActionCubit, AuthActionState>(
             listener: (context, state) {
               if (state is AuthActionLoading) {
@@ -36,7 +35,7 @@ class LoginScreen extends StatelessWidget {
                 EasyLoading.showError(state.error.message);
               }
             },
-            child: _Background(
+            child: Background(
               child: SingleChildScrollView(
                 child: Column(
                   children: [
@@ -50,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                     SizedBox(height: getProportionateScreenHeight(13)),
                     Text(
                       "or",
-                      style: TextStyle(color: AppTheme.textColor),
+                      style: TextStyle(color: AppTheme.textColorLight),
                     ),
                     SizedBox(height: getProportionateScreenHeight(25)),
                     _buildSignUpButton(context),
@@ -126,7 +125,6 @@ class LoginScreen extends StatelessWidget {
             text: "Login",
             function: () {
               context
-
                   .read<AuthActionCubit>()
                   .logIn(state.email.value, state.password.value);
             },
@@ -150,7 +148,7 @@ class LoginScreen extends StatelessWidget {
       child: Text(
         "Create an account",
         style: TextStyle(
-          color: AppTheme.textColor,
+          color: AppTheme.textColorLight,
           fontSize: getProportionateScreenWidth(12),
           decoration: TextDecoration.underline,
         ),
@@ -172,7 +170,12 @@ class _Background extends StatelessWidget {
     return Container(
       width: VtxSizeConfig.screenWidth,
       height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage("assets/images/background.png"),
+          fit: BoxFit.cover,
+        ),
+      ),
       child: child,
     );
   }

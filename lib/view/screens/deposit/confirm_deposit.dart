@@ -7,6 +7,8 @@ import 'package:vertexbank/api/e_check.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/deposit/action/confirm/confirm_deposit_action_cubit.dart';
 import 'package:vertexbank/cubit/deposit/action/scanner/scanner_deposit_action_cubit.dart';
@@ -173,6 +175,7 @@ class DepositItem extends StatelessWidget {
               padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
               child: SvgPicture.asset(
                 "assets/icons/circle-solid.svg",
+                color: AppTheme.textColorDark,
                 width: getProportionateScreenWidth(4),
               ),
             ),
@@ -185,8 +188,8 @@ class DepositItem extends StatelessWidget {
                     "From",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(12),
-                      color: AppTheme.textColor,
-                      fontWeight: FontWeight.w100,
+                      color: AppTheme.textColorDark,
+                      fontWeight: AppTheme.generalFontWeight,
                     ),
                   ),
                   Text(
@@ -197,7 +200,7 @@ class DepositItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(20),
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textColor,
+                      color: AppTheme.textColorDark,
                     ),
                   ),
                 ],
@@ -213,6 +216,7 @@ class DepositItem extends StatelessWidget {
               padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
               child: SvgPicture.asset(
                 "assets/icons/circle-solid.svg",
+                color: AppTheme.textColorDark,
                 width: getProportionateScreenWidth(4),
               ),
             ),
@@ -225,8 +229,8 @@ class DepositItem extends StatelessWidget {
                     "The amount of",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(12),
-                      color: AppTheme.textColor,
-                      fontWeight: FontWeight.w100,
+                      color: AppTheme.textColorDark,
+                      fontWeight: AppTheme.generalFontWeight,
                     ),
                   ),
                   Text(
@@ -237,7 +241,7 @@ class DepositItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(20),
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textColor,
+                      color: AppTheme.textColorDark,
                     ),
                   ),
                 ],
@@ -253,6 +257,7 @@ class DepositItem extends StatelessWidget {
               padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
               child: SvgPicture.asset(
                 "assets/icons/circle-solid.svg",
+                color: AppTheme.textColorDark,
                 width: getProportionateScreenWidth(4),
               ),
             ),
@@ -264,8 +269,8 @@ class DepositItem extends StatelessWidget {
                   "On the day",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColor,
-                    fontWeight: FontWeight.w100,
+                    color: AppTheme.textColorDark,
+                    fontWeight: AppTheme.generalFontWeight,
                   ),
                 ),
                 Text(
@@ -273,7 +278,7 @@ class DepositItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                   ),
                 ),
               ],
@@ -304,25 +309,6 @@ class CancelButton extends StatelessWidget {
           context.read<ScannerDepositActionCubit>().resetState();
         },
       ),
-    );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }

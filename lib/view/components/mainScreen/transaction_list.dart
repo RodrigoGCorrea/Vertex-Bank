@@ -38,6 +38,7 @@ class TransactionList extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   "assets/icons/chevron-right-solid.svg",
+                  color: AppTheme.buttonColorBlue,
                   width: getProportionateScreenWidth(13),
                 ),
                 SizedBox(height: getProportionateScreenHeight(5)),
@@ -45,7 +46,7 @@ class TransactionList extends StatelessWidget {
                   "More",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(11),
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                   ),
                 )
               ],
@@ -75,7 +76,7 @@ class VtxTransactionItem extends StatelessWidget {
   })  : ftfield = received ? "From" : "To",
         sign = received ? "+" : "-",
         transactionColor =
-            received ? AppTheme.buttonColorGreen : AppTheme.buttonColorRed,
+            received ? AppTheme.buttonColorBlue : AppTheme.buttonColorRed,
         super(key: key);
 
   @override
@@ -89,6 +90,7 @@ class VtxTransactionItem extends StatelessWidget {
             padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
             child: SvgPicture.asset(
               "assets/icons/circle-solid.svg",
+              color: AppTheme.buttonColorBlue,
               width: getProportionateScreenWidth(4),
             ),
           ),
@@ -101,7 +103,7 @@ class VtxTransactionItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(11),
                 fontWeight: FontWeight.w300,
-                color: AppTheme.textColor,
+                color: AppTheme.textColorDark,
               ),
             ),
           ),
@@ -110,12 +112,11 @@ class VtxTransactionItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-
                 "$userName",
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(11),
                   fontWeight: FontWeight.w300,
-                  color: AppTheme.textColor,
+                  color: AppTheme.textColorDark,
                 ),
               ),
               Text(
@@ -134,12 +135,11 @@ class VtxTransactionItem extends StatelessWidget {
                 top: getProportionateScreenHeight(6),
                 right: getProportionateScreenWidth(5)),
             child: Text(
-
               "${date.day}/${date.month}/${date.year}",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(9),
                 fontWeight: FontWeight.w300,
-                color: AppTheme.textColor,
+                color: AppTheme.textColorDark,
               ),
             ),
           )

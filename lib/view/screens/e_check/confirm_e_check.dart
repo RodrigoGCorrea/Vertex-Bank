@@ -8,6 +8,7 @@ import 'package:vertexbank/cubit/e_check/action/e_check_action_cubit.dart';
 
 import 'package:vertexbank/cubit/e_check/form/e_check_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
@@ -74,30 +75,11 @@ class _ConfirmButton extends StatelessWidget {
     return BlocBuilder<ECheckFormCubit, ECheckFormState>(
       builder: (context, state) => VtxButton(
         text: "Confirm",
-        color: AppTheme.buttonColorGreen,
+        color: AppTheme.buttonColorBlue,
         function: () => context
             .read<ECheckActionCubit>()
             .confirmECheck(state.senderId, state.amount.value),
       ),
-    );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }
@@ -137,8 +119,8 @@ class ConfirmWithdrawAppbar extends StatelessWidget {
               "Please confirm this withdraw",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(14),
-                color: AppTheme.textColor,
-                fontWeight: FontWeight.w100,
+                color: AppTheme.textColorLight,
+                fontWeight: AppTheme.generalFontWeight,
               ),
             ),
           ),
@@ -182,6 +164,7 @@ class WithdrawItem extends StatelessWidget {
               padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
               child: SvgPicture.asset(
                 "assets/icons/circle-solid.svg",
+                color: AppTheme.textColorDark,
                 width: getProportionateScreenWidth(4),
               ),
             ),
@@ -193,8 +176,8 @@ class WithdrawItem extends StatelessWidget {
                   "The amount of",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColor,
-                    fontWeight: FontWeight.w100,
+                    color: AppTheme.textColorDark,
+                    fontWeight: AppTheme.generalFontWeight,
                   ),
                 ),
                 Text(
@@ -202,7 +185,7 @@ class WithdrawItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                   ),
                 ),
               ],

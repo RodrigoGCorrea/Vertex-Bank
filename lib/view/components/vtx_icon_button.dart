@@ -25,7 +25,7 @@ class VtxIconButton extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-        color: AppTheme.buttonColorGreen,
+        color: AppTheme.buttonColorBlue,
         borderRadius: BorderRadius.circular(15),
       ),
       child: FlatButton(
@@ -37,7 +37,7 @@ class VtxIconButton extends StatelessWidget {
               SvgPicture.asset(
                 iconPath,
                 width: 0.4 * width,
-                color: AppTheme.textColor,
+                color: AppTheme.textColorLight,
               ),
               SizedBox(
                 height: getProportionateScreenHeight(5),
@@ -45,7 +45,7 @@ class VtxIconButton extends StatelessWidget {
               Text(
                 text,
                 style: TextStyle(
-                  color: AppTheme.textColor,
+                  color: AppTheme.textColorLight,
                 ),
               )
             ],

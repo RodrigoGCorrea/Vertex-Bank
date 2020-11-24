@@ -7,7 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/models/user.dart';
-import 'package:vertexbank/view/components/back_button.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/view/components/signUp/cancel_button.dart';
@@ -48,11 +48,14 @@ class SignUpFinishScreen extends StatelessWidget {
     BuildContext context,
     TextEditingController _dobController,
   ) {
-    return _Background(
+    return Background(
       child: SingleChildScrollView(
         child: Column(
           children: [
-            _buildBackButton(),
+            SizedBox(
+              height: getProportionateScreenHeight(
+                  VtxSizeConfig.screenHeight * 0.1),
+            ),
             _HeaderSignUp(),
             SizedBox(height: getProportionateScreenHeight(35)),
             _buildNameInput(context),
@@ -63,12 +66,10 @@ class SignUpFinishScreen extends StatelessWidget {
             SizedBox(height: getProportionateScreenHeight(50)),
             _buildFinishButton(context),
             SizedBox(height: getProportionateScreenHeight(13)),
-            Text("or", style: TextStyle(color: AppTheme.textColor)),
+            Text("or", style: TextStyle(color: AppTheme.textColorLight)),
             SizedBox(height: getProportionateScreenHeight(25)),
             CancelButton(),
             SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-            //NOTE(Geraldo): O que esse BackButton faz?
-            BackButton()
           ],
         ),
       ),
@@ -125,33 +126,24 @@ class SignUpFinishScreen extends StatelessWidget {
         return Padding(
           padding:
               EdgeInsets.symmetric(horizontal: getProportionateScreenWidth(52)),
-          child: _BasicDateField(
-            onChanged: (birth) => context.read<SignUpFormCubit>().birthChanged(
-                  birth,
-                ),
-            errorText: !state.birth.isValid && state.stage != SignUpStage.next
-                ? state.birth.errorText
-                : null,
+          child: Container(
+            height: getProportionateScreenHeight(44),
+            decoration: AppTheme.vtxBuildBoxDecoration(),
+            child: Center(
+              child: _BasicDateField(
+                onChanged: (birth) =>
+                    context.read<SignUpFormCubit>().birthChanged(
+                          birth,
+                        ),
+                errorText:
+                    !state.birth.isValid && state.stage != SignUpStage.next
+                        ? state.birth.errorText
+                        : null,
+              ),
+            ),
           ),
         );
       },
-    );
-  }
-
-  Widget _buildBackButton() {
-    return Stack(
-      children: [
-        SizedBox(
-          height: VtxSizeConfig.screenHeight * 0.11,
-          width: VtxSizeConfig.screenWidth,
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: getProportionateScreenHeight(22),
-          ),
-          child: VtxBackButton(),
-        ),
-      ],
     );
   }
 
@@ -200,6 +192,7 @@ class SignUpFinishScreen extends StatelessWidget {
 class _BasicDateField extends StatelessWidget {
   final Function(DateTime) onChanged;
   final String errorText;
+  static double radius = 15;
 
   const _BasicDateField({
     Key key,
@@ -213,30 +206,45 @@ class _BasicDateField extends StatelessWidget {
       resetIcon: null,
       style: TextStyle(
         fontSize: getProportionateScreenWidth(14),
-        color: AppTheme.textColor,
+        color: AppTheme.textColorDark,
       ),
       format: DateFormat("dd/MM/yyyy"),
       decoration: InputDecoration(
-        contentPadding: EdgeInsets.symmetric(
-          horizontal: getProportionateScreenWidth(18),
+        filled: true,
+        fillColor: AppTheme.appBackgroundColor,
+        contentPadding: EdgeInsets.only(
+          left: getProportionateScreenWidth(18),
+          top: getProportionateScreenHeight(10),
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(radius),
         ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
           ),
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(radius),
         ),
-        labelText: "Date of birth",
-        labelStyle: TextStyle(
-          color: AppTheme.textColor,
+        hintText: "Date of birth",
+        hintStyle: TextStyle(
+          color: AppTheme.textColorDark,
         ),
         errorText: errorText,
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppTheme.textColorLight,
+          ),
+          borderRadius: BorderRadius.circular(radius),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: AppTheme.textColorLight,
+          ),
+          borderRadius: BorderRadius.circular(radius),
+        ),
       ),
       onChanged: onChanged,
       onShowPicker: (context, currentValue) {
@@ -267,30 +275,11 @@ class _HeaderSignUp extends StatelessWidget {
           "One more thing,",
           style: TextStyle(
             fontSize: getProportionateScreenWidth(16),
-            color: AppTheme.textColor,
-            fontWeight: FontWeight.w100,
+            color: AppTheme.textColorLight,
+            fontWeight: AppTheme.generalFontWeight,
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Background extends StatelessWidget {
-  final Widget child;
-
-  const _Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }

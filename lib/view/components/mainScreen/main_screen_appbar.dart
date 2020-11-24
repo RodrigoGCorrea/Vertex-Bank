@@ -24,8 +24,8 @@ class MainScreenAppBar extends StatelessWidget {
             "Welcome back,",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(16),
-              color: AppTheme.textColor,
-              fontWeight: FontWeight.w100,
+              color: AppTheme.textColorLight,
+              fontWeight: AppTheme.generalFontWeight,
             ),
           ),
           Row(
@@ -36,14 +36,14 @@ class MainScreenAppBar extends StatelessWidget {
                 style: TextStyle(
                   fontSize: getProportionateScreenWidth(36),
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.textColor,
+                  color: AppTheme.textColorLight,
                 ),
               ),
               IconButton(
                 onPressed: configFunction,
                 icon: SvgPicture.asset(
-                  "assets/icons/cog-solid.svg",
-                  color: AppTheme.textColor,
+                  "assets/icons/Sign-out-02.svg",
+                  color: AppTheme.textColorLight,
                 ),
               )
             ],

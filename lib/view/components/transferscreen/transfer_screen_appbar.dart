@@ -30,8 +30,8 @@ class TransferScreenAppBar extends StatelessWidget {
               "Amount to pay",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(16),
-                color: AppTheme.textColor,
-                fontWeight: FontWeight.w100,
+                color: AppTheme.textColorLight,
+                fontWeight: AppTheme.generalFontWeight,
               ),
             ),
           ),
@@ -51,7 +51,7 @@ class TransferScreenAppBar extends StatelessWidget {
                       "R\$",
                       style: TextStyle(
                         fontSize: getProportionateScreenWidth(24),
-                        color: AppTheme.textColor,
+                        color: AppTheme.textColorDark,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -66,7 +66,7 @@ class TransferScreenAppBar extends StatelessWidget {
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(24),
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textColor,
+                          color: AppTheme.textColorDark,
                         ),
                         decoration: InputDecoration(
                           errorText: errorText,
@@ -82,7 +82,7 @@ class TransferScreenAppBar extends StatelessWidget {
                           hintStyle: TextStyle(
                             fontSize: getProportionateScreenWidth(24),
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textColor,
+                            color: AppTheme.textColorDark,
                           ),
                         ),
                       ),

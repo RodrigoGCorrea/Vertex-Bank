@@ -10,7 +10,7 @@ class VtxButton extends StatelessWidget {
   const VtxButton({
     Key key,
     this.text,
-    this.color = AppTheme.buttonColorGreen,
+    this.color = AppTheme.buttonColorBlue,
     this.function,
   }) : super(key: key);
 
@@ -24,7 +24,7 @@ class VtxButton extends StatelessWidget {
         child: Text(
           text,
           style: TextStyle(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
           ),
         ),
         shape: RoundedRectangleBorder(

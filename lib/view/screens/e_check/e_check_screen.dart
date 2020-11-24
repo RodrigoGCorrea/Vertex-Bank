@@ -7,6 +7,7 @@ import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
 import 'package:vertexbank/cubit/e_check/form/e_check_form_cubit.dart';
 import 'package:vertexbank/cubit/money/money_watcher_cubit.dart';
 import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -110,7 +111,7 @@ class _NextButton extends StatelessWidget {
         if (isFormValid) {
           return VtxButton(
             text: "Next",
-            color: AppTheme.buttonColorGreen,
+            color: AppTheme.buttonColorBlue,
             function: () {
               context.read<ECheckFormCubit>().setECheckFormSelected();
               Navigator.push(
@@ -125,7 +126,7 @@ class _NextButton extends StatelessWidget {
         } else {
           return VtxButton(
               text: "Next",
-              color: AppTheme.buttonColorGreen,
+              color: AppTheme.buttonColorBlue,
               function: () {
                 context.read<ECheckFormCubit>().setECheckFormSelected();
               });
@@ -161,8 +162,8 @@ class WithdrawScreenAppbar extends StatelessWidget {
               "Amount to withdraw",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(16),
-                color: AppTheme.textColor,
-                fontWeight: FontWeight.w100,
+                color: AppTheme.textColorLight,
+                fontWeight: AppTheme.generalFontWeight,
               ),
             ),
           ),
@@ -182,7 +183,7 @@ class WithdrawScreenAppbar extends StatelessWidget {
                       "R\$",
                       style: TextStyle(
                         fontSize: getProportionateScreenWidth(24),
-                        color: AppTheme.textColor,
+                        color: AppTheme.textColorDark,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -197,7 +198,7 @@ class WithdrawScreenAppbar extends StatelessWidget {
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(24),
                           fontWeight: FontWeight.bold,
-                          color: AppTheme.textColor,
+                          color: AppTheme.textColorDark,
                         ),
                         decoration: InputDecoration(
                           errorText: errorText,
@@ -213,7 +214,7 @@ class WithdrawScreenAppbar extends StatelessWidget {
                           hintStyle: TextStyle(
                             fontSize: getProportionateScreenWidth(24),
                             fontWeight: FontWeight.bold,
-                            color: AppTheme.textColor,
+                            color: AppTheme.textColorDark,
                           ),
                         ),
                       ),
@@ -225,25 +226,6 @@ class WithdrawScreenAppbar extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }

@@ -9,6 +9,9 @@ import 'package:qr_code_tools/qr_code_tools.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+
+import 'package:vertexbank/view/components/background.dart';
+
 import 'package:vertexbank/cubit/deposit/action/scanner/scanner_deposit_action_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/components/button.dart';
@@ -59,6 +62,7 @@ class DepositScreen extends StatelessWidget {
                           fontWeight: FontWeight.w100,
                         ),
                       ),
+
                       SizedBox(height: getProportionateScreenHeight(35)),
                       ScanButton(
                         function: () => Navigator.push(
@@ -149,7 +153,7 @@ class SelectFromFiles extends StatelessWidget {
         child: Text(
           "Select QR-Code from files",
           style: TextStyle(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
             fontSize: getProportionateScreenWidth(12),
             decoration: TextDecoration.underline,
           ),
@@ -174,7 +178,7 @@ class ScanButton extends StatelessWidget {
         width: getProportionateScreenHeight(153),
         height: getProportionateScreenHeight(153),
         decoration: BoxDecoration(
-          color: AppTheme.buttonColorGreen,
+          color: AppTheme.buttonColorBlue,
           borderRadius: BorderRadius.circular(15),
         ),
         child: FlatButton(
@@ -182,29 +186,10 @@ class ScanButton extends StatelessWidget {
           child: SvgPicture.asset(
             "assets/icons/qrcode-solid.svg",
             width: double.infinity,
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
           ),
         ),
       ),
-    );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }

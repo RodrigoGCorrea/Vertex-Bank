@@ -13,6 +13,7 @@ import 'package:share/share.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/models/e_check.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_icon_button.dart';
 
@@ -54,25 +55,6 @@ class GenerateECheckScreen extends StatelessWidget {
   }
 }
 
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
-    );
-  }
-}
-
 class GenerateCheckScreenAppbar extends StatefulWidget {
   const GenerateCheckScreenAppbar({@required this.eCheck});
   final ECheck eCheck;
@@ -98,8 +80,8 @@ class _GenerateCheckScreenAppbarState extends State<GenerateCheckScreenAppbar> {
               "Please, make sure to save your E-Check",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(14),
-                color: AppTheme.textColor,
-                fontWeight: FontWeight.w100,
+                color: AppTheme.textColorLight,
+                fontWeight: AppTheme.generalFontWeight,
               ),
             ),
             SizedBox(height: getProportionateScreenHeight(5)),
@@ -118,9 +100,8 @@ class _GenerateCheckScreenAppbarState extends State<GenerateCheckScreenAppbar> {
                     ),
                     Spacer(),
                     Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        _SaveButton(),
-                        Spacer(),
                         _ShareButton(
                           onPressed: () async {
                             final qrFileName =
@@ -174,10 +155,10 @@ class _GenerateCheckScreenAppbarState extends State<GenerateCheckScreenAppbar> {
           width: getProportionateScreenWidth(170),
           height: getProportionateScreenHeight(150),
           decoration: BoxDecoration(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
             border: Border.all(
               width: getProportionateScreenWidth(1),
-              color: AppTheme.textColor,
+              color: AppTheme.textColorDark,
             ),
             borderRadius: BorderRadius.circular(15),
           ),
@@ -189,7 +170,7 @@ class _GenerateCheckScreenAppbarState extends State<GenerateCheckScreenAppbar> {
               data: data,
               version: QrVersions.auto,
               size: 180,
-              backgroundColor: AppTheme.textColor,
+              backgroundColor: AppTheme.textColorLight,
             ),
           ),
         ),
@@ -251,10 +232,10 @@ class QRCodeBuilder extends StatelessWidget {
           width: getProportionateScreenWidth(170),
           height: getProportionateScreenHeight(150),
           decoration: BoxDecoration(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorDark,
             border: Border.all(
               width: getProportionateScreenWidth(1),
-              color: AppTheme.textColor,
+              color: AppTheme.textColorDark,
             ),
             borderRadius: BorderRadius.circular(15),
           ),
