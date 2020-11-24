@@ -36,7 +36,7 @@ class _ScanState extends State<Scan> {
               key: qrKey,
               onQRViewCreated: _onQRViewCreated,
               overlay: QrScannerOverlayShape(
-                borderColor: AppTheme.buttonColorGreen,
+                borderColor: AppTheme.buttonColorBlue,
                 borderRadius: 10,
                 borderLength: 30,
                 borderWidth: 10,
@@ -44,7 +44,7 @@ class _ScanState extends State<Scan> {
               ),
             ),
           ),
-          Expanded(
+          /* Expanded(
             flex: 1,
             child: FittedBox(
               fit: BoxFit.contain,
@@ -127,7 +127,7 @@ class _ScanState extends State<Scan> {
                 ],
               ),
             ),
-          )
+          ) */
         ],
       ),
     );
@@ -154,24 +154,5 @@ class _ScanState extends State<Scan> {
   void dispose() {
     controller.dispose();
     super.dispose();
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
-    );
   }
 }

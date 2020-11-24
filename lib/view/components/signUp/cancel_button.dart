@@ -19,7 +19,7 @@ class CancelButton extends StatelessWidget {
       child: Text(
         "Cancel",
         style: TextStyle(
-          color: AppTheme.textColor,
+          color: AppTheme.textColorLight,
           fontSize: getProportionateScreenWidth(12),
           decoration: TextDecoration.underline,
         ),

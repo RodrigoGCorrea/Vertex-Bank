@@ -21,7 +21,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
-      systemNavigationBarColor: AppTheme.appBackgroundColor,
+      systemNavigationBarColor: AppTheme.buttonColorBlue,
       statusBarColor: Colors.transparent,
     ),
   );

@@ -6,6 +6,7 @@ import 'package:vertexbank/api/money.dart';
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/transferscreen/contactlist.dart';
 import 'package:vertexbank/view/components/transferscreen/transfer_screen_appbar.dart';
@@ -66,7 +67,7 @@ class _TransferScreenState extends State<TransferScreen> {
       child: GestureDetector(
         onTap: () => FocusScope.of(context).requestFocus(new FocusNode()),
         child: Scaffold(
-          body: _Background(
+          body: Background(
             child: SingleChildScrollView(
               child: Column(
                 children: [
@@ -110,7 +111,7 @@ class _TransferScreenState extends State<TransferScreen> {
                   ),
                   Text(
                     "or",
-                    style: TextStyle(color: AppTheme.textColor),
+                    style: TextStyle(color: AppTheme.textColorLight),
                   ),
                   SizedBox(
                     height: getProportionateScreenHeight(25),
@@ -197,32 +198,13 @@ class NewContact extends StatelessWidget {
           child: Text(
             "Add a new contact",
             style: TextStyle(
-              color: AppTheme.textColor,
+              color: AppTheme.textColorLight,
               fontSize: getProportionateScreenWidth(12),
               decoration: TextDecoration.underline,
             ),
           ),
         );
       },
-    );
-  }
-}
-
-class _Background extends StatelessWidget {
-  final Widget child;
-
-  const _Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }

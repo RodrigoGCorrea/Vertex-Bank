@@ -60,7 +60,7 @@ class VtxListViewBoxBackground extends StatelessWidget {
             width: getProportionateScreenWidth(31),
           ),
           VerticalDivider(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorDark,
             thickness: 1.5,
           ),
           SizedBox(

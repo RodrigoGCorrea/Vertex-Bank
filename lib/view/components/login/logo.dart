@@ -22,7 +22,7 @@ class Logo extends StatelessWidget {
               "VERTEX",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: AppTheme.textColor,
+                  color: AppTheme.textColorDark,
                   fontSize: getProportionateScreenWidth(36),
                   fontWeight: FontWeight.w300,
                   fontFamily: "RobotoMono"),
@@ -31,7 +31,7 @@ class Logo extends StatelessWidget {
               "BANK",
               textAlign: TextAlign.center,
               style: TextStyle(
-                  color: AppTheme.textColor,
+                  color: AppTheme.textColorDark,
                   fontSize: getProportionateScreenWidth(36),
                   fontWeight: FontWeight.w300,
                   fontFamily: "RobotoMono"),

@@ -23,40 +23,61 @@ class VtxTextBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: controller,
-      onChanged: onChangedFunction,
-      style: TextStyle(
-        fontSize: getProportionateScreenWidth(14),
-        color: AppTheme.textColor,
+    return Container(
+      height: getProportionateScreenHeight(44),
+      decoration: AppTheme.vtxBuildBoxDecoration(),
+      child: Center(
+        child: TextField(
+          controller: controller,
+          onChanged: onChangedFunction,
+          style: TextStyle(
+            fontSize: getProportionateScreenWidth(14),
+            color: AppTheme.textColorDark,
+          ),
+          obscureText: obscureText,
+          decoration: _buildInputDecoration(),
+        ),
       ),
-      obscureText: obscureText,
-      decoration: _buildInputDecoration(),
     );
   }
 
   InputDecoration _buildInputDecoration() {
     return InputDecoration(
-      contentPadding: EdgeInsets.symmetric(
-        horizontal: getProportionateScreenWidth(18),
+      filled: false,
+      fillColor: AppTheme.appBackgroundColor,
+      contentPadding: EdgeInsets.only(
+        left: getProportionateScreenWidth(18),
+        top: getProportionateScreenHeight(10),
       ),
       enabledBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: AppTheme.textColor,
+          color: AppTheme.textColorLight,
         ),
         borderRadius: BorderRadius.circular(radius),
       ),
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(
-          color: AppTheme.textColor,
+          color: AppTheme.textColorLight,
         ),
         borderRadius: BorderRadius.circular(radius),
       ),
-      labelText: text,
-      labelStyle: TextStyle(
-        color: AppTheme.textColor,
+      hintText: text,
+      hintStyle: TextStyle(
+        color: AppTheme.textColorDark,
       ),
       errorText: errorText,
+      focusedErrorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: AppTheme.textColorLight,
+        ),
+        borderRadius: BorderRadius.circular(radius),
+      ),
+      errorBorder: OutlineInputBorder(
+        borderSide: BorderSide(
+          color: AppTheme.textColorLight,
+        ),
+        borderRadius: BorderRadius.circular(radius),
+      ),
     );
   }
 }

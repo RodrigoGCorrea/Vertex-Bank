@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/view/components/signUp/cancel_button.dart';
@@ -37,7 +38,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 
   Widget _buildSignUpForm(BuildContext context) {
-    return _Background(
+    return Background(
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -53,7 +54,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             SizedBox(height: getProportionateScreenHeight(13)),
             Text(
               "or",
-              style: TextStyle(color: AppTheme.textColor),
+              style: TextStyle(color: AppTheme.textColorLight),
             ),
             SizedBox(height: getProportionateScreenHeight(25)),
             CancelButton(),
@@ -173,25 +174,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
   }
 }
 
-class _Background extends StatelessWidget {
-  final Widget child;
-
-  const _Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
-    );
-  }
-}
-
 class _HeaderSignUp1 extends StatelessWidget {
   const _HeaderSignUp1({
     Key key,
@@ -211,8 +193,8 @@ class _HeaderSignUp1 extends StatelessWidget {
               "Hello guest, please",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(16),
-                color: AppTheme.textColor,
-                fontWeight: FontWeight.w100,
+                color: AppTheme.textColorLight,
+                fontWeight: AppTheme.generalFontWeight,
               ),
             ),
             Text(
@@ -220,7 +202,7 @@ class _HeaderSignUp1 extends StatelessWidget {
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(36),
                 fontWeight: FontWeight.bold,
-                color: AppTheme.textColor,
+                color: AppTheme.textColorLight,
               ),
             ),
           ],

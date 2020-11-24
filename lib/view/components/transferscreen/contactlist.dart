@@ -22,8 +22,8 @@ class ContactList extends StatelessWidget {
             "Paying to",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(16),
-              color: AppTheme.textColor,
-              fontWeight: FontWeight.w100,
+              color: AppTheme.textColorLight,
+              fontWeight: AppTheme.generalFontWeight,
             ),
           ),
           SizedBox(height: getProportionateScreenHeight(5)),
@@ -44,8 +44,8 @@ class ContactList extends StatelessWidget {
                             "You don't have any contacts added...",
                             style: TextStyle(
                               fontSize: getProportionateScreenWidth(14),
-                              color: AppTheme.textColor,
-                              fontWeight: FontWeight.w100,
+                              color: AppTheme.textColorDark,
+                              fontWeight: AppTheme.generalFontWeight,
                             ),
                           ),
                         ),
@@ -92,7 +92,7 @@ class ContactList extends StatelessWidget {
                         "More",
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(11),
-                          color: AppTheme.textColor,
+                          color: AppTheme.textColorDark,
                         ),
                       )
                     ],
@@ -112,13 +112,12 @@ class ContactListItem extends StatelessWidget {
     @required this.contact,
     @required this.isSelected,
     Key key,
-  })  : this.color =
-            isSelected ? AppTheme.buttonColorGreen : AppTheme.textColor,
+  })  : this.isBold = isSelected ? FontWeight.bold : FontWeight.w300,
         super(key: key);
 
   final Contact contact;
   final bool isSelected;
-  final Color color;
+  final FontWeight isBold;
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +130,7 @@ class ContactListItem extends StatelessWidget {
             padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
             child: SvgPicture.asset(
               "assets/icons/circle-solid.svg",
+              color: AppTheme.buttonColorBlue,
               width: getProportionateScreenWidth(4),
             ),
           ),
@@ -139,8 +139,8 @@ class ContactListItem extends StatelessWidget {
             "${contact.nickname}",
             style: TextStyle(
               fontSize: getProportionateScreenWidth(14),
-              color: color,
-              fontWeight: FontWeight.w100,
+              color: AppTheme.textColorDark,
+              fontWeight: isBold,
             ),
           ),
         ],

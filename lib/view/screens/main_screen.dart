@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:vertexbank/api/money.dart';
 import 'package:vertexbank/api/transaction_list.dart';
 import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
@@ -40,7 +41,7 @@ class MainScreen extends StatelessWidget {
         ),
       ],
       child: Scaffold(
-        body: _Background(
+        body: Background(
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -105,8 +106,8 @@ class MainScreen extends StatelessWidget {
                                 "You didn't make any transactions...",
                                 style: TextStyle(
                                   fontSize: getProportionateScreenWidth(14),
-                                  color: AppTheme.textColor,
-                                  fontWeight: FontWeight.w100,
+                                  color: AppTheme.textColorDark,
+                                  fontWeight: AppTheme.generalFontWeight,
                                 ),
                               ),
                             ),

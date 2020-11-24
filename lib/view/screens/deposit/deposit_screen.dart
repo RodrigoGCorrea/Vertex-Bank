@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/screens/deposit/confirm_deposit.dart';
 import 'package:vertexbank/view/screens/deposit/scan.dart';
@@ -27,8 +28,8 @@ class DepositScreen extends StatelessWidget {
                     "Scan QR-Code",
                     style: TextStyle(
                       fontSize: getProportionateScreenWidth(16),
-                      color: AppTheme.textColor,
-                      fontWeight: FontWeight.w100,
+                      color: AppTheme.textColorLight,
+                      fontWeight: AppTheme.generalFontWeight,
                     ),
                   ),
                   SizedBox(height: getProportionateScreenHeight(35)),
@@ -44,7 +45,7 @@ class DepositScreen extends StatelessWidget {
                   Center(
                     child: Text(
                       "or",
-                      style: TextStyle(color: AppTheme.textColor),
+                      style: TextStyle(color: AppTheme.textColorLight),
                     ),
                   ),
                   SizedBox(
@@ -89,7 +90,7 @@ class SelectFromFiles extends StatelessWidget {
         child: Text(
           "Select QR-Code from files",
           style: TextStyle(
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
             fontSize: getProportionateScreenWidth(12),
             decoration: TextDecoration.underline,
           ),
@@ -114,7 +115,7 @@ class ScanButton extends StatelessWidget {
         width: getProportionateScreenHeight(153),
         height: getProportionateScreenHeight(153),
         decoration: BoxDecoration(
-          color: AppTheme.buttonColorGreen,
+          color: AppTheme.buttonColorBlue,
           borderRadius: BorderRadius.circular(15),
         ),
         child: FlatButton(
@@ -122,29 +123,10 @@ class ScanButton extends StatelessWidget {
           child: SvgPicture.asset(
             "assets/icons/qrcode-solid.svg",
             width: double.infinity,
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
           ),
         ),
       ),
-    );
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }

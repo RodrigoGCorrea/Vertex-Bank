@@ -8,6 +8,7 @@ import 'package:vertexbank/cubit/transfer/action/addcontact/addcontact_action_cu
 import 'package:vertexbank/cubit/transfer/form/addcontact/addcontact_form_cubit.dart';
 import 'package:vertexbank/cubit/transfer/form/transfer/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
@@ -78,7 +79,7 @@ class NextButton extends StatelessWidget {
       if (isFormValid) {
         return VtxButton(
           text: "Finish",
-          color: AppTheme.buttonColorGreen,
+          color: AppTheme.buttonColorBlue,
           function: () {
             context.read<AddContactFormCubit>().setContactFormToSentIfValid();
             context.read<AddContactActionCubit>().addContact(
@@ -95,7 +96,7 @@ class NextButton extends StatelessWidget {
       } else {
         return VtxButton(
           text: "Finish",
-          color: AppTheme.buttonColorGreen,
+          color: AppTheme.buttonColorBlue,
           function: () {
             context
                 .read<AddContactFormCubit>()
@@ -104,25 +105,6 @@ class NextButton extends StatelessWidget {
         );
       }
     });
-  }
-}
-
-class Background extends StatelessWidget {
-  final Widget child;
-
-  const Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
-    );
   }
 }
 
@@ -143,7 +125,7 @@ class HeaderAddContact extends StatelessWidget {
           style: TextStyle(
             fontSize: getProportionateScreenWidth(24),
             fontWeight: FontWeight.bold,
-            color: AppTheme.textColor,
+            color: AppTheme.textColorLight,
           ),
         ),
       ),

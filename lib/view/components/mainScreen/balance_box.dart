@@ -28,7 +28,7 @@ class BalanceBox extends StatelessWidget {
               children: [
                 SvgPicture.asset(
                   "assets/icons/wallet-solid.svg",
-                  color: AppTheme.textColor,
+                  color: AppTheme.textColorDark,
                   height: getProportionateScreenWidth(16),
                 ),
                 SizedBox(width: getProportionateScreenWidth(6)),
@@ -36,8 +36,8 @@ class BalanceBox extends StatelessWidget {
                   "Balance",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(16),
-                    color: AppTheme.textColor,
-                    fontWeight: FontWeight.w100,
+                    color: AppTheme.textColorDark,
+                    fontWeight: AppTheme.generalFontWeight,
                   ),
                 )
               ],
@@ -51,7 +51,7 @@ class BalanceBox extends StatelessWidget {
                   "R\$",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(24),
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -60,7 +60,7 @@ class BalanceBox extends StatelessWidget {
                   money,
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(24),
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                     fontWeight: FontWeight.bold,
                   ),
                 ),

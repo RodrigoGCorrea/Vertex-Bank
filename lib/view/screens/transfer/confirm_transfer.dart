@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
+import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 import 'package:vertexbank/cubit/transfer/action/transfer/transfer_action_cubit.dart';
@@ -38,7 +39,7 @@ class TransferScreenConfirm extends StatelessWidget {
               EasyLoading.showError(state.error.message);
             }
           },
-          child: _Background(
+          child: Background(
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,7 +68,7 @@ class _ConfirmButton extends StatelessWidget {
     return BlocBuilder<TransferFormCubit, TransferFormState>(
       builder: (context, state) {
         return VtxButton(
-          color: AppTheme.buttonColorGreen,
+          color: AppTheme.buttonColorBlue,
           text: "Confirm",
           function: () {
             context.read<TransferActionCubit>().completeTransfer(
@@ -120,8 +121,8 @@ class ConfirmTransferAppbar extends StatelessWidget {
               "Please confirm this transaction",
               style: TextStyle(
                 fontSize: getProportionateScreenWidth(14),
-                color: AppTheme.textColor,
-                fontWeight: FontWeight.w100,
+                color: AppTheme.textColorLight,
+                fontWeight: AppTheme.generalFontWeight,
               ),
             ),
           ),
@@ -148,25 +149,6 @@ class ConfirmTransferAppbar extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-class _Background extends StatelessWidget {
-  final Widget child;
-
-  const _Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }
@@ -204,8 +186,8 @@ class TransferItem extends StatelessWidget {
                   "to",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColor,
-                    fontWeight: FontWeight.w100,
+                    color: AppTheme.textColorDark,
+                    fontWeight: AppTheme.generalFontWeight,
                   ),
                 ),
                 Text(
@@ -213,7 +195,7 @@ class TransferItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                   ),
                 ),
               ],
@@ -239,8 +221,8 @@ class TransferItem extends StatelessWidget {
                   "the amount of",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColor,
-                    fontWeight: FontWeight.w100,
+                    color: AppTheme.textColorDark,
+                    fontWeight: AppTheme.generalFontWeight,
                   ),
                 ),
                 Text(
@@ -248,7 +230,7 @@ class TransferItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(20),
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                   ),
                 ),
               ],
@@ -274,8 +256,8 @@ class TransferItem extends StatelessWidget {
                   "On the day",
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColor,
-                    fontWeight: FontWeight.w100,
+                    color: AppTheme.textColorDark,
+                    fontWeight: AppTheme.generalFontWeight,
                   ),
                 ),
                 Text(
@@ -283,7 +265,7 @@ class TransferItem extends StatelessWidget {
                   style: TextStyle(
                     fontSize: getProportionateScreenWidth(12),
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.textColor,
+                    color: AppTheme.textColorDark,
                   ),
                 ),
               ],
