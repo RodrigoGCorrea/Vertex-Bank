@@ -6,11 +6,17 @@ class ECheck {
   final int amount;
   final String checkID;
 
-  ECheck({
+  const ECheck({
     @required this.senderID,
     @required this.amount,
     @required this.checkID,
   });
+
+  static const empty = ECheck(
+    amount: 0,
+    senderID: "",
+    checkID: "",
+  );
 
   static final dbFields = {
     "amount": "amount",
