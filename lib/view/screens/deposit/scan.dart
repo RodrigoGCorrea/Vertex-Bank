@@ -4,7 +4,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 import 'package:vertexbank/config/apptheme.dart';
-import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/cubit/deposit/action/scanner/scanner_deposit_action_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/screens/deposit/confirm_deposit.dart';
@@ -62,7 +61,7 @@ class _ScanState extends State<Scan> {
                   key: qrKey,
                   onQRViewCreated: _onQRViewCreated,
                   overlay: QrScannerOverlayShape(
-                    borderColor: AppTheme.buttonColorGreen,
+                    borderColor: AppTheme.buttonColorBlue,
                     borderRadius: 10,
                     borderLength: 30,
                     borderWidth: 10,
@@ -70,106 +69,11 @@ class _ScanState extends State<Scan> {
                   ),
                 ),
               ),
-              Expanded(
-                flex: 1,
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      Text('This is the result of scan: $qrText'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.all(8),
-                            child: RaisedButton(
-                              onPressed: () {
-                                if (controller != null) {
-                                  controller.toggleFlash();
-                                  if (_isFlashOn(flashState)) {
-                                    setState(() {
-                                      flashState = flashOff;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      flashState = flashOn;
-                                    });
-                                  }
-                                }
-                              },
-                              child: Text(flashState,
-                                  style: TextStyle(fontSize: 20)),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(8),
-                            child: RaisedButton(
-                              onPressed: () {
-                                if (controller != null) {
-                                  controller.flipCamera();
-                                  if (_isBackCamera(cameraState)) {
-                                    setState(() {
-                                      cameraState = frontCamera;
-                                    });
-                                  } else {
-                                    setState(() {
-                                      cameraState = backCamera;
-                                    });
-                                  }
-                                }
-                              },
-                              child: Text(cameraState,
-                                  style: TextStyle(fontSize: 20)),
-                            ),
-                          )
-                        ],
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.all(8),
-                            child: RaisedButton(
-                              onPressed: () {
-                                controller?.pauseCamera();
-                              },
-                              child:
-                                  Text('pause', style: TextStyle(fontSize: 20)),
-                            ),
-                          ),
-                          Container(
-                            margin: EdgeInsets.all(8),
-                            child: RaisedButton(
-                              onPressed: () {
-                                controller?.resumeCamera();
-                              },
-                              child: Text('resume',
-                                  style: TextStyle(fontSize: 20)),
-                            ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
-
-                ),
-              )
             ],
           ),
         ),
       ),
     );
-  }
-
-  bool _isFlashOn(String current) {
-    return flashOn == current;
-  }
-
-  bool _isBackCamera(String current) {
-    return backCamera == current;
   }
 
   void _onQRViewCreated(QRViewController controller) {
