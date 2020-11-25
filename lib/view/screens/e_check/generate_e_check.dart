@@ -179,22 +179,6 @@ class _GenerateCheckScreenAppbarState extends State<GenerateCheckScreenAppbar> {
   }
 }
 
-class _SaveButton extends StatelessWidget {
-  const _SaveButton({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return VtxIconButton(
-      iconPath: "assets/icons/file-download-solid.svg",
-      text: "save",
-      width: getProportionateScreenWidth(65),
-      height: getProportionateScreenHeight(55),
-    );
-  }
-}
-
 class _ShareButton extends StatelessWidget {
   const _ShareButton({
     @required this.onPressed,
