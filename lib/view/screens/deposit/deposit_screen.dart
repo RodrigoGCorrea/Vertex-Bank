@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -58,11 +56,10 @@ class DepositScreen extends StatelessWidget {
                         "Scan QR-Code",
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(16),
-                          color: AppTheme.textColor,
+                          color: AppTheme.textColorLight,
                           fontWeight: FontWeight.w100,
                         ),
                       ),
-
                       SizedBox(height: getProportionateScreenHeight(35)),
                       ScanButton(
                         function: () => Navigator.push(
@@ -76,7 +73,7 @@ class DepositScreen extends StatelessWidget {
                       Center(
                         child: Text(
                           "or",
-                          style: TextStyle(color: AppTheme.textColor),
+                          style: TextStyle(color: AppTheme.textColorLight),
                         ),
                       ),
                       SizedBox(

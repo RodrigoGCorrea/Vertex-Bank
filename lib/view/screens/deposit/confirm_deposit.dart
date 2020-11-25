@@ -64,7 +64,7 @@ class ConfirmDeposit extends StatelessWidget {
                           "Please confirm this deposit",
                           style: TextStyle(
                             fontSize: getProportionateScreenWidth(14),
-                            color: AppTheme.textColor,
+                            color: AppTheme.textColorLight,
                             fontWeight: FontWeight.w100,
                           ),
                         ),
@@ -127,7 +127,7 @@ class _ConfirmButton extends StatelessWidget {
           return Center(
             child: VtxButton(
               text: "Confirm",
-              color: AppTheme.buttonColorGreen,
+              color: AppTheme.buttonColorBlue,
               function: () =>
                   context.read<ConfirmDepositActionCubit>().confirmDeposit(
                         state.parsedECheck,
@@ -143,7 +143,7 @@ class _ConfirmButton extends StatelessWidget {
           return Center(
             child: VtxButton(
               text: "Confirm",
-              color: AppTheme.buttonColorGreen,
+              color: AppTheme.buttonColorBlue,
             ),
           );
       },
