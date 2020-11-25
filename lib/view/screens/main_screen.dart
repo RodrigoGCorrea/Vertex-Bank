@@ -43,104 +43,88 @@ class MainScreen extends StatelessWidget {
       child: Scaffold(
         body: Background(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
-                BlocConsumer<AuthActionCubit, AuthActionState>(
-                  listener: (context, state) {
-                    if (state is AuthActionUnauthenticated)
-                      Navigator.pushReplacementNamed(context, "/login");
-                  },
-                  buildWhen: (previous, current) =>
-                      current is AuthActionAuthenticated,
-                  builder: (context, state) {
-                    if (state is AuthActionAuthenticated)
-                      return MainScreenAppBar(
-                        userName: state.user.name,
-                        configFunction: () =>
-                            context.read<AuthActionCubit>().signOut(),
-                      );
-                    else
-                      //This should never reach!!
-                      return MainScreenAppBar(
-                        userName: "",
-                        configFunction: () =>
-                            context.read<AuthActionCubit>().signOut(),
-                      );
-                  },
-                ),
-                SizedBox(height: getProportionateScreenHeight(20)),
-                BlocBuilder<MoneyWatcherCubit, MoneyWatcherState>(
-                  builder: (context, state) {
-                    final money =
-                        NumberFormat.currency(locale: 'pt_BR', symbol: "")
-                            .format(state.money * 0.01);
-                    return BalanceBox(money: money);
-                  },
-                ),
-                SizedBox(height: getProportionateScreenHeight(18)),
-                BlocBuilder<TransactionListCubit, TransactionListState>(
-                  builder: (context, state) {
-                    if (state.transactionList.length > 0) {
-                      List<VtxTransactionItem> transactionListWidget = [];
-                      state.transactionList.forEach((e) {
-                        final money =
-                            NumberFormat.currency(locale: 'pt_BR', symbol: "")
-                                .format(e.amount * 0.01);
-                        transactionListWidget.add(VtxTransactionItem(
-                          userName: e.targetUser,
-                          amount: money,
-                          date: e.date,
-                          received: e.received,
-                        ));
-                      });
-                      return TransactionList(list: transactionListWidget);
-                    } else {
-                      return VtxListViewBox(
-                          width: getProportionateScreenWidth(285),
-                          height: getProportionateScreenHeight(187),
-                          listViewBuilder: Center(
-                            child: Padding(
-                              padding: AppTheme.defaultHorizontalPadding,
-                              child: Text(
-                                "You didn't make any transactions...",
-                                style: TextStyle(
-                                  fontSize: getProportionateScreenWidth(14),
-                                  color: AppTheme.textColorDark,
-                                  fontWeight: AppTheme.generalFontWeight,
+            child: Container(
+              height: VtxSizeConfig.screenHeight,
+              child: Column(
+                children: [
+                  SizedBox(height: VtxSizeConfig.screenHeight * 0.1),
+                  BlocConsumer<AuthActionCubit, AuthActionState>(
+                    listener: (context, state) {
+                      if (state is AuthActionUnauthenticated)
+                        Navigator.pushReplacementNamed(context, "/login");
+                    },
+                    buildWhen: (previous, current) =>
+                        current is AuthActionAuthenticated,
+                    builder: (context, state) {
+                      if (state is AuthActionAuthenticated)
+                        return MainScreenAppBar(
+                          userName: state.user.name,
+                          configFunction: () =>
+                              context.read<AuthActionCubit>().signOut(),
+                        );
+                      else
+                        //This should never reach!!
+                        return MainScreenAppBar(
+                          userName: "",
+                          configFunction: () =>
+                              context.read<AuthActionCubit>().signOut(),
+                        );
+                    },
+                  ),
+                  SizedBox(height: getProportionateScreenHeight(20)),
+                  BlocBuilder<MoneyWatcherCubit, MoneyWatcherState>(
+                    builder: (context, state) {
+                      final money =
+                          NumberFormat.currency(locale: 'pt_BR', symbol: "")
+                              .format(state.money * 0.01);
+                      return BalanceBox(money: money);
+                    },
+                  ),
+                  SizedBox(height: getProportionateScreenHeight(18)),
+                  BlocBuilder<TransactionListCubit, TransactionListState>(
+                    builder: (context, state) {
+                      if (state.transactionList.length > 0) {
+                        List<VtxTransactionItem> transactionListWidget = [];
+                        state.transactionList.forEach((e) {
+                          final money =
+                              NumberFormat.currency(locale: 'pt_BR', symbol: "")
+                                  .format(e.amount * 0.01);
+                          transactionListWidget.add(VtxTransactionItem(
+                            userName: e.targetUser,
+                            amount: money,
+                            date: e.date,
+                            received: e.received,
+                          ));
+                        });
+                        return TransactionList(list: transactionListWidget);
+                      } else {
+                        return VtxListViewBox(
+                            width: getProportionateScreenWidth(285),
+                            height: getProportionateScreenHeight(255),
+                            listViewBuilder: Center(
+                              child: Padding(
+                                padding: AppTheme.defaultHorizontalPadding,
+                                child: Text(
+                                  "You didn't make any transactions...",
+                                  style: TextStyle(
+                                    fontSize: getProportionateScreenWidth(14),
+                                    color: AppTheme.textColorDark,
+                                    fontWeight: AppTheme.generalFontWeight,
+                                  ),
                                 ),
                               ),
-                            ),
-                          ));
-                    }
-                  },
-                ),
-                SizedBox(height: getProportionateScreenHeight(16)),
-                VtxButtonBar(),
-              ],
+                            ));
+                      }
+                    },
+                  ),
+                  SizedBox(height: getProportionateScreenHeight(16)),
+                  VtxButtonBar(),
+                ],
+              ),
             ),
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Background extends StatelessWidget {
-  const _Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      color: AppTheme.appBackgroundColor,
-      child: child,
     );
   }
 }

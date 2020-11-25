@@ -156,27 +156,3 @@ class LoginScreen extends StatelessWidget {
     );
   }
 }
-
-class _Background extends StatelessWidget {
-  final Widget child;
-
-  const _Background({
-    Key key,
-    @required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: VtxSizeConfig.screenWidth,
-      height: VtxSizeConfig.screenHeight,
-      decoration: BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage("assets/images/background.png"),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: child,
-    );
-  }
-}

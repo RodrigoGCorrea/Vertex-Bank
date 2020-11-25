@@ -32,14 +32,14 @@ class ContactList extends StatelessWidget {
               //TODO(Geraldo): Adicionar algum campo de erro no VtxListViewBox
               VtxListViewBox(
                 width: getProportionateScreenWidth(285),
-                height: getProportionateScreenHeight(140),
+                height: getProportionateScreenHeight(205),
                 listViewBuilder:
                     BlocBuilder<TransferFormCubit, TransferFormState>(
                   builder: (context, state) {
                     if (state.contactList.length <= 0) {
                       return Center(
                         child: Padding(
-                          padding: const EdgeInsets.all(8.0),
+                          padding: AppTheme.defaultHorizontalPadding,
                           child: Text(
                             "You don't have any contacts added...",
                             style: TextStyle(
@@ -75,30 +75,6 @@ class ContactList extends StatelessWidget {
                   },
                 ),
               ),
-              Positioned(
-                right: getProportionateScreenWidth(6),
-                top: getProportionateScreenHeight(55),
-                child: Container(
-                  width: getProportionateScreenWidth(31),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/icons/chevron-right-solid.svg",
-                        width: getProportionateScreenWidth(13),
-                      ),
-                      SizedBox(height: getProportionateScreenHeight(5)),
-                      Text(
-                        "More",
-                        style: TextStyle(
-                          fontSize: getProportionateScreenWidth(11),
-                          color: AppTheme.textColorDark,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-              )
             ],
           )
         ],

@@ -19,7 +19,7 @@ class TransactionList extends StatelessWidget {
       children: [
         VtxListViewBox(
           width: getProportionateScreenWidth(285),
-          height: getProportionateScreenHeight(187),
+          height: getProportionateScreenHeight(255),
           listViewBuilder: ListView.builder(
             padding: EdgeInsets.only(top: getProportionateScreenHeight(16)),
             itemCount: list.length,
@@ -28,7 +28,7 @@ class TransactionList extends StatelessWidget {
             },
           ),
         ),
-        Positioned(
+        /* Positioned(
           right: getProportionateScreenWidth(7),
           top: getProportionateScreenHeight(80),
           child: Container(
@@ -52,7 +52,7 @@ class TransactionList extends StatelessWidget {
               ],
             ),
           ),
-        )
+        ) */
       ],
     );
   }
