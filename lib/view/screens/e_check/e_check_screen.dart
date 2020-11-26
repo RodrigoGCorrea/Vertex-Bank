@@ -188,8 +188,6 @@ class WithdrawScreenAppbar extends StatelessWidget {
                       ),
                     ),
                     SizedBox(width: getProportionateScreenWidth(6)),
-                    //NOTE(Geraldo): Correa, tu que fez o texto não dar overflow,
-                    //               não foi o controller não. Olha esse Flexible ai
                     Flexible(
                       child: TextField(
                         onChanged: functionChanged,

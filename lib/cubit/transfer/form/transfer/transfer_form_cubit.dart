@@ -52,10 +52,7 @@ class TransferFormCubit extends Cubit<TransferFormState> {
 
     // This will be in the sender transaction collection
     Transaction transactionSender = Transaction(
-      id: contact
-          .userID, //NOTE(Geraldo): eu acho que esse id não pera pra ser do
-      //                            usuario e sim da propria transação, mas
-      //                            por enquanto virou isso ai mesmo
+      id: contact.userID,
       targetUser: contact.nickname,
       amount: state.amount.value,
       received: false,

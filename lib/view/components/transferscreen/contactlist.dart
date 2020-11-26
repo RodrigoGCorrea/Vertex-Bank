@@ -29,7 +29,6 @@ class ContactList extends StatelessWidget {
           SizedBox(height: getProportionateScreenHeight(5)),
           Stack(
             children: [
-              //TODO(Geraldo): Adicionar algum campo de erro no VtxListViewBox
               VtxListViewBox(
                 width: getProportionateScreenWidth(285),
                 height: getProportionateScreenHeight(205),
