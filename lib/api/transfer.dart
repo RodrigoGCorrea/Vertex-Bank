@@ -74,6 +74,8 @@ class TransferApi {
     try {
       List<Contact> contacts = [];
 
+      await Future.delayed(const Duration(seconds: 1));
+
       //Queries always returns null if the collection or doc doesn't exists
       await _db
           .collection(userCollection)
