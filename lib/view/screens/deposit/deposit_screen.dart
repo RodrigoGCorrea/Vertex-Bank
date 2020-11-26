@@ -12,7 +12,6 @@ import 'package:vertexbank/view/components/background.dart';
 
 import 'package:vertexbank/cubit/deposit/action/scanner/scanner_deposit_action_cubit.dart';
 import 'package:vertexbank/getit.dart';
-import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/screens/deposit/confirm_deposit.dart';
 import 'package:vertexbank/view/screens/deposit/scan.dart';
 
@@ -35,7 +34,7 @@ class DepositScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ConfirmDeposit(),
+                  builder: (context) => ConfirmDepositScreen(),
                 ),
               );
             }
@@ -53,7 +52,7 @@ class DepositScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Scan QR-Code",
+                        "ScanScreen QR-Code",
                         style: TextStyle(
                           fontSize: getProportionateScreenWidth(16),
                           color: AppTheme.textColorLight,
@@ -65,7 +64,7 @@ class DepositScreen extends StatelessWidget {
                         function: () => Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => Scan(),
+                            builder: (context) => ScanScreen(),
                           ),
                         ),
                       ),
@@ -81,7 +80,6 @@ class DepositScreen extends StatelessWidget {
                       ),
                       SelectFromFiles(),
                       Spacer(),
-                      _NextButton()
                     ],
                   ),
                 ),
@@ -90,36 +88,6 @@ class DepositScreen extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _NextButton extends StatelessWidget {
-  const _NextButton({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: BlocBuilder<ScannerDepositActionCubit, ScannerDepositActionState>(
-          builder: (context, state) {
-        if (state is ScannerDepositActionFinished)
-          return VtxButton(
-            text: "Next",
-            function: () => Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => ConfirmDeposit(),
-              ),
-            ),
-          );
-        else
-          return VtxButton(
-            text: "Next",
-            function: () {},
-          );
-      }),
     );
   }
 }

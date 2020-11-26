@@ -1,7 +1,7 @@
 part of 'transaction_list_watcher_cubit.dart';
 
-class TransactionListState extends Equatable {
-  const TransactionListState({
+class TransactionListWatcherState extends Equatable {
+  const TransactionListWatcherState({
     @required this.transactionList,
   });
 

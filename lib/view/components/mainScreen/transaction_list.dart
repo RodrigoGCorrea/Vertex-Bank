@@ -28,31 +28,6 @@ class TransactionList extends StatelessWidget {
             },
           ),
         ),
-        /* Positioned(
-          right: getProportionateScreenWidth(7),
-          top: getProportionateScreenHeight(80),
-          child: Container(
-            width: getProportionateScreenWidth(31),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                SvgPicture.asset(
-                  "assets/icons/chevron-right-solid.svg",
-                  color: AppTheme.buttonColorBlue,
-                  width: getProportionateScreenWidth(13),
-                ),
-                SizedBox(height: getProportionateScreenHeight(5)),
-                Text(
-                  "More",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(11),
-                    color: AppTheme.textColorDark,
-                  ),
-                )
-              ],
-            ),
-          ),
-        ) */
       ],
     );
   }

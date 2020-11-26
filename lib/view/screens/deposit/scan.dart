@@ -13,12 +13,12 @@ const flashOff = 'FLASH OFF';
 const frontCamera = 'FRONT CAMERA';
 const backCamera = 'BACK CAMERA';
 
-class Scan extends StatefulWidget {
+class ScanScreen extends StatefulWidget {
   @override
   _ScanState createState() => _ScanState();
 }
 
-class _ScanState extends State<Scan> {
+class _ScanState extends State<ScanScreen> {
   var qrText = '';
 
   var flashState = flashOn;
@@ -48,7 +48,7 @@ class _ScanState extends State<Scan> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => ConfirmDeposit(),
+                  builder: (context) => ConfirmDepositScreen(),
                 ),
               );
             }

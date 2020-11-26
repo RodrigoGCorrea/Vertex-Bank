@@ -10,10 +10,10 @@ import 'package:vertexbank/models/transaction.dart';
 
 part 'transaction_list_watcher_state.dart';
 
-class TransactionListCubit extends Cubit<TransactionListState> {
-  TransactionListCubit({
+class TransactionListWatcherCubit extends Cubit<TransactionListWatcherState> {
+  TransactionListWatcherCubit({
     @required this.transactionListApi,
-  }) : super(TransactionListState(transactionList: []));
+  }) : super(TransactionListWatcherState(transactionList: []));
 
   final TransactionListApi transactionListApi;
   StreamSubscription<List<Transaction>> _transactionListSubscription;
@@ -23,7 +23,7 @@ class TransactionListCubit extends Cubit<TransactionListState> {
       await _transactionListSubscription?.cancel();
       _transactionListSubscription =
           transactionListApi.watchTransactionList(id).listen((transactionList) {
-        emit(TransactionListState(transactionList: transactionList));
+        emit(TransactionListWatcherState(transactionList: transactionList));
       });
     } on Failure catch (e) {
       print(e);

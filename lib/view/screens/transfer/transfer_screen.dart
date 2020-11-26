@@ -181,7 +181,7 @@ class NewContact extends StatelessWidget {
               MaterialPageRoute(
                 builder: (context) => BlocProvider.value(
                   value: transferFormCubit,
-                  child: AddContact(),
+                  child: AddContactScreen(),
                 ),
               ),
             );

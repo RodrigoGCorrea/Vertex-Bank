@@ -32,8 +32,8 @@ class MainScreen extends StatelessWidget {
               context.read<AuthActionCubit>().getSignedInUserWithoutEmit().id,
             ),
         ),
-        BlocProvider<TransactionListCubit>(
-          create: (context) => TransactionListCubit(
+        BlocProvider<TransactionListWatcherCubit>(
+          create: (context) => TransactionListWatcherCubit(
               transactionListApi: getIt<TransactionListApi>())
             ..setTransactionListWatcher(
               context.read<AuthActionCubit>().getSignedInUserWithoutEmit().id,
@@ -81,7 +81,8 @@ class MainScreen extends StatelessWidget {
                     },
                   ),
                   SizedBox(height: getProportionateScreenHeight(18)),
-                  BlocBuilder<TransactionListCubit, TransactionListState>(
+                  BlocBuilder<TransactionListWatcherCubit,
+                      TransactionListWatcherState>(
                     builder: (context, state) {
                       if (state.transactionList.length > 0) {
                         List<VtxTransactionItem> transactionListWidget = [];

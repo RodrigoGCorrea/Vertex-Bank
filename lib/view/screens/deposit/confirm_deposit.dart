@@ -16,7 +16,7 @@ import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 
-class ConfirmDeposit extends StatelessWidget {
+class ConfirmDepositScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

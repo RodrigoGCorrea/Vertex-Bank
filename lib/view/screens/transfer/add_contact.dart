@@ -14,7 +14,7 @@ import 'package:vertexbank/view/components/login/textbox.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 
-class AddContact extends StatelessWidget {
+class AddContactScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
