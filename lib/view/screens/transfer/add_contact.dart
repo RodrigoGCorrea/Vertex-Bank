@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 
-import 'package:vertexbank/api/transfer.dart';
+import 'package:vertexbank/api/contact.dart';
 import 'package:vertexbank/cubit/auth/auth_action_cubit.dart';
-import 'package:vertexbank/cubit/transfer/action/addcontact/addcontact_action_cubit.dart';
-import 'package:vertexbank/cubit/transfer/form/addcontact/addcontact_form_cubit.dart';
-import 'package:vertexbank/cubit/transfer/form/transfer/transfer_form_cubit.dart';
+import 'package:vertexbank/cubit/contact/action/addcontact_action_cubit.dart';
+import 'package:vertexbank/cubit/contact/form/addcontact_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
@@ -23,7 +22,7 @@ class AddContactScreen extends StatelessWidget {
             create: (context) => AddContactFormCubit()),
         BlocProvider<AddContactActionCubit>(
             create: (context) =>
-                AddContactActionCubit(transferApi: getIt<TransferApi>())),
+                AddContactActionCubit(contactApi: getIt<ContactApi>())),
       ],
       child: Scaffold(
         body: BlocListener<AddContactActionCubit, AddContactActionState>(
@@ -90,7 +89,6 @@ class NextButton extends StatelessWidget {
                   state.emailContact.value,
                   state.nickNameContact,
                 );
-            context.read<TransferFormCubit>().setContactList();
           },
         );
       } else {
