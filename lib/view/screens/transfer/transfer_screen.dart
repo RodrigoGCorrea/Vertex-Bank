@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'package:vertexbank/api/money.dart';
-import 'package:vertexbank/api/transfer.dart';
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/components/background.dart';
@@ -25,8 +24,7 @@ class TransferScreen extends StatefulWidget {
 }
 
 class _TransferScreenState extends State<TransferScreen> {
-  final transferFormCubit =
-      TransferFormCubit(transferApi: getIt<TransferApi>());
+  final transferFormCubit = TransferFormCubit();
 
   final MoneyMaskedTextController _moneyController =
       MoneyMaskedTextController(precision: 2);
@@ -45,8 +43,7 @@ class _TransferScreenState extends State<TransferScreen> {
           value: transferFormCubit
             ..setUserInfo(
               context.watch<AuthActionCubit>().getSignedInUserWithoutEmit(),
-            )
-            ..setContactList(),
+            ),
         ),
         BlocProvider<MoneyWatcherCubit>(
           create: (context) => MoneyWatcherCubit(moneyApi: getIt<MoneyApi>())
