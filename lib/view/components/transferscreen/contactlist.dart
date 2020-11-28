@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:vertexbank/config/apptheme.dart';
 import 'package:vertexbank/config/size_config.dart';
-import 'package:vertexbank/cubit/transfer/form/transfer/transfer_form_cubit.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/models/contact.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
 

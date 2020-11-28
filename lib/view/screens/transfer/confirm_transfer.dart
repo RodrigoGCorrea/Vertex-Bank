@@ -11,8 +11,8 @@ import 'package:vertexbank/config/size_config.dart';
 import 'package:vertexbank/view/components/background.dart';
 import 'package:vertexbank/view/components/button.dart';
 import 'package:vertexbank/view/components/vtx_listviewbox.dart';
-import 'package:vertexbank/cubit/transfer/action/transfer/transfer_action_cubit.dart';
-import 'package:vertexbank/cubit/transfer/form/transfer/transfer_form_cubit.dart';
+import 'package:vertexbank/cubit/transfer/action/transfer_action_cubit.dart';
+import 'package:vertexbank/cubit/transfer/form/transfer_form_cubit.dart';
 import 'package:vertexbank/getit.dart';
 import 'package:vertexbank/models/transaction.dart';
 
