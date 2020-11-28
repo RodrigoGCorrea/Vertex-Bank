@@ -1,10 +1,8 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import 'package:vertexbank/api/transfer.dart';
 
 import 'package:vertexbank/models/contact.dart';
-import 'package:vertexbank/models/failure.dart';
 import 'package:vertexbank/models/inputs/money_amount.dart';
 import 'package:vertexbank/models/inputs/selected_contact.dart';
 import 'package:vertexbank/models/transaction.dart';
@@ -13,11 +11,7 @@ import 'package:vertexbank/models/user.dart';
 part 'transfer_form_state.dart';
 
 class TransferFormCubit extends Cubit<TransferFormState> {
-  TransferFormCubit({
-    this.transferApi,
-  }) : super(TransferFormState.empty);
-
-  final TransferApi transferApi;
+  TransferFormCubit() : super(TransferFormState.empty);
 
   void setUserInfo(User user) {
     emit(state.copyWith(
@@ -26,13 +20,11 @@ class TransferFormCubit extends Cubit<TransferFormState> {
     ));
   }
 
-  void setContactList() async {
-    try {
-      final list = await transferApi.getContacts(state.userId);
-      emit(state.copyWith(contactList: list));
-    } on Failure {
-      emit(state.copyWith(contactList: []));
-    }
+  void updateContactList(List<Contact> list) {
+    emit(state.copyWith(
+      contactList: list,
+      indexContactListSelected: SelectedContact(-1),
+    ));
   }
 
   void selectContact(int index) {
@@ -52,7 +44,7 @@ class TransferFormCubit extends Cubit<TransferFormState> {
 
     // This will be in the sender transaction collection
     Transaction transactionSender = Transaction(
-      id: contact.userID,
+      id: contact.id,
       targetUser: contact.nickname,
       amount: state.amount.value,
       received: false,
