@@ -37,33 +37,6 @@ class ContactApi {
     }
   }
 
-  Future<List<Contact>> getContacts(String id) async {
-    try {
-      List<Contact> contacts = [];
-
-      await Future.delayed(const Duration(seconds: 1));
-
-      //Queries always returns null if the collection or doc doesn't exists
-      await _db
-          .collection(userCollection)
-          .doc(id)
-          .collection(contactCollection)
-          .get()
-          .then((snapshot) => snapshot.docs.forEach((doc) {
-                final contact = Contact(
-                    id: doc.id,
-                    nickname: doc.get(Contact.dbFields["nickname"]),
-                    dateAdded: doc.get(Contact.dbFields["dateAdded"]));
-                contacts.add(contact);
-              }));
-
-      return contacts;
-    } on Error catch (e) {
-      //This should never reach!!
-      throw Failure("Couldn't get the contact list. $e");
-    }
-  }
-
   Future<void> addContact(
     String userId,
     String contactId,
