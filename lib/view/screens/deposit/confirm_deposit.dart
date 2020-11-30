@@ -233,15 +233,15 @@ class DepositItem extends StatelessWidget {
                       fontWeight: AppTheme.generalFontWeight,
                     ),
                   ),
-                  Text(
-                    "R\$$amount",
-                    overflow: TextOverflow.fade,
-                    maxLines: 1,
-                    softWrap: false,
-                    style: TextStyle(
-                      fontSize: getProportionateScreenWidth(20),
-                      fontWeight: FontWeight.bold,
-                      color: AppTheme.textColorDark,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      "R\$$amount",
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(20),
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textColorDark,
+                      ),
                     ),
                   ),
                 ],

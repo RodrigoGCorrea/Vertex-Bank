@@ -56,12 +56,20 @@ class BalanceBox extends StatelessWidget {
                   ),
                 ),
                 SizedBox(width: getProportionateScreenWidth(6)),
-                Text(
-                  money,
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(24),
-                    color: AppTheme.textColorDark,
-                    fontWeight: FontWeight.bold,
+                Expanded(
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      money,
+                      maxLines: 1,
+                      overflow: TextOverflow.fade,
+                      softWrap: false,
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(24),
+                        color: AppTheme.textColorDark,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ),
               ],

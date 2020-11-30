@@ -175,30 +175,36 @@ class TransferItem extends StatelessWidget {
               padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
               child: SvgPicture.asset(
                 "assets/icons/circle-solid.svg",
+                color: AppTheme.textColorDark,
                 width: getProportionateScreenWidth(4),
               ),
             ),
             SizedBox(width: getProportionateScreenWidth(20)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "to",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColorDark,
-                    fontWeight: AppTheme.generalFontWeight,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "to",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(12),
+                      color: AppTheme.textColorDark,
+                      fontWeight: AppTheme.generalFontWeight,
+                    ),
                   ),
-                ),
-                Text(
-                  "${transaction.targetUser}",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(20),
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textColorDark,
+                  Text(
+                    "${transaction.targetUser}",
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(20),
+                      fontWeight: FontWeight.bold,
+                      color: AppTheme.textColorDark,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -210,30 +216,38 @@ class TransferItem extends StatelessWidget {
               padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
               child: SvgPicture.asset(
                 "assets/icons/circle-solid.svg",
+                color: AppTheme.textColorDark,
                 width: getProportionateScreenWidth(4),
               ),
             ),
             SizedBox(width: getProportionateScreenWidth(20)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "the amount of",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColorDark,
-                    fontWeight: AppTheme.generalFontWeight,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "the amount of",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(12),
+                      color: AppTheme.textColorDark,
+                      fontWeight: AppTheme.generalFontWeight,
+                    ),
                   ),
-                ),
-                Text(
-                  "$amount",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(20),
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textColorDark,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      "$amount",
+                      maxLines: 1,
+                      softWrap: false,
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(20),
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textColorDark,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),
@@ -245,6 +259,7 @@ class TransferItem extends StatelessWidget {
               padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
               child: SvgPicture.asset(
                 "assets/icons/circle-solid.svg",
+                color: AppTheme.textColorDark,
                 width: getProportionateScreenWidth(4),
               ),
             ),

@@ -169,26 +169,31 @@ class WithdrawItem extends StatelessWidget {
               ),
             ),
             SizedBox(width: getProportionateScreenWidth(20)),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "The amount of",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(12),
-                    color: AppTheme.textColorDark,
-                    fontWeight: AppTheme.generalFontWeight,
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "The amount of",
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(12),
+                      color: AppTheme.textColorDark,
+                      fontWeight: AppTheme.generalFontWeight,
+                    ),
                   ),
-                ),
-                Text(
-                  "R\$ $amount",
-                  style: TextStyle(
-                    fontSize: getProportionateScreenWidth(20),
-                    fontWeight: FontWeight.bold,
-                    color: AppTheme.textColorDark,
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      "R\$ $amount",
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(20),
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.textColorDark,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ],
         ),

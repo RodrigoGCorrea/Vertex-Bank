@@ -31,12 +31,17 @@ class MainScreenAppBar extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                userName,
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(36),
-                  fontWeight: FontWeight.bold,
-                  color: AppTheme.textColorLight,
+              Flexible(
+                child: Text(
+                  userName,
+                  maxLines: 1,
+                  overflow: TextOverflow.fade,
+                  softWrap: false,
+                  style: TextStyle(
+                    fontSize: getProportionateScreenWidth(36),
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.textColorLight,
+                  ),
                 ),
               ),
               IconButton(

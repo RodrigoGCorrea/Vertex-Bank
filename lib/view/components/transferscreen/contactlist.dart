@@ -144,27 +144,34 @@ class ContactListItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.only(bottom: getProportionateScreenHeight(16)),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
-            child: SvgPicture.asset(
-              "assets/icons/circle-solid.svg",
-              color: AppTheme.buttonColorBlue,
-              width: getProportionateScreenWidth(4),
+      child: Expanded(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: getProportionateScreenHeight(4)),
+              child: SvgPicture.asset(
+                "assets/icons/circle-solid.svg",
+                color: AppTheme.buttonColorBlue,
+                width: getProportionateScreenWidth(4),
+              ),
             ),
-          ),
-          SizedBox(width: getProportionateScreenWidth(6)),
-          Text(
-            "${contact.nickname}",
-            style: TextStyle(
-              fontSize: getProportionateScreenWidth(14),
-              color: AppTheme.textColorDark,
-              fontWeight: isBold,
+            SizedBox(width: getProportionateScreenWidth(6)),
+            Flexible(
+              child: Text(
+                "${contact.nickname}",
+                maxLines: 1,
+                overflow: TextOverflow.fade,
+                softWrap: false,
+                style: TextStyle(
+                  fontSize: getProportionateScreenWidth(14),
+                  color: AppTheme.textColorDark,
+                  fontWeight: isBold,
+                ),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

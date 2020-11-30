@@ -83,26 +83,37 @@ class VtxTransactionItem extends StatelessWidget {
             ),
           ),
           SizedBox(width: getProportionateScreenWidth(8)),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "$userName",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(11),
-                  fontWeight: FontWeight.w300,
-                  color: AppTheme.textColorDark,
-                ),
+          Container(
+            width: VtxSizeConfig.screenWidth * 0.28,
+            child: Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "$userName",
+                    maxLines: 1,
+                    overflow: TextOverflow.fade,
+                    softWrap: false,
+                    style: TextStyle(
+                      fontSize: getProportionateScreenWidth(11),
+                      fontWeight: FontWeight.w300,
+                      color: AppTheme.textColorDark,
+                    ),
+                  ),
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Text(
+                      "$sign$amount R\$",
+                      style: TextStyle(
+                        fontSize: getProportionateScreenWidth(11),
+                        fontWeight: FontWeight.bold,
+                        color: transactionColor,
+                      ),
+                    ),
+                  )
+                ],
               ),
-              Text(
-                "$sign$amount R\$",
-                style: TextStyle(
-                  fontSize: getProportionateScreenWidth(11),
-                  fontWeight: FontWeight.bold,
-                  color: transactionColor,
-                ),
-              )
-            ],
+            ),
           ),
           Spacer(),
           Padding(
